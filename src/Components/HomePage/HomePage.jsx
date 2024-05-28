@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './HomePage.css'
+import Header from '../Header/Header';
 
 import img3 from '../Assets/image3.jpg'
 import img2 from '../Assets/image4.jpg'
@@ -31,13 +32,7 @@ export const HomePage = () => {
 
   return (
     <div className='homepage'>
-        <div className='header-homepage'>
-            <div className="trangchu">Trang chủ</div>
-            <div className="category">Đồ điện tử</div>
-            <div className="category">Quần áo</div>
-            <div className="category">Dụng cụ học tập</div>
-            <div className="category">Giày dép</div>
-        </div>
+        <Header />
         <Swiper className='swiper-container'
         spaceBetween={30}
         centeredSlides={true}
