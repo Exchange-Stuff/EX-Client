@@ -60,10 +60,9 @@ export const HomePage = () => {
         <ul className='list-container'>
           {data.slice(0, 8).map(list => (
             <li key={list.id} className='list-item'>
+              <img src="https://seve7.vn/wp-content/uploads/2023/06/2-6-900x900.jpg" alt="" />
               <h3>{list.title}</h3>
-              <p><strong>User ID:</strong> {list.userId}</p>
-              <p><strong>ID:</strong> {list.id}</p>
-              <p><strong>Body:</strong> {list.body}</p>
+              
             </li>
           ))}
         </ul>
@@ -80,8 +79,9 @@ export const HomePage = () => {
         >
           {data.map(list => (
             <SwiperSlide key={list.id} className='list-item-swiper'>
+              
+              <p><img src={img1} alt="" /></p>
               <h3>{list.title}</h3>
-              <p><strong>User ID:</strong> {list.userId}</p>
               <p><strong>ID:</strong> {list.id}</p>
               <p><strong>Body:</strong> {list.body}</p>
             </SwiperSlide>
@@ -100,6 +100,7 @@ export const HomePage = () => {
         >
           {data.map(list => (
             <SwiperSlide key={list.id} className='list-item-swiper'>
+              <p><img src={img1} alt="" /></p>
               <h3>{list.title}</h3>
               <p><strong>User ID:</strong> {list.userId}</p>
               <p><strong>ID:</strong> {list.id}</p>
