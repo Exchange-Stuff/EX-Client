@@ -1,6 +1,7 @@
 import './App.css';
 import { LoginSignup } from './Components/LoginSignUp/LoginSignup';
 import { HomePage } from './Components/HomePage/HomePage';
+import { PostProduct } from './Components/PostProduct/PostProduct';
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,8 +13,9 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/HomePage" element={<HomePage />} />
+          <Route path="/homepage" element={<HomePage />} />
           <Route path="/login" element={<LoginSignup />} />
+          <Route path="/postproduct" element={<PostProduct />} />
         </Routes>
       </div>
     </Router>
