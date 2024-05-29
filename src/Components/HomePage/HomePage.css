@@ -24,6 +24,10 @@
     font-weight: bold;
 }
 
+.trangchu:hover{
+  color: #f7ba62;
+}
+
 .category{
     font-size: 20px;
     margin-right: 50px;
@@ -31,7 +35,10 @@
     font-family: "Roboto", sans-serif;
     align-items: center;
 }
-  
+
+.category:hover{
+  color: #f7ba62;
+}
   
 .swiper-slide img {
     width: 100%;
@@ -123,3 +130,30 @@
   .list-item:hover img {
     transform: scale(1.1);
   }
+
+  .box-shadow {
+    box-shadow: 0 4px 8px #8d8d8d;
+  }
+
+  .img-container {
+   display: flex;
+   flex-direction: column;
+    align-items: center;
+    
+  }
+
+  .list-item-swiper img{
+    width: 285px;
+    height: 165px;
+  }
+
+  .list-item-swiper p{
+    padding: 0 15px;
+  }
+
+  .list-item-swiper h3{
+    text-align: center;
+  }
+  
+ 
+

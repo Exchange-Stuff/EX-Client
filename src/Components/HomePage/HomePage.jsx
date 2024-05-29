@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './HomePage.css'
 import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 
 import img3 from '../Assets/image3.jpg'
 import img2 from '../Assets/image4.jpg'
@@ -63,19 +64,20 @@ export const HomePage = () => {
         </ul>
       </div>
 
-      <div className='data-list'>
+      <div className='data-list' style={{margin: "0 1% 0 1%"}}>
         <h2>Đồ điện tử</h2>
         <Swiper
-          className='list-swiper-container'
-          spaceBetween={10}
+          className='list-swiper-container '
+          spaceBetween={35}
           slidesPerView={4}
           navigation={true}
           modules={[Navigation]}
+          style={{padding: "1.5%"}}
         >
           {data.map(list => (
-            <SwiperSlide key={list.id} className='list-item-swiper'>
+            <SwiperSlide key={list.id} className='list-item-swiper box-shadow'style={{minHeight: "450px", maxHeight:"450px"}}>
               
-              <p><img src={img1} alt="" /></p>
+              <p className='img-container'><img src={img1} alt="" /></p>
               <h3>{list.title}</h3>
               <p><strong>ID:</strong> {list.id}</p>
               <p><strong>Body:</strong> {list.body}</p>
@@ -88,16 +90,16 @@ export const HomePage = () => {
         <h2>Quần áo</h2>
         <Swiper
           className='list-swiper-container'
-          spaceBetween={10}
+          spaceBetween={35}
           slidesPerView={4}
           navigation={true}
           modules={[Navigation]}
+          style={{padding: "1.5%"}}
         >
           {data.map(list => (
-            <SwiperSlide key={list.id} className='list-item-swiper'>
-              <p><img src={img1} alt="" /></p>
+            <SwiperSlide key={list.id} className='list-item-swiper box-shadow'style={{minHeight: "450px", maxHeight:"450px"}}>
+              <p className='img-container'><img src={img1} alt="" /></p>
               <h3>{list.title}</h3>
-              <p><strong>User ID:</strong> {list.userId}</p>
               <p><strong>ID:</strong> {list.id}</p>
               <p><strong>Body:</strong> {list.body}</p>
             </SwiperSlide>
@@ -105,7 +107,7 @@ export const HomePage = () => {
         </Swiper>
       </div>
    
-
+          <Footer/>
     </div>
   )
 }
