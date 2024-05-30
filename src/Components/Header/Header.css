@@ -3,7 +3,7 @@
     align-items: center;
     padding: 15px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 4px 4px;
-    background-color: #ffffff;
+    background-color: #ffba00;
     position: fixed;
     top: 0;
     left: 0;
@@ -24,4 +24,12 @@
       font-weight: bold;
       font-family: "Roboto", sans-serif;
       align-items: center;
+  }
+
+  .category:hover{
+    color: #ffffff;
+  }
+
+  .trangchu:hover{
+    color: #ffffff;
   }

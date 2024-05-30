@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import Header from '../Header/Header'
+import Footer from '../Footer/Footer'
 import "./PostProduct.css"
 import axios from 'axios'
 import UploadImage from '../UploadImage/UploadImage';
@@ -19,15 +20,22 @@ export const PostProduct = () => {
             <input type="text" placeholder='Tên sản phẩm' required/>
 
             <label>Mô tả chi tiết</label>
-            <input type="text" placeholder='Mô tả chi tiết' required/>
+            <input type="text" placeholder='Mô tả chi tiết' required style={{height: "130px"}}/>
 
             <label>Giá bán</label>
-            <input type="number" placeholder='Giá bán' required/>
+            <input type="text" placeholder='Giá bán' required/>
 
             <label>Loại sản phẩm</label>
-            <input type="text" placeholder='Loại sản phẩm' required/>
+            <select required>
+            
+            <option value='' >Chọn loại sản phẩm</option>
+            <option value='Electronice device'>Đồ điện tử</option>
+            <option value='Clothes'>Quần áo</option>
+            <option value='Learning tools'>Dụng cụ học tập</option>
+            <option value='Footwear'>Giày dép</option>
+          </select>
 
-            <label>Loại sản phẩm</label>
+            <label>Tình trạng sản phẩm</label>
             <select required>
             
             <option value='' >Chọn tình trạng</option>
@@ -39,6 +47,7 @@ export const PostProduct = () => {
         </form>
         
      </div>
+     <Footer/>
     </div>
   )
 }
