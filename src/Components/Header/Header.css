@@ -16,6 +16,7 @@
       margin-right: 300px;
       align-items: center;
       font-weight: bold;
+      cursor: pointer;
   }
   
   .category{
@@ -24,6 +25,7 @@
       font-weight: bold;
       font-family: "Roboto", sans-serif;
       align-items: center;
+      cursor: pointer;
   }
 
   .category:hover{
