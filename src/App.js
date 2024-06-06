@@ -1,21 +1,21 @@
-import './App.css';
-import { LoginSignup } from './Components/LoginSignUp/LoginSignup';
-import { HomePage } from './Components/HomePage/HomePage';
-import { PostProduct } from './Components/PostProduct/PostProduct';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route
-} from 'react-router-dom';
+import "./App.css";
+import { LoginSignup } from "./Components/LoginSignUp/LoginSignup";
+import { HomePage } from "./Components/HomePage/HomePage";
+import { PostProduct } from "./Components/PostProduct/PostProduct";
+import { UserPage } from "./Pages/Admin/UserPage/UserPage";
+import Header from "./Components/Header/Header";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <Router>
       <div className="App">
+        <Header />
         <Routes>
           <Route path="/homepage" element={<HomePage />} />
           <Route path="/login" element={<LoginSignup />} />
           <Route path="/postproduct" element={<PostProduct />} />
+          <Route path="/user" element={<UserPage />} />
         </Routes>
       </div>
     </Router>
