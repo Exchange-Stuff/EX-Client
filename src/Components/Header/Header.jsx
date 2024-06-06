@@ -9,6 +9,7 @@ export const Header = () => {
             <div className="category">Quần áo</div>
             <div className="category">Dụng cụ học tập</div>
             <div className="category">Giày dép</div>
+            <div className="user">Người dùng</div>
         </div>
   )
 };

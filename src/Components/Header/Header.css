@@ -33,3 +33,13 @@
   .trangchu:hover{
     color: #ffffff;
   }
+  .user{
+    font-size: 20px;
+    margin-right: 50px;
+    font-weight: bold;
+    font-family: "Roboto", sans-serif;
+    align-items: center;
+}
+.user:hover{
+  color: #ffffff;
+}
