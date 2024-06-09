@@ -1,15 +1,17 @@
 import React from 'react'
 import './Header.css';
+import { Link } from 'react-router-dom';
 
 export const Header = () => {
   return (
     <div className='header-homepage'>
-            <div className="trangchu">Trang chủ</div>
+            <Link to="/homepage" className="trangchu">Trang chủ</Link>
             <div className="category">Đồ điện tử</div>
             <div className="category">Quần áo</div>
             <div className="category">Dụng cụ học tập</div>
             <div className="category">Giày dép</div>
-            <div className="user">Người dùng</div>
+            <Link to="/postproduct" className="category">Đăng sản phẩm</Link>
+            <div className="user">Nguoi dung</div>
         </div>
   )
 };

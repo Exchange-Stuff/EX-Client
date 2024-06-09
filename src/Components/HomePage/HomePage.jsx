@@ -18,17 +18,32 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 export const HomePage = () => {
   const [data, setData] = useState([]);
+  const [productData, setProductData] = useState([]);
 
   useEffect(() => {
     const GetData = async () => {
       try {
-        const result = await axios.get('https://jsonplaceholder.typicode.com/posts');
+        const result = await axios.get('http://localhost:5059/api/Product');
         setData(result.data);
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
     GetData();
+  }, []);
+
+  useEffect(() => {
+    const GetDataProduct = async () => {
+      try {
+        const result = await axios.get('http://localhost:5059/getProductByCategory/18286bfd-96b0-4536-9ebb-6a526281bd90');
+        setProductData(result.data);
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    GetDataProduct();
   }, []);
 
   return (
@@ -47,17 +62,19 @@ export const HomePage = () => {
         navigation={true}
         modules={[Autoplay, Pagination, Navigation]}
       >
-        <SwiperSlide><img src={img1} alt="" /></SwiperSlide>
-        <SwiperSlide><img src={img2} alt="" /></SwiperSlide>
-        <SwiperSlide><img src={img3} alt="" /></SwiperSlide>
+        <SwiperSlide><img src={img1} alt="" style={{width: "100%", height: "100%"}}/></SwiperSlide>
+        <SwiperSlide><img src={img2} alt="" style={{width: "100%", height: "100%"}}/></SwiperSlide>
+        <SwiperSlide><img src={img3} alt="" style={{width: "100%", height: "100%"}}/></SwiperSlide>
       </Swiper>
       <div className='data-list'>
         <h2>List of Posts</h2>
         <ul className='list-container'>
           {data.slice(0, 8).map(list => (
             <li key={list.id} className='list-item'>
-              <img src="https://seve7.vn/wp-content/uploads/2023/06/2-6-900x900.jpg" alt="" />
-              <h3>{list.title}</h3>
+             <img src={list.thumbnail} alt={list.name} />
+              <h3>{list.name}</h3>
+              <p>{list.description}</p>
+              <p>{list.price}</p>
               
             </li>
           ))}
@@ -74,13 +91,13 @@ export const HomePage = () => {
           modules={[Navigation]}
           style={{padding: "1.5%"}}
         >
-          {data.map(list => (
+          {productData.map(list => (
             <SwiperSlide key={list.id} className='list-item-swiper box-shadow'style={{minHeight: "450px", maxHeight:"450px"}}>
               
-              <p className='img-container'><img src={img1} alt="" /></p>
-              <h3>{list.title}</h3>
-              <p><strong>ID:</strong> {list.id}</p>
-              <p><strong>Body:</strong> {list.body}</p>
+              <p className='img-container' ><img src={list.thumbnail} alt={list.name} /></p>
+              <h3>{list.name}</h3>
+              <p><strong>Mô tả:</strong> {list.description}</p>
+              <p><strong>Price:</strong> {list.price}</p>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -98,10 +115,10 @@ export const HomePage = () => {
         >
           {data.map(list => (
             <SwiperSlide key={list.id} className='list-item-swiper box-shadow'style={{minHeight: "450px", maxHeight:"450px"}}>
-              <p className='img-container'><img src={img1} alt="" /></p>
-              <h3>{list.title}</h3>
-              <p><strong>ID:</strong> {list.id}</p>
-              <p><strong>Body:</strong> {list.body}</p>
+              <p className='img-container'><img src={list.thumbnail} alt={list.name} /></p>
+              <h3>{list.name}</h3>
+              <p><strong>Mô tả:</strong> {list.description}</p>
+              <p><strong>Price:</strong> {list.price}</p>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -113,3 +130,4 @@ export const HomePage = () => {
 }
 
 export default HomePage;
+
