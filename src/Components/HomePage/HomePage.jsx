@@ -19,6 +19,7 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 export const HomePage = () => {
   const [data, setData] = useState([]);
   const [productData, setProductData] = useState([]);
+  const [clothingData, setClothingData] = useState([]);
 
   useEffect(() => {
     const GetData = async () => {
@@ -44,6 +45,20 @@ export const HomePage = () => {
       }
     };
     GetDataProduct();
+  }, []);
+
+  useEffect(() => {
+    const GetClothingData = async () => {
+      try {
+        const result = await axios.get(
+          "http://localhost:5059/getProductByCategory/0736139a-3e11-4847-ae7f-51348f6e6a74"
+        );
+        setClothingData(result.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    GetClothingData();
   }, []);
 
   return (
@@ -74,7 +89,12 @@ export const HomePage = () => {
         </SwiperSlide>
       </Swiper>
       <div className="data-list">
-        <h2>List of Posts</h2>
+        <div className="header-container" style={{marginBottom: "20px"}}>
+          <h2>Sản phẩm mới</h2>
+          <a href="/new-products" className="view-more-link">
+            Xem thêm
+          </a>
+        </div>
         <ul className="list-container">
           {data.slice(0, 8).map((list) => (
             <li key={list.id} className="list-item">
@@ -88,14 +108,19 @@ export const HomePage = () => {
       </div>
 
       <div className="data-list" style={{ margin: "0 1% 0 1%" }}>
-        <h2>Đồ điện tử</h2>
+        <div className="header-container">
+          <h2>Đồ điện tử</h2>
+          <a href="/new-products" className="view-more-link">
+            Xem thêm
+          </a>
+        </div>
         <Swiper
           className="list-swiper-container "
           spaceBetween={35}
           slidesPerView={4}
           navigation={true}
           modules={[Navigation]}
-          style={{ padding: "1.5%" }}
+          style={{ padding: "0 1.5% 1.5% 1.5%" }}
         >
           {productData.map((list) => (
             <SwiperSlide
@@ -104,14 +129,18 @@ export const HomePage = () => {
               style={{ minHeight: "450px", maxHeight: "450px" }}
             >
               <p className="img-container">
-                <img src={list.thumbnail} alt={list.name} />
+                <img
+                  src={list.thumbnail}
+                  alt={list.name}
+                  style={{ width: "290px", height: "290px" }}
+                />
               </p>
               <h3>{list.name}</h3>
               <p>
-                <strong>Mô tả:</strong> {list.description}
+                <strong></strong> {list.description}
               </p>
               <p>
-                <strong>Price:</strong> {list.price}
+                <strong></strong> {list.price}
               </p>
             </SwiperSlide>
           ))}
@@ -119,30 +148,39 @@ export const HomePage = () => {
       </div>
 
       <div className="data-list">
-        <h2>Quần áo</h2>
+        <div className="header-container">
+          <h2>Quần áo</h2>
+          <a href="/new-products" className="view-more-link">
+            Xem thêm
+          </a>
+        </div>
         <Swiper
           className="list-swiper-container"
           spaceBetween={35}
           slidesPerView={4}
           navigation={true}
           modules={[Navigation]}
-          style={{ padding: "1.5%" }}
+          style={{ padding: "0 1.5% 1.5% 1.5%" }}
         >
-          {data.map((list) => (
+          {clothingData.map((list) => (
             <SwiperSlide
               key={list.id}
               className="list-item-swiper box-shadow"
               style={{ minHeight: "450px", maxHeight: "450px" }}
             >
               <p className="img-container">
-                <img src={list.thumbnail} alt={list.name} />
+                <img
+                  src={list.thumbnail}
+                  alt={list.name}
+                  style={{ width: "290px", height: "290px" }}
+                />
               </p>
               <h3>{list.name}</h3>
               <p>
-                <strong>Mô tả:</strong> {list.description}
+                <strong></strong> {list.description}
               </p>
               <p>
-                <strong>Price:</strong> {list.price}
+                <strong></strong> {list.price}
               </p>
             </SwiperSlide>
           ))}
