@@ -98,7 +98,10 @@ export const HomePage = () => {
         <ul className="list-container">
           {data.slice(0, 8).map((list) => (
             <li key={list.id} className="list-item">
+              <div className="img-container">
               <img src={list.thumbnail} alt={list.name} />
+              </div>
+              
               <h3>{list.name}</h3>
               <p>{list.description}</p>
               <p>{list.price}</p>
