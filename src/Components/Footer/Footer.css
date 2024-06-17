@@ -6,11 +6,11 @@ body {
 }
 
 footer {
-    background-color: #efefef;
+    background-color: #fff1e8;
     color: #000000;
-    padding: 20px 20px 23px 20px;
+    padding: 0 20px 23px 20px;
     text-align: left;
-    height: 200px;
+    height: 237px;
 }
 
 .footer-container {
@@ -74,4 +74,5 @@ footer {
     text-align: center;
     font-size: 0.9em;
     color: #000000;
+    font-weight: 600;
 }
