@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './UploadImage.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-const UploadImage = () => {
+const UploadImage = ({ onImageFilesChange }) => {
   const [selectedImages, setSelectedImages] = useState([]);
 
   const handleImageChange = (event) => {
@@ -10,6 +10,7 @@ const UploadImage = () => {
       const filesArray = Array.from(event.target.files);
       const imagesArray = filesArray.map((file) => URL.createObjectURL(file));
       setSelectedImages([...selectedImages, ...imagesArray.slice(0, 3 - selectedImages.length)]);
+      onImageFilesChange(filesArray.slice(0, 3 - selectedImages.length)); // Truyền các tệp lên component cha
     }
   };
 
@@ -24,7 +25,6 @@ const UploadImage = () => {
             ))
           ) : (
             <>
-            
               <div className="icon-camera">
                 <i className="fas fa-camera"></i>
               </div>
