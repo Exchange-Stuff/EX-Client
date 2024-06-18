@@ -3,7 +3,7 @@ import "./Header.css";
 import { Link } from "react-router-dom";
 import logo from "../Assets/logo.png";
 
-export const Header = () => {
+const Header = ({ handleLoginClick }) => {
   return (
     <div className="header-homepage">
       <div className="category">Đồ điện tử</div>
@@ -16,7 +16,10 @@ export const Header = () => {
       <Link to="/postproduct" className="category">
         Đăng sản phẩm
       </Link>
-      <div className="user">Nguoi dung</div>
+      <span onClick={handleLoginClick} className="category">
+        Sign In
+      </span>
+      <div className="user">Người dùng</div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import "./App.css";
-import { LoginSignup } from "./Components/LoginSignUp/LoginSignup";
+import { LoginSignup } from "./Components/LoginSignUp/LoginSignup.jsx";
 import { HomePage } from "./Components/HomePage/HomePage";
 import { PostProduct } from "./Components/PostProduct/PostProduct";
 import { UserPage } from "./Pages/Admin/UserPage/UserPage";
@@ -12,7 +12,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Header />
+        
         <Routes>
           <Route path="/*" element={<HomePage />} />
           <Route path="/homepage" element={<HomePage />} />

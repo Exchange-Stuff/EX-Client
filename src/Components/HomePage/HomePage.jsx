@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "./HomePage.css";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-
+import LoginSignup from "../LoginSignUp/LoginSignup";
 import img2 from "../Assets/image3.jpg";
 import img3 from "../Assets/image4.jpg";
 import img1 from "../Assets/banner.png";
@@ -20,6 +20,15 @@ export const HomePage = () => {
   const [data, setData] = useState([]);
   const [productData, setProductData] = useState([]);
   const [clothingData, setClothingData] = useState([]);
+  const [isShowLogin, setIsShowLogin] = useState(false);
+
+  const handleLoginClick = () => {
+    setIsShowLogin(true); // Khi click vào "Sign In" thì đặt isShowLogin là true để hiển thị modal
+  };
+
+  const handleCloseModal = () => {
+    setIsShowLogin(false); // Đóng modal khi cần
+  };
 
   useEffect(() => {
     const GetData = async () => {
@@ -63,7 +72,8 @@ export const HomePage = () => {
 
   return (
     <div className="homepage">
-      <Header />
+      <Header handleLoginClick={handleLoginClick} />
+      {isShowLogin && <LoginSignup handleCloseModal={handleCloseModal} />}
       <Swiper
         className="swiper-container"
         spaceBetween={30}
@@ -89,7 +99,7 @@ export const HomePage = () => {
         </SwiperSlide>
       </Swiper>
       <div className="data-list">
-        <div className="header-container" style={{marginBottom: "20px"}}>
+        <div className="header-container" style={{ marginBottom: "20px" }}>
           <h2>Sản phẩm mới</h2>
           <a href="/new-products" className="view-more-link">
             Xem thêm
@@ -99,9 +109,8 @@ export const HomePage = () => {
           {data.slice(0, 8).map((list) => (
             <li key={list.id} className="list-item">
               <div className="img-container">
-              <img src={list.thumbnail} alt={list.name} />
+                <img src={list.thumbnail} alt={list.name} />
               </div>
-              
               <h3>{list.name}</h3>
               <p>{list.description}</p>
               <p>{list.price}</p>
