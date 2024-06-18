@@ -77,28 +77,33 @@
     padding: 10px;
     border-radius: 12px;
     box-sizing: border-box;
-    margin: 0 20px 32px 20px;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; /* Đổ bóng màu hồng */
+    margin: 20px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; 
+    max-height: 410px;
+    min-height: 410px;
   }
   
   .list-item h3 {
-    text-align: center;
-    font-size: 16px;
+    width: 200px;
+    font-size: 20px;
     color: #333;
     margin: 8px 0 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .list-item p {
-    margin: 5px 0;
+    margin: 10px 0;
     color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-
-
 
   .list-item{
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 300px;
     height: fit-content;
     cursor: pointer;
@@ -125,10 +130,41 @@
     transition: transform 0.6s ease;
   }
 
-  
-
   .list-item:hover img {
     transform: scale(1.1);
   }
 
+  .detail-container {
+    display: flex;
+    height: 70px;
+  }
+
+  .left-column {
+      flex: 6;
+  }
+
+  .right-column {
+      flex: 4;
+      padding: 20px 10px 10px 10px;
+      text-align: right;
+      font-weight: bold;
+      font-size: 18px;
+  }
+
+  .buy-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #FF8C00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: medium;
+  }
+
+  .buy-button:hover {
+      background-color: #D2691E;
+  }
+    
   
