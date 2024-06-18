@@ -7,6 +7,7 @@ import Footer from "../Footer/Footer";
 import img2 from "../Assets/image3.jpg";
 import img3 from "../Assets/image4.jpg";
 import img1 from "../Assets/banner.png";
+import coin from "../Assets/coin.png";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -89,7 +90,7 @@ export const HomePage = () => {
         </SwiperSlide>
       </Swiper>
       <div className="data-list">
-        <div className="header-container" style={{marginBottom: "20px"}}>
+        <div className="header-container" style={{ marginBottom: "20px" }}>
           <h2>Sản phẩm mới</h2>
           <a href="/new-products" className="view-more-link">
             Xem thêm
@@ -99,12 +100,27 @@ export const HomePage = () => {
           {data.slice(0, 8).map((list) => (
             <li key={list.id} className="list-item">
               <div className="img-container">
-              <img src={list.thumbnail} alt={list.name} />
+                <img src={list.thumbnail} alt={list.name} />
               </div>
-              
-              <h3>{list.name}</h3>
-              <p>{list.description}</p>
-              <p>{list.price}</p>
+              <div className="detail-container">
+                <div className="left-column">
+                  <h3>{list.name}</h3>
+                  <p style={{ width: "200px" }}>{list.description}</p>
+                </div>
+                <div className="right-column">
+                  <p>
+                    <img
+                      src={coin}
+                      alt=""
+                      style={{ width: "50%", height: "50%" }}
+                    />
+                    {list.price}
+                  </p>
+                </div>
+              </div>
+              <div style={{ textAlign: "center" }}>
+                <button className="buy-button">Mua hàng</button>
+              </div>
             </li>
           ))}
         </ul>
