@@ -55,6 +55,7 @@ export const PostProduct = () => {
     setImageFiles(files);
   };
 
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -74,6 +75,7 @@ export const PostProduct = () => {
         throw new Error('Vui lòng tải lại hình ảnh');
       }
       else{
+
         const result = await axios.post('http://localhost:5059/api/Product/createProduct', {
           name: productName,
           description: productDescription,

@@ -13,7 +13,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/swiper-bundle.css";
-import axios from "axios";
+import axios from '../../utils/axios.js';
+
 
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
@@ -24,17 +25,17 @@ export const HomePage = () => {
   const [isShowLogin, setIsShowLogin] = useState(false);
 
   const handleLoginClick = () => {
-    setIsShowLogin(true); // Khi click vào "Sign In" thì đặt isShowLogin là true để hiển thị modal
+    setIsShowLogin(true);
   };
 
   const handleCloseModal = () => {
-    setIsShowLogin(false); // Đóng modal khi cần
+    setIsShowLogin(false);
   };
 
   useEffect(() => {
     const GetData = async () => {
       try {
-        const result = await axios.get("http://localhost:5059/api/Product");
+        const result = await axios.get("/Product");
         setData(result.data);
       } catch (error) {
         console.error("Error fetching data:", error);
