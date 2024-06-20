@@ -7,6 +7,7 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import googleAuthConfig from "../../config/googleAuthConfig";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import google_icon from "../Assets/google.jpg";
 
 export const LoginSignup = ({ handleCloseModal }) => {
   const client_id = googleAuthConfig.clientId;
@@ -49,16 +50,6 @@ access_type=online
           </div>
           <div className="inputs">
             <div className="input">
-              <img src={user_icon} alt="" />
-              <input
-                type="text"
-                placeholder="Họ và Tên"
-                style={{ width: "100%" }}
-              />
-            </div>
-          </div>
-          <div className="inputs">
-            <div className="input">
               <img src={email_icon} alt="" />
               <input
                 type="email"
@@ -78,17 +69,23 @@ access_type=online
             </div>
           </div>
           <div className="forgot-password">
-            Đã có tài khoản? <span>Đăng nhập ngay</span>
+            <span>Quên mật khẩu</span>
           </div>
           <div className="submit-container">
-            <div className="submit">Sign Up</div>
+            <div className="submit">Sign In</div>
            
-          </div>
-          
-              <button onClick={handleGoogleButtonClick}>
-              <div className="login-google">Login google</div>
+          </div >
+          <div className="submit-container">
+            <button onClick={handleGoogleButtonClick} className="login">
+              <div className="login-google">
+                 <img
+                      src={google_icon}
+                      alt=""
+                      style={{width: "30px", marginRight: "10px"}}
+                    />Login with google</div>
               </button>
-            
+          </div>
+              
         </div>
       </div>
   );
