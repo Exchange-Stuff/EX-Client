@@ -121,13 +121,13 @@ export const HomePage = () => {
                   <p style={{ width: "200px" }}>{list.description}</p>
                 </div>
                 <div className="right-column">
-                  <p>
+                  <p style={{display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
                     <img
                       src={coin}
                       alt=""
-                      style={{ width: "50%", height: "50%" }}
+                      style={{ width: "38px", height: "35px", transform: "none", marginRight:"3px"}}
                     />
-                    {list.price}
+                    <p>{list.price}</p>
                   </p>
                 </div>
               </div>

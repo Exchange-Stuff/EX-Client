@@ -75,9 +75,8 @@
 }
 
 .submit-container{
-    display: flex;
     gap: 30px;
-    margin: 60px auto;
+    margin: 18px auto;
 }
 
 .submit{
@@ -92,6 +91,7 @@
     font-size: 19px;
     font-weight: 700;
     cursor: pointer;
+
 }
 
 .modal {
@@ -117,6 +117,15 @@
   max-width: 600px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
+}
+
+.login{
+  background-color: #dd4b39;
+  width: 340px;
+  border-radius: 25px;
+}
+.login:hover{
+  background-color: #a73b2d;
 }
 
 .close {
@@ -154,29 +163,37 @@
 
 .submit-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
 }
 
 .submit {
-  background-color: #4CAF50;
+  background-color: #2672ec;
   color: white;
   padding: 10px 20px;
   border: none;
   cursor: pointer;
-  border-radius: 5px;
+  width: 303px;
+  border-radius: 25px;
 }
-
-.submit:hover {
-  background-color: #45a049;
+.submit:hover{
+  background-color: #1c4ea0;
 }
 
 .forgot-password {
-  text-align: center;
-  margin-top: 20px;
+  margin-top: -16px;
+  padding-left: 127px;
+  margin-bottom: 30px;
 }
 
 .google-login-container {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+}
+
+.login-google{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
