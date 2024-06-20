@@ -8,6 +8,7 @@ import img2 from "../Assets/image3.jpg";
 import img3 from "../Assets/image4.jpg";
 import img1 from "../Assets/banner.png";
 import coin from "../Assets/coin.png";
+import { jwtDecode } from 'jwt-decode';
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -34,7 +35,7 @@ export const HomePage = () => {
   useEffect(() => {
     const GetData = async () => {
       try {
-        const result = await axios.get("/Product");
+        const result = await axios.get("http://localhost:5059/api/Product");
         setData(result.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -118,13 +119,13 @@ export const HomePage = () => {
                   <p style={{ width: "200px" }}>{list.description}</p>
                 </div>
                 <div className="right-column">
-                  <p>
+                  <p style={{display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
                     <img
                       src={coin}
                       alt=""
-                      style={{ width: "50%", height: "50%" }}
+                      style={{ width: "38px", height: "35px", transform: "none", marginRight:"3px"}}
                     />
-                    {list.price}
+                    <p>{list.price}</p>
                   </p>
                 </div>
               </div>

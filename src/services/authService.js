@@ -48,7 +48,7 @@ export const refreshAccessToken = async () => {
 
   if (!refreshToken) throw new Error('No refresh token available');
 
-  const response = await axios.post('http://localhost:5059/api/Auth/refresh', { refreshToken });
+  const response = await axios.post('http://localhost:5059/api/Auth/renew', { refreshToken });
   const { accessToken } = response.data;
 
   localStorage.setItem('accessToken', accessToken);
