@@ -8,12 +8,14 @@ import img2 from "../Assets/image3.jpg";
 import img3 from "../Assets/image4.jpg";
 import img1 from "../Assets/banner.png";
 import coin from "../Assets/coin.png";
+import { jwtDecode } from 'jwt-decode';
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/swiper-bundle.css";
 import axios from '../../utils/axios.js';
+import axioss from "axios";
 
 
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
@@ -35,7 +37,7 @@ export const HomePage = () => {
   useEffect(() => {
     const GetData = async () => {
       try {
-        const result = await axios.get("/Product");
+        const result = await axios.get("http://localhost:5059/api/Product");
         setData(result.data);
       } catch (error) {
         console.error("Error fetching data:", error);
