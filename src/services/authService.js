@@ -28,6 +28,10 @@ export const isAuthenticated = () => {
   return decodedToken.exp > currentTime;
 };
 
+export const setAccessToken = (token) => {
+  return localStorage.setItem("accessToken", token);
+}
+
 // Lấy accessToken
 export const getAccessToken = () => {
   return localStorage.getItem('accessToken');
