@@ -1,0 +1,29 @@
+.financial-button {
+    padding: 5px;
+    border: 1px solid black;
+    width: 75px;
+}
+
+.button-approve {
+    background-color: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.button-reject {
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.button-approve:hover {
+    background-color: #f7ce2b;
+    color: white;
+}
+
+.button-reject:hover {
+    background-color: #f7ce2b;
+    color: white;
+}
