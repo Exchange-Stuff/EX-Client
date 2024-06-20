@@ -13,8 +13,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/swiper-bundle.css";
-import axios from '../../utils/axios.js';
-
+import axios from "../../utils/axios.js";
 
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
@@ -74,7 +73,7 @@ export const HomePage = () => {
 
   return (
     <div className="homepage">
-      <Header handleLoginClick={handleLoginClick} />
+      {/* <Header handleLoginClick={handleLoginClick} /> */}
       {isShowLogin && <LoginSignup handleCloseModal={handleCloseModal} />}
       <Swiper
         className="swiper-container"
