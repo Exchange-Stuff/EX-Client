@@ -21,13 +21,13 @@ const Header = ({ handleLoginClick }) => {
         Đăng sản phẩm
       </Link>
 
+      <Link to="/profile" className="category">
+        Trang cá nhân
+      </Link>
       <span onClick={handleLoginClick} className="category">
         Sign In
       </span>
 
-      <div className="user">Người dùng</div>
-
-      <Link to="/financial">Quản lý rút tiền</Link>
     </div>
   );
 };

@@ -76,7 +76,7 @@ export const HomePage = () => {
 
   return (
     <div className="homepage">
-      {/* <Header handleLoginClick={handleLoginClick} /> */}
+      { <Header handleLoginClick={handleLoginClick} /> }
       {isShowLogin && <LoginSignup handleCloseModal={handleCloseModal} />}
       <Swiper
         className="swiper-container"
