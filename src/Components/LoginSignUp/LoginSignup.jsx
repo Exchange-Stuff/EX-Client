@@ -18,8 +18,6 @@ export const LoginSignup = ({ handleCloseModal }) => {
     var userInfo = jwtDecode(response.credential)
     console.log("Login Success:", userInfo);
     
-    
-
     navigate("/homepage");
     
   };
