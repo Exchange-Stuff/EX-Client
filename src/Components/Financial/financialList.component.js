@@ -66,7 +66,7 @@ export const FinancialList = () => {
           <option value={2}>Reject</option>
         </select>
       </div>
-      <table>
+      <table className="financial-table">
         <thead>
           <tr>
             <th>User ID</th>
