@@ -63,7 +63,7 @@ export const FinancialList = () => {
         <select value={status} onChange={(e) => setStatus(e.target.value)}>
           <option value={0}>Pending</option>
           <option value={1}>Success</option>
-          <option value={2}>Failed</option>
+          <option value={2}>Reject</option>
         </select>
       </div>
       <table>
