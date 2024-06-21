@@ -7,13 +7,14 @@ import { ProductDetail } from "./Components/ProductDetail/ProductDetail.jsx";
 import { Payment } from "./Components/PaymentPage/Payment.jsx";
 import { Blank } from "./Components/Blank/Blank.jsx";
 import Header from "./Components/Header/Header";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import FinancialPage from "./Pages/Admin/FinancialPage/financial.page.js";
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        
+    <div className="App">
+      <BrowserRouter>
+        <Header />
         <Routes>
           <Route path="/*" element={<HomePage />} />
           <Route path="/homepage" element={<HomePage />} />
@@ -23,9 +24,10 @@ function App() {
           <Route path="/productdetail" element={<ProductDetail />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/blank" element={<Blank />} />
+          <Route path="/financial" element={<FinancialPage />} />
         </Routes>
-      </div>
-    </Router>
+      </BrowserRouter>
+    </div>
   );
 }
 

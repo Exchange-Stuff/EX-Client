@@ -16,7 +16,11 @@ export const ProductDetail = () => {
         const result = await axios.get(
           "http://localhost:5059/api/Product/getDetail/91eb76ed-44b2-4b35-a9fd-bbfb4f733e8b"
         );
-        setData(result.data);
+        if (result.data.isSuccess) {
+          setData(result.data.value);
+        } else {
+          console.error("Error in response:", result.data.error);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -29,44 +33,31 @@ export const ProductDetail = () => {
       <Header />
       <div className="product-content">
         <div className="product-images">
-          {/* <Swiper spaceBetween={10} slidesPerView={1}>
-            <SwiperSlide>
-              <img src={data.thumbnail} alt={data.title} />
-            </SwiperSlide>
-            {data.images &&
-              Array.isArray(data.images) &&
-              data.images.map((image, index) => (
-                <SwiperSlide key={index}>
-                  <img src={image} alt={data.title} />
-                </SwiperSlide>
-              ))}
-          </Swiper> */}
-          <div className="image-thumbnails">
-            {data.images &&
-              Array.isArray(data.images) &&
-              data.images.map((list) => (
-                <img src={list.thumbnail} alt={list.name} />
-              ))}
+          <div className="thumbnail">
+            <img src={data.thumbnail} alt="Product Thumbnail" />
           </div>
+          <Swiper>
+            {/* {data.images && data.images.length > 0 ? (
+              data.images.map((image) => (
+                <SwiperSlide key={image.id}>
+                  <img src={image.url} alt="Product Image" />
+                </SwiperSlide>
+              ))
+            ) : (
+              <SwiperSlide>
+                <p>No additional images available</p>
+              </SwiperSlide>
+            )}*/}
+          </Swiper> 
         </div>
         <div className="product-info">
           <h1>{data.name}</h1>
           <div className="price">
-            <span className="discounted-price">₫979,000</span>
+            <span className="discounted-price">{data.price}</span>
           </div>
-          <div className="rating-and-sales">
-            <span className="rating">5.0 ★★★★★</span>
-            <span className="sales">13 Đã Bán</span>
+          <div className="description">
+            <p>{data.description}</p>
           </div>
-          <div className="options">
-            <label htmlFor="quantity">Số Lượng:</label>
-            <div className="quantity">
-              <button className="quantity-btn">-</button>
-              <input type="text" value="1" readOnly />
-              <button className="quantity-btn">+</button>
-            </div>
-          </div>
-          <button className="buy-now-button">THÊM VÀO GIỎ HÀNG</button>
           <button className="buy-now-button">MUA NGAY</button>
         </div>
       </div>

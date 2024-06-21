@@ -10,17 +10,24 @@ const Header = ({ handleLoginClick }) => {
         <img src={logo} alt="Trang chủ" className="logo" />
       </Link>
       <div className="category">Đồ điện tử</div>
+
       <div className="category">Quần áo</div>
+
       <div className="category">Dụng cụ học tập</div>
+
       <div className="category">Giày dép</div>
       
       <Link to="/postproduct" className="category">
         Đăng sản phẩm
       </Link>
+
       <span onClick={handleLoginClick} className="category">
         Sign In
       </span>
+
       <div className="user">Người dùng</div>
+
+      <Link to="/financial">Quản lý rút tiền</Link>
     </div>
   );
 };
