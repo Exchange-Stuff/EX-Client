@@ -1,46 +1,94 @@
-import React from 'react'
-import './LoginSignup.css'
+import React, {useState} from "react";
+import "./LoginSignup.css";
+import user_icon from "../Assets/person.png";
+import email_icon from "../Assets/email.png";
+import password_icon from "../Assets/password.png";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import googleAuthConfig from "../../config/googleAuthConfig";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import google_icon from "../Assets/google.jpg";
 
-import user_icon from '../Assets/person.png'
-import email_icon from '../Assets/email.png'
-import password_icon from '../Assets/password.png'
+export const LoginSignup = ({ handleCloseModal }) => {
+  const client_id = googleAuthConfig.clientId;
+  const navigate = useNavigate();
 
-export const LoginSignup = () => {
+  const handleGoogleLoginSuccess = async (response) => {
+    var userInfo = jwtDecode(response.credential)
+    console.log("Login Success:", userInfo);
+    
+    
+
+    navigate("/homepage");
+    
+  };
+
+  const handleGoogleLoginFail = (response) => {
+    console.log("Login Fail:", response);
+  };
+
+  const handleGoogleButtonClick = () => {
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?
+access_type=online
+&client_id=41073021794-d4irfbi6nnopdq1dkgm6otrcidns9110.apps.googleusercontent.com
+&redirect_uri=http://localhost:3000/blank
+&response_type=code
+&scope=openid%20profile%20email
+&prompt=consent`;
+    window.location.href = googleAuthUrl;
+  };
 
   return (
-    <div className="wrapper">
-         <div className='container'>
-        <div className='header'>
+      <div className="modal">
+        <div className="modal-content">
+          <span className="close" onClick={handleCloseModal}>
+            &times;
+          </span>
+          <div className="header">
             <div className="text">Đăng nhập tài khoản</div>
             <div className="underline"></div>
-        </div>
-        <div className="inputs">
+          </div>
+          <div className="inputs">
             <div className="input">
-                <img src={user_icon} alt="" />
-                <input type="text" placeholder='Họ và Tên'/>
+              <img src={email_icon} alt="" />
+              <input
+                type="email"
+                placeholder="Email"
+                style={{ width: "100%" }}
+              />
             </div>
-        </div>
-        <div className="inputs">
+          </div>
+          <div className="inputs">
             <div className="input">
-                <img src={email_icon} alt="" />
-                <input type="email" placeholder='Email'/>
+              <img src={password_icon} alt="" />
+              <input
+                type="password"
+                placeholder="Password"
+                style={{ width: "100%" }}
+              />
             </div>
+          </div>
+          <div className="forgot-password">
+            <span>Quên mật khẩu</span>
+          </div>
+          <div className="submit-container">
+            <div className="submit">Sign In</div>
+           
+          </div >
+          <div className="submit-container">
+            <button onClick={handleGoogleButtonClick} className="login">
+              <div className="login-google">
+                 <img
+                      src={google_icon}
+                      alt=""
+                      style={{width: "30px", marginRight: "10px"}}
+                    />Login with google</div>
+              </button>
+          </div>
+              
         </div>
-        <div className="inputs">
-            <div className="input">
-                <img src={password_icon} alt="" />
-                <input type="password" placeholder='Password'/>
-            </div>
-        </div>
-        <div className="forgot-password">Đã có tài khoản? <span>Đăng nhập ngay</span></div>
-        <div className="submit-container">
-            <div className="submit">Sign Up</div>
-            <div className="submit">Login</div>
-        </div>
-    </div>
-    </div>
-   
-  )
-}
+      </div>
+  );
+};
 
-export default LoginSignup
+export default LoginSignup;

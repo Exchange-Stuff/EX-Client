@@ -6,34 +6,31 @@ const Footer = () => {
     <footer>
       <div className="footer-container">
         <div className="footer-column">
-          <h3>ABOUT US</h3>
+          <h3>FPT CLUB</h3>
           <ul>
-            <li>Mission & Vision</li>
-            <li>Our Company</li>
-            <li>Our Projects</li>
-            <li>Our Team</li>
+            <li>Đăng kí thành viên</li>
+            <li>Ưu đãi & Đặc quyền</li>
           </ul>
         </div>
         <div className="footer-column">
-          <h3>DISCOVER</h3>
+          <h3>CHÍNH SÁCH</h3>
           <ul>
-            <li>Projects & Research</li>
-            <li>Clients Review</li>
-            <li>Our Projects</li>
-            <li>Our Team</li>
+            <li>Chính sách khuyến mãi</li>
+            <li>Chính sách bảo mật</li>
+            <li>Chính sách giao hàng</li>
           </ul>
         </div>
         <div className="footer-column">
-          <h3>USEFUL LINKS</h3>
+          <h3>CHĂM SÓC KHÁCH HÀNG</h3>
           <ul>
-            <li>Contact Us</li>
-            <li>Terms & Conditions</li>
+            <li>Trải nghiệm mua sắm 100% hài lòng</li>
+            <li>Hỏi đáp - FAQs</li>
             <li>Review</li>
           </ul>
         </div>
         <div className="footer-column">
-          <h3>SPEAK</h3>
-          <p>Seize Potential, Enhance & Acquire Knowledge</p>
+          <h3>FPT EXCHANGE STUFF</h3>
+          <p>Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh 700000</p>
           <form>
             <label htmlFor="email">Subscribe to get our Newsletter</label>
             <button type="submit">Submit</button>
