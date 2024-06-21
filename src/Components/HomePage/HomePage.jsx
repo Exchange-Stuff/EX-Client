@@ -9,7 +9,8 @@ import img3 from "../Assets/image4.jpg";
 import img1 from "../Assets/banner.png";
 import coin from "../Assets/coin.png";
 import { jwtDecode } from 'jwt-decode';
-
+import { useLocation } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -23,6 +24,14 @@ export const HomePage = () => {
   const [productData, setProductData] = useState([]);
   const [clothingData, setClothingData] = useState([]);
   const [isShowLogin, setIsShowLogin] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const status = new URLSearchParams(location.search).get("status");
+    if (status === "false") {
+      toast.error("Đăng nhập không thành công");
+    }
+  }, []); 
 
   const handleLoginClick = () => {
     setIsShowLogin(true);
@@ -35,7 +44,7 @@ export const HomePage = () => {
   useEffect(() => {
     const GetData = async () => {
       try {
-        const result = await axios.get("http://localhost:5059/api/Product");
+        const result = await axios.get("/Product");
         setData(result.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -74,7 +83,7 @@ export const HomePage = () => {
 
   return (
     <div className="homepage">
-      {/* <Header handleLoginClick={handleLoginClick} /> */}
+      { <Header handleLoginClick={handleLoginClick} /> }
       {isShowLogin && <LoginSignup handleCloseModal={handleCloseModal} />}
       <Swiper
         className="swiper-container"
@@ -218,6 +227,7 @@ export const HomePage = () => {
       </div>
 
       <Footer />
+      <ToastContainer/>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { UserPage } from "./Pages/Admin/UserPage/UserPage";
 import { ProductDetail } from "./Components/ProductDetail/ProductDetail.jsx";
 import { Payment } from "./Components/PaymentPage/Payment.jsx";
 import { Blank } from "./Components/Blank/Blank.jsx";
+import { Profile } from "./Components/Profile/Profile.jsx";
 import Header from "./Components/Header/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FinancialPage from "./Pages/Admin/FinancialPage/financial.page.js";
@@ -25,6 +26,7 @@ function App() {
           <Route path="/payment" element={<Payment />} />
           <Route path="/blank" element={<Blank />} />
           <Route path="/financial" element={<FinancialPage />} />
+          <Route path="/profile" element={< Profile />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -8,6 +8,7 @@ import googleAuthConfig from "../../config/googleAuthConfig";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import google_icon from "../Assets/google.jpg";
+import logo from "../Assets/logo.png"
 
 export const LoginSignup = ({ handleCloseModal }) => {
   const client_id = googleAuthConfig.clientId;
@@ -17,8 +18,6 @@ export const LoginSignup = ({ handleCloseModal }) => {
     var userInfo = jwtDecode(response.credential)
     console.log("Login Success:", userInfo);
     
-    
-
     navigate("/homepage");
     
   };
@@ -45,13 +44,17 @@ access_type=online
             &times;
           </span>
           <div className="header">
-            <div className="text">Đăng nhập tài khoản</div>
+            <div ><img src={logo} alt="" className="img-login"/></div>
+            <div className="text">Chào mừng bạn đến với ExchangeStuff</div>
             <div className="underline"></div>
           </div>
+        
           <div className="inputs">
+         
             <div className="input">
               <img src={email_icon} alt="" />
-              <input
+             
+              <input className="email-login"
                 type="email"
                 placeholder="Email"
                 style={{ width: "100%" }}
@@ -63,7 +66,7 @@ access_type=online
               <img src={password_icon} alt="" />
               <input
                 type="password"
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 style={{ width: "100%" }}
               />
             </div>
@@ -72,9 +75,10 @@ access_type=online
             <span>Quên mật khẩu</span>
           </div>
           <div className="submit-container">
-            <div className="submit">Sign In</div>
+            <div className="submit">ĐĂNG NHẬP</div>
            
           </div >
+          <div className="or-login">HOẶC</div>
           <div className="submit-container">
             <button onClick={handleGoogleButtonClick} className="login">
               <div className="login-google">
@@ -82,10 +86,10 @@ access_type=online
                       src={google_icon}
                       alt=""
                       style={{width: "30px", marginRight: "10px"}}
-                    />Login with google</div>
+                    />TIẾP TỤC VỚI GOOGLE</div>
               </button>
           </div>
-              
+            
         </div>
       </div>
   );
