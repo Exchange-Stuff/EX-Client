@@ -12,9 +12,7 @@ export const Blank = () => {
             var txt = await rs.text();
             var pTxt = JSON.parse(txt);
             localStorage.setItem('accessToken', pTxt.value.accessToken);
-            console.log(pTxt.value.accessToken);
             localStorage.setItem('refreshToken', pTxt.value.refreshToken);
-            console.log(pTxt.value.refreshToken);
             window.location.href = "http://localhost:3000/HomePage"
         }
         else {

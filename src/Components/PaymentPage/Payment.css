@@ -54,7 +54,7 @@
   }
   
 
-button {
+.button-payment {
     width: 270px;
     height: 50px;
     margin: auto;
@@ -68,7 +68,7 @@ button {
     cursor: pointer;
   }
   
-  button:hover {
+  .button-payment:hover {
     background-color: #edd04f;
   }
 

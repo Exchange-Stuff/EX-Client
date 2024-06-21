@@ -16,6 +16,8 @@ instance.interceptors.request.use(async (config) => {
     token = await refreshAccessToken();
   }
 
+  
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -27,15 +29,17 @@ instance.interceptors.request.use(async (config) => {
 
 instance.interceptors.response.use(
   (response) => {
+    console.log(response);
     return response;
   },
   (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 403 && !originalRequest._retry) {
+    console.log(error.response.status)
+    if (error.response.status === 401 && !originalRequest._retry) {
       // call refresh token
       originalRequest._retry = true;
       return axios
-        .post(baseURL + "/refresh", {
+        .post(baseURL + "/Auth/renew", {
           refreshToken: getRefreshToken(),
         })
         .then((res) => {
