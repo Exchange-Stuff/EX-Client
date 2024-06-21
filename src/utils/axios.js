@@ -35,7 +35,7 @@ instance.interceptors.response.use(
   (error) => {
     const originalRequest = error.config;
     console.log(error.response.status)
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response.status === 400 && !originalRequest._retry) {
       // call refresh token
       originalRequest._retry = true;
       return axios

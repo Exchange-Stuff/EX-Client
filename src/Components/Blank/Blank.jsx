@@ -2,6 +2,7 @@ export const Blank = () => {
 
     window.onload = async function () {
         const queryString = window.location.search;
+        console.log(queryString);
         var url = "http://localhost:5059/api/Auth/signin" + queryString;
         var request = new Request(url, {
             method: 'GET'
@@ -16,7 +17,8 @@ export const Blank = () => {
             window.location.href = "http://localhost:3000/HomePage"
         }
         else {
-            window.location.href = "http://localhost:3000/Payment"
+
+            window.location.href = "http://localhost:3000/HomePage?status=false";
         }
     };
 

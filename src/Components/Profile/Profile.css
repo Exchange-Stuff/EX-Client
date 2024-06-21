@@ -62,9 +62,6 @@
     margin-right: 20px;
   }
   
-  .profile-info h1 {
-  }
-
   .profile-info p{
     margin-top: 0px;
   }
@@ -86,6 +83,32 @@
    background-color: #ddd;
   }
 
+  .profile-blance{
+    display: flex;
+
+    margin-left: 120px;
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    width: 180px;
+    font-weight: 600;
+    font-size: 20px;
+    height: 40px;
+    background-color: #eac367;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .coin-profile{
+    margin-right: 50px;
+    
+  }
+
+  .coin-image-profile{
+    margin-left: 50px;
+  }
   
   .header-profile {
     display: flex;
