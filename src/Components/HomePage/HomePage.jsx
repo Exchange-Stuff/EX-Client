@@ -26,6 +26,8 @@ export const HomePage = () => {
   const [clothingData, setClothingData] = useState([]);
   const [isShowLogin, setIsShowLogin] = useState(false);
 
+  
+
   const handleLoginClick = () => {
     setIsShowLogin(true);
   };
@@ -37,7 +39,7 @@ export const HomePage = () => {
   useEffect(() => {
     const GetData = async () => {
       try {
-        const result = await axios.get("http://localhost:5059/api/Product");
+        const result = await axios.get("/Product");
         setData(result.data);
       } catch (error) {
         console.error("Error fetching data:", error);

@@ -40,6 +40,7 @@
     cursor: pointer;
     border: 2px solid transparent;
     transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 20px;
   }
   
   .select-payment img:hover {
