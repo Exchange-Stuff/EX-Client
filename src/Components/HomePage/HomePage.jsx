@@ -8,8 +8,9 @@ import img2 from "../Assets/image3.jpg";
 import img3 from "../Assets/image4.jpg";
 import img1 from "../Assets/banner.png";
 import coin from "../Assets/coin.png";
-import { jwtDecode } from 'jwt-decode';
-
+import { jwtDecode } from "jwt-decode";
+import { useLocation } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -23,6 +24,14 @@ export const HomePage = () => {
   const [productData, setProductData] = useState([]);
   const [clothingData, setClothingData] = useState([]);
   const [isShowLogin, setIsShowLogin] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const status = new URLSearchParams(location.search).get("status");
+    if (status === "false") {
+      toast.error("Đăng nhập không thành công");
+    }
+  }, []);
 
   const handleLoginClick = () => {
     setIsShowLogin(true);
@@ -35,7 +44,7 @@ export const HomePage = () => {
   useEffect(() => {
     const GetData = async () => {
       try {
-        const result = await axios.get("http://localhost:5059/api/Product");
+        const result = await axios.get("/Product");
         setData(result.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -119,11 +128,22 @@ export const HomePage = () => {
                   <p style={{ width: "200px" }}>{list.description}</p>
                 </div>
                 <div className="right-column">
-                  <p style={{display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+                  <p
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      alignItems: "center",
+                    }}
+                  >
                     <img
                       src={coin}
                       alt=""
-                      style={{ width: "38px", height: "35px", transform: "none", marginRight:"3px"}}
+                      style={{
+                        width: "38px",
+                        height: "35px",
+                        transform: "none",
+                        marginRight: "3px",
+                      }}
                     />
                     <p>{list.price}</p>
                   </p>
@@ -218,6 +238,7 @@ export const HomePage = () => {
       </div>
 
       <Footer />
+      <ToastContainer />
     </div>
   );
 };

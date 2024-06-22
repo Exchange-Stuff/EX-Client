@@ -24,13 +24,15 @@
     margin-top: 30px;
 }
 
-.text{
-    font-weight: bold;
-    font-size: 24px;
+.text {
+  font-weight: 700;
+  font-size: 24px;
+  font-family: system-ui;
+  width: 275px;
 }
 
 .inputs{
-    margin-top: 40px;
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     gap: 25px;
@@ -42,10 +44,11 @@
     margin: auto;
     width: 350px;
     height: 50px;
-
+ 
     background: #dbd6d6;
     border-radius: 6px;
 }
+
 
 .input img{
     margin: 30px;
@@ -61,22 +64,34 @@
     font-size: 19px;
 }
 
+.img-login{
+  width: 80px;
+}
+
+.or-login {
+  font-size: 16px;
+  margin-left: 190px;
+  margin-top: 10px;
+  font-weight: 700;
+}
+
 .forgot-password{
     padding-left: 22px;
     margin-top: 27px;
     color: #797979;
     font-size: 15px;
-    
+
 }
 
 .forgot-password span{
     color: #0c31c5;
     cursor: pointer;
+
 }
 
 .submit-container{
     gap: 30px;
-    margin: 18px auto;
+    margin: auto;
 }
 
 .submit{
@@ -113,16 +128,23 @@
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 420px;
+  height: 600px; /* Could be more or less, depending on screen size */
   max-width: 600px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
+  border-radius: 35px;
 }
+
 
 .login{
   background-color: #dd4b39;
   width: 340px;
   border-radius: 25px;
+  width: 350px;
+  height: 50px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
 }
 .login:hover{
   background-color: #a73b2d;
@@ -182,7 +204,7 @@
 
 .forgot-password {
   margin-top: -16px;
-  padding-left: 127px;
+  padding-left: 50px;
   margin-bottom: 30px;
 }
 

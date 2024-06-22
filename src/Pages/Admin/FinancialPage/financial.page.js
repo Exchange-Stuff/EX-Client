@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../../../Components/Header/Header";
 import "./financial.page.css";
 import { FinancialList } from "../../../Components/Financial/financialList.component";
@@ -6,7 +6,7 @@ import { FinancialList } from "../../../Components/Financial/financialList.compo
 export const FinancialPage = () => {
   return (
     <div className="financial-page">
-      <h1>Financial Ticket</h1>
+      <h1 class="h1ticket">Financial Ticket</h1>
       <FinancialList />
     </div>
   );
