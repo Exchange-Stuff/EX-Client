@@ -100,7 +100,7 @@ export const PostProduct = () => {
 
   return (
     <div className="post-product-container">
-      {/* <Header /> */}
+      <Header />
       <h2>Đăng sản phẩm</h2>
       <div className="post-product-content">
         <UploadImage onImageFilesChange={handleImageFilesChange} />

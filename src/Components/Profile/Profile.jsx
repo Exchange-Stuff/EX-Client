@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from "../../utils/axios.js";
 import coin from "../Assets/coin.png";
+import Header from "../Header/Header";
 
 export const Profile = () => {
     const [userInfo, setUserInfo] = useState([]);
@@ -61,14 +62,13 @@ export const Profile = () => {
     const getFirst = (email) => {
         if (email) {
             return email.split('@')[0];
-            
         }
         return '';
     };
 
   return (
     <div className="profile-container">
-      
+      <Header/>
       <main className="profile-content">
         <div className="profile-header">
           <div className="profile-initials">{getInitial(userInfo.email)}</div>
@@ -84,13 +84,9 @@ export const Profile = () => {
                       style={{ width: "38px", height: "35px", transform: "none", marginRight:"3px"}}
                     />
               <div className='coin-profile'>{userBl} 
-              
               </div>
-              
             </div>
             </div>
-            
-           
           </div>
       </main>
 
