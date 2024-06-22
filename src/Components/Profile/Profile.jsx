@@ -102,9 +102,12 @@ export const Profile = () => {
 <ul className="list-container-profile">
   {data.slice(0, 8).map((list) => (
     <li key={list.id} className="list-item-profile">
+      <div className='img-overflow'>
       <div className="img-container-profile">
         <img src={list.thumbnail} alt={list.name} />
       </div>
+      </div>
+      
       <div className="detail-container-profile">
         <div className="left-column-profile">
           <h3>{list.name}</h3>
