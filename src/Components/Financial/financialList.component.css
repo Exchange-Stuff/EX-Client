@@ -27,3 +27,28 @@
     background-color: #f7ce2b;
     color: white;
 }
+
+.financial-table th,
+.financial-table td {
+    padding: 10px; /* Khoảng cách bên trong các ô */
+    text-align: center; /* Căn giữa nội dung trong các ô */
+    border: 1px solid black ; /* Viền các ô */
+}
+.labelsattus{
+    color: #e66123;
+    font-weight: bold;
+
+}
+.financial-table th {
+    background-color: #ed743d; /* Màu nền của phần header (tiêu đề) */
+    color: white; /* Màu chữ của tiêu đề */
+}
+.selectStatus{
+    padding: 8px;
+    border: 1px solid #e66123;
+    background-color: #fff;
+    color: #333;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
