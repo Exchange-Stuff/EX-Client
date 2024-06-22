@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./LoginSignup.css";
 import user_icon from "../Assets/person.png";
 import email_icon from "../Assets/email.png";
@@ -8,18 +8,17 @@ import googleAuthConfig from "../../config/googleAuthConfig";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import google_icon from "../Assets/google.jpg";
-import logo from "../Assets/logo.png"
+import logo from "../Assets/logo.png";
 
 export const LoginSignup = ({ handleCloseModal }) => {
   const client_id = googleAuthConfig.clientId;
   const navigate = useNavigate();
 
   const handleGoogleLoginSuccess = async (response) => {
-    var userInfo = jwtDecode(response.credential)
+    var userInfo = jwtDecode(response.credential);
     console.log("Login Success:", userInfo);
-    
+
     navigate("/homepage");
-    
   };
 
   const handleGoogleLoginFail = (response) => {
@@ -38,60 +37,51 @@ access_type=online
   };
 
   return (
-      <div className="modal">
-        <div className="modal-content">
-          <span className="close" onClick={handleCloseModal}>
-            &times;
-          </span>
-          <div className="header">
-            <div ><img src={logo} alt="" className="img-login"/></div>
-            <div className="text">Chào mừng bạn đến với ExchangeStuff</div>
-            <div className="underline"></div>
+    <div className="modal">
+      <div className="modal-content">
+        <span className="close" onClick={handleCloseModal}>
+          &times;
+        </span>
+        <div className="header">
+          <div className="text">Đăng nhập tài khoản</div>
+          <div className="underline"></div>
+        </div>
+        <div className="inputs">
+          <div className="input">
+            <img src={email_icon} alt="" />
+            <input type="email" placeholder="Email" style={{ width: "100%" }} />
           </div>
-        
-          <div className="inputs">
-         
-            <div className="input">
-              <img src={email_icon} alt="" />
-             
-              <input className="email-login"
-                type="email"
-                placeholder="Email"
-                style={{ width: "100%" }}
+        </div>
+        <div className="inputs">
+          <div className="input">
+            <img src={password_icon} alt="" />
+            <input
+              type="password"
+              placeholder="Password"
+              style={{ width: "100%" }}
+            />
+          </div>
+        </div>
+        <div className="forgot-password">
+          <span>Quên mật khẩu</span>
+        </div>
+        <div className="submit-container">
+          <div className="submit">Sign In</div>
+        </div>
+        <div className="submit-container">
+          <button onClick={handleGoogleButtonClick} className="login">
+            <div className="login-google">
+              <img
+                src={google_icon}
+                alt=""
+                style={{ width: "30px", marginRight: "10px" }}
               />
+              Login with google
             </div>
-          </div>
-          <div className="inputs">
-            <div className="input">
-              <img src={password_icon} alt="" />
-              <input
-                type="password"
-                placeholder="Mật khẩu"
-                style={{ width: "100%" }}
-              />
-            </div>
-          </div>
-          <div className="forgot-password">
-            <span>Quên mật khẩu</span>
-          </div>
-          <div className="submit-container">
-            <div className="submit">ĐĂNG NHẬP</div>
-           
-          </div >
-          <div className="or-login">HOẶC</div>
-          <div className="submit-container">
-            <button onClick={handleGoogleButtonClick} className="login">
-              <div className="login-google">
-                 <img
-                      src={google_icon}
-                      alt=""
-                      style={{width: "30px", marginRight: "10px"}}
-                    />TIẾP TỤC VỚI GOOGLE</div>
-              </button>
-          </div>
-            
+          </button>
         </div>
       </div>
+    </div>
   );
 };
 

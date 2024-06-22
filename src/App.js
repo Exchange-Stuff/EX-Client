@@ -10,12 +10,13 @@ import { Profile } from "./Components/Profile/Profile.jsx";
 import Header from "./Components/Header/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FinancialPage from "./Pages/Admin/FinancialPage/financial.page.js";
+import { useEffect } from "react";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Header />
+        {/* <Header /> */}
         <Routes>
           <Route path="/*" element={<HomePage />} />
           <Route path="/homepage" element={<HomePage />} />

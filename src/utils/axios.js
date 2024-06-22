@@ -1,29 +1,37 @@
 // src/utils/axios.js
-import axios from 'axios';
-import { getAccessToken, getRefreshToken, refreshAccessToken, logout } from '../services/authService';
-
+import axios from "axios";
+import {
+  getAccessToken,
+  getRefreshToken,
+  refreshAccessToken,
+  logout,
+} from "../services/authService";
 
 export const instance = axios.create({
-  baseURL: 'http://localhost:5059/api',
+  baseURL: "http://localhost:5059/api",
 });
 
 // Thêm token vào header của mỗi yêu cầu
-instance.interceptors.request.use(async (config) => {
-  let token = getAccessToken();
+instance.interceptors.request.use(
+  async (config) => {
+    let token = getAccessToken();
 
-  // Nếu token đã hết hạn, refresh token
-  if (!token) {
-    token = await refreshAccessToken();
-  }
+    // Nếu token đã hết hạn, refresh token
+    if (!token) {
+      token = await refreshAccessToken();
+    }
+
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
-  }
 
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+
+  }
+);
 
 instance.interceptors.response.use(
   (response) => {
@@ -34,6 +42,7 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
 
     if (error.response.status === 401 && !originalRequest._retry) {
+
       originalRequest._retry = true;
 
       // Lấy token cũ

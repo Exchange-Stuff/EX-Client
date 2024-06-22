@@ -10,8 +10,11 @@ export const FinancialList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // wait 5 seconds
+
     const fetchFinancialData = async () => {
       try {
+        // wait 5 seconds
         setLoading(true); // Start loading
         const response = await axios.get(
           `http://localhost:5059/getAllFinancialTicket?pageSize=${pageSize}&pageIndex=${pageIndex}&status=${status}`
@@ -59,29 +62,35 @@ export const FinancialList = () => {
   return (
     <div className="financial-list">
       <div className="financial-filter">
-        <label>Status</label>
-        <select value={status} onChange={(e) => setStatus(e.target.value)}>
+        <label class="labelsattus">Status</label>
+        <select
+          className="selectStatus"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
           <option value={0}>Pending</option>
           <option value={1}>Success</option>
-          <option value={2}>Failed</option>
+          <option value={2}>Reject</option>
         </select>
       </div>
-      <table>
+      <table className="financial-table">
         <thead>
           <tr>
-            <th>User ID</th>
+            <th>User Name</th>
+            <th>Email</th>
             <th>Amount</th>
             <th>Image QR Code</th>
             <th>Status</th>
             <th>Created On</th>
             <th>Modified On</th>
-            {status === 0 && <th>Action</th>}
+            {status == 0 && <th>Action</th>}
           </tr>
         </thead>
         <tbody>
           {listFinancial.map((item, index) => (
             <tr key={index}>
-              <td>{item.userId}</td>
+              <td>{item.user.name}</td>
+              <td>{item.user.email}</td>
               <td>{item.amount}</td>
               <td>{item.imageQRCode}</td>
               <td>
