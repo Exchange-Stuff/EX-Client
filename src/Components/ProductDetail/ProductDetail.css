@@ -8,29 +8,53 @@
   justify-content: space-between;
   width: 100%;
   margin: 85px 0 24px 0;
-  height: 700px;
+  height: auto; /* Adjusted height to auto */
+}
+
+.product-images,
+.product-info-frame-1,
+.product-info-frame-2,
+.seller-info {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 8px;
 }
 
 .product-images {
   flex: 1;
-  margin-right: 20px;
+  margin: 0 20px 0 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 300px;
-  height: 300px;
+  max-width: 40%; /* Adjusted to fit within the container */
 }
-.thumbnail img{
-  width: 350px;
-  height: 350px;
+
+.product-images span{
+  margin-top: 15px;
+  color: gray;
+}
+
+.product-info-frame-2{
+  margin-top: 20px;
+}
+.swiper-container {
+  width: 100%; /* Ensures Swiper fits within its container */
+}
+
+.thumbnail img {
+  width: 100%;
+  height: auto;
   object-fit: cover;
 }
 
 .product-info {
-  flex: 1;
+  flex: 2;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  max-width: 40%; /* Adjusted to fit within the container */
 }
 
 .product-info h1 {
@@ -49,63 +73,68 @@
   color: #e60023;
 }
 
-.rating-and-sales {
-  display: flex;
-  justify-content: space-between;
+.description {
   margin-bottom: 20px;
 }
 
-.rating {
-  font-size: 16px;
-  color: #ffcc00;
-}
-
-.sales {
+.description-detail {
   font-size: 16px;
   color: #888;
 }
 
-.options {
-  margin-bottom: 20px;
-}
-
-.options label {
-  margin-right: 10px;
-}
-
-.quantity {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.quantity-btn {
-  background-color: #ddd;
+.buy-now-button,
+.add-to-cart-button,
+.installment-button,
+.profile-button,
+.inbox-button {
+  display: block;
+  width: 100%;
+  margin: 5px 0;
   border: none;
-  padding: 10px;
+  font-size: 18px;
   cursor: pointer;
-}
-
-.quantity input {
-  width: 50px;
-  text-align: center;
-  border: 1px solid #ddd;
-  margin: 0 10px;
+  height: 40px;
 }
 
 .buy-now-button {
   background-color: #ff6600;
   color: white;
-  padding: 15px 20px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  text-align: center;
-  margin-bottom: 10px;
 }
 
 .buy-now-button:hover {
   background-color: #e65c00;
+}
+
+.inbox-button{
+  border: 1px solid #0A68FF;
+  background-color: #ffffff;
+  color: #0A68FF;
+}
+
+.inbox-button:hover{
+  background-color: #0A68FF;
+  color: #ffffff;
+}
+
+.profile-button{
+  border: 1px solid #0A68FF;
+  background-color: #ffffff;
+  color: #0A68FF;
+}
+
+.profile-button:hover{
+  background-color: #0A68FF;
+  color: #ffffff;
+}
+
+.add-to-cart-button {
+  background-color: #1890ff;
+  color: white;
+}
+
+.installment-button {
+  background-color: #4caf50;
+  color: white;
 }
 
 .swiper-slide img {
@@ -124,4 +153,43 @@
   height: 60px;
   margin: 0 5px;
   cursor: pointer;
+}
+
+.seller-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 20%; /* Adjusted to fit within the container */
+  margin: 0 20px 0 20px;
+  height: fit-content;
+}
+
+.seller-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  
+}
+
+.seller-logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.seller-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.seller-rating {
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #ff0000;
+}
+
+.seller-contact {
+  font-size: 16px;
+  color: #888;
 }
