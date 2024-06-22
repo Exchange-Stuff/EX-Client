@@ -21,15 +21,14 @@ instance.interceptors.request.use(
       token = await refreshAccessToken();
     }
 
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
 
     return config;
   },
   (error) => {
     return Promise.reject(error);
-
   }
 );
 
@@ -41,8 +40,7 @@ instance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response.status === 401 && !originalRequest._retry) {
-
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       // Lấy token cũ
@@ -52,13 +50,12 @@ instance.interceptors.response.use(
         // Gửi request làm mới token với refreshToken trong body và accessToken cũ trong header
         const res = await axios.post('http://localhost:5059/api/Auth/renew', {
           refreshToken: getRefreshToken(),
-         
         }, {
           headers: {
             Authorization: `Bearer ${oldAccessToken}`,
           }
         });
-        
+
         if (res.data.isSuccess) {
           const newToken = res.data.value.accessToken;
           console.log("newToken", newToken);
@@ -70,8 +67,8 @@ instance.interceptors.response.use(
         }
       } catch (err) {
         console.log("Lỗi khi làm mới token", err);
-        // logout();
-        // window.location.href = "/";
+        logout();
+        window.location.href = "/";
         return Promise.reject(err);
       }
     }
