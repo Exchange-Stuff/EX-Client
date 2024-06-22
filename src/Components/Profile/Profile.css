@@ -39,7 +39,7 @@
   .profile-content {
     padding: 20px;
     width: 426px;
-    margin-left: 520px;
+    margin: auto;
     text-align: center;
 }
   
@@ -113,28 +113,78 @@
   .header-profile {
     display: flex;
     align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: 0 0 0 36px;
     background-color: #ffffff;
-    top: 0;
-    left: 0;
-    width: 1000px;
-    z-index: 1000;
+    width: 100%;
 }
 
-.created-profile{
-   margin-left: 665px;
-   font-size: 20px;
-   font-weight: 550;
-   display: inline-block;
-   width: 100px;
-   padding-top: 10px;
-   text-align: center;
-   height: 30px;
-   border-radius: 10px;
-   cursor: pointer;
+.created-profile {
+  font-size: 20px;
+  font-weight: 550;
+  display: inline-block;
+  width: 100px;
+  padding-top: 10px;
+  text-align: center;
+  height: 30px;
+  border-radius: 10px;
+  text-decoration: underline;
+  text-decoration-thickness: 3px; 
+  text-underline-offset: 10px; 
 }
 
-.created-profile:hover{
-    background-color: #f1eeee;
+.list-container-profile {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
 }
+
+.list-item-profile {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  width: 310px;
+  padding: 16px;
+  display: flex;
+  flex-grow: 1;
+  flex-basis: calc(20% - 10px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: fit-content;
+}
+
+.img-container-profile{
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+.img-container-profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.detail-container-profile {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.left-column-profile h3 {
+  font-size: 18px;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+}
+
+.left-column-profile p {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
+
