@@ -8,8 +8,19 @@ import coin from "../Assets/coin.png";
 export const Profile = () => {
     const [userInfo, setUserInfo] = useState([]);
     const [userBl, setUserBl] = useState([]);
-
+    const [data, setData] = useState([]);
    
+    useEffect(() => {
+      const GetData = async () => {
+        try {
+          const result = await axios.get("/Product");
+          setData(result.data);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      GetData();
+    }, []);
 
     useEffect(() => {
         try {
@@ -65,7 +76,7 @@ export const Profile = () => {
         <div className="profile-info">
             <h1>{getFirst(userInfo.email)}</h1>
             <p>{userInfo.email}</p>
-            
+            <div className='content-profile-balance'>
             <div className="profile-blance" >
             <img className='coin-image-profile'
                     src={coin}
@@ -77,18 +88,39 @@ export const Profile = () => {
               </div>
               
             </div>
+            </div>
+            
            
           </div>
       </main>
 
       <div className="header-profile">
-      
       <div className="created-profile">
         Đã tạo
         </div>
-    
-      
     </div>
+
+<div className='data-profile'>
+
+</div>
+<ul className="list-container-profile">
+  {data.slice(0, 8).map((list) => (
+    <li key={list.id} className="list-item-profile">
+      <div className="img-container-profile">
+        <img src={list.thumbnail} alt={list.name} />
+      </div>
+      <div className="detail-container-profile">
+        <div className="left-column-profile">
+          <h3>{list.name}</h3>
+          <p style={{ width: "300px" }}>{list.description}</p>
+        </div>
+        
+      </div>
+      
+    </li>
+  ))}
+</ul>
+
     
       <ToastContainer />
     </div>
