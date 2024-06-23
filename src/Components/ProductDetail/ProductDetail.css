@@ -7,8 +7,10 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin: 85px 0 24px 0;
+  margin: 0;
+  padding: 85px 0 24px 0;
   height: auto; /* Adjusted height to auto */
+  background-color: #f5f5fa;
 }
 
 .product-images,
@@ -37,8 +39,94 @@
 }
 
 .product-info-frame-2{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   margin-top: 20px;
+  padding: 20px 0 0 0;
+  height: 100%;
 }
+
+.comment{
+  margin-bottom: 10px;
+}
+
+.comment-header{
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.comments-section{
+  flex: 1;
+  padding-left: 40px;
+  padding-right: 40px;
+  min-height: 180px; 
+  max-height: 180px;
+  overflow-y: auto; 
+}
+
+.add-comment {
+  border-top: 1px solid #ddd;
+  padding: 20px;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+.add-comment img.logo-comment {
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.add-comment input {
+  flex: 1; 
+  margin-right: 10px; 
+  padding: 10px; 
+  border: 1px solid #ddd; 
+  border-radius: 4px;
+}
+
+.add-comment button {
+  padding: 0;
+  border: none;
+  background-color: #ffffff;
+  color: white;
+  border-radius: 33px;
+  cursor: pointer;
+  width: 40px;
+}
+
+.comment-content{
+  margin-left: 45px;
+}
+
+.comment-content p{
+  margin: 0;
+  font-size: 16px;
+}
+
+.comment-detail{
+  display: flex;
+  margin-left: 60px;
+  margin-top: 4px
+}
+
+.comment-detail p{
+  margin: 0;
+  font-size: 12px;
+  color: #888089;
+}
+
+.info-commenter{
+  display: flex;
+  align-items: center;
+}
+
+.info-commenter span{
+  font-weight: bold;
+  font-size: 17px;
+}
+
 .swiper-container {
   width: 100%; /* Ensures Swiper fits within its container */
 }
@@ -58,8 +146,13 @@
 }
 
 .product-info h1 {
-  font-size: 24px;
+  font-size: 21px;
   margin-bottom: 10px;
+  margin-top: 0;
+}
+
+.description-title{
+  font-weight: bold;
 }
 
 .price {
@@ -168,7 +261,7 @@
 .seller-header {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   
 }
 
@@ -176,6 +269,19 @@
   width: 50px;
   height: 50px;
   margin-right: 10px;
+}
+
+.logo-comment {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  border-radius: 30px;
+}
+
+.logo-commenter{
+  width: 35px;
+  height: 35px;
+  border-radius: 30px;
 }
 
 .seller-name {
@@ -187,6 +293,19 @@
   margin-bottom: 20px;
   font-size: 16px;
   color: #ff0000;
+}
+
+.avg-rating{
+  color: #000000;
+  font-weight: bold;
+}
+
+.start{
+  color: #ffc400;
+}
+
+.count-rating{
+  color: #888089;
 }
 
 .seller-contact {
