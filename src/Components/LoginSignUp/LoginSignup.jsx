@@ -43,21 +43,31 @@ access_type=online
           &times;
         </span>
         <div className="header">
-          <div className="text">Đăng nhập tài khoản</div>
+          <div ><img src={logo} alt="" className="img-login"/></div>
+          <div className="text">Chào mừng bạn đến với ExchangeStuff</div>
           <div className="underline"></div>
+  
         </div>
+
         <div className="inputs">
+
           <div className="input">
             <img src={email_icon} alt="" />
-            <input type="email" placeholder="Email" style={{ width: "100%" }} />
+
+            <input className="email-login"
+              type="email"
+              placeholder="Email"
+              style={{ width: "100%" }}
+            />
           </div>
+      
         </div>
         <div className="inputs">
           <div className="input">
             <img src={password_icon} alt="" />
             <input
               type="password"
-              placeholder="Password"
+              placeholder="Mật khẩu"
               style={{ width: "100%" }}
             />
           </div>
@@ -66,23 +76,23 @@ access_type=online
           <span>Quên mật khẩu</span>
         </div>
         <div className="submit-container">
-          <div className="submit">Sign In</div>
-        </div>
+          <div className="submit">ĐĂNG NHẬP</div>
+
+        </div >
+        <div className="or-login">HOẶC</div>
         <div className="submit-container">
           <button onClick={handleGoogleButtonClick} className="login">
             <div className="login-google">
-              <img
-                src={google_icon}
-                alt=""
-                style={{ width: "30px", marginRight: "10px" }}
-              />
-              Login with google
-            </div>
-          </button>
+               <img
+                    src={google_icon}
+                    alt=""
+                    style={{width: "30px", marginRight: "10px"}}
+                  />TIẾP TỤC VỚI GOOGLE</div>
+            </button>
         </div>
       </div>
     </div>
-  );
+);
 };
 
 export default LoginSignup;

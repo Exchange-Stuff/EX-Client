@@ -143,7 +143,6 @@
 .list-item-profile {
   background: #fff;
   border-radius: 8px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   width: 310px;
   padding: 16px;
   display: flex;
@@ -166,7 +165,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 40px;
   
 }
 

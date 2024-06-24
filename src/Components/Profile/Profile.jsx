@@ -15,7 +15,7 @@ export const Profile = () => {
       const GetData = async () => {
         try {
           const result = await axios.get("/Product");
-          setData(result.data);
+          setData(result.data.value);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -100,7 +100,7 @@ export const Profile = () => {
 
 </div>
 <ul className="list-container-profile">
-  {data.slice(0, 8).map((list) => (
+  {data.map((list) => (
     <li key={list.id} className="list-item-profile">
       <div className='img-overflow'>
       <div className="img-container-profile">
@@ -111,7 +111,7 @@ export const Profile = () => {
       <div className="detail-container-profile">
         <div className="left-column-profile">
           <h3>{list.name}</h3>
-          <p style={{ width: "300px" }}>{list.description}</p>
+          <p style={{ width: "300px" }}></p>
         </div>
         
       </div>
