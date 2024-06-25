@@ -10,6 +10,7 @@ export const Profile = () => {
     const [userInfo, setUserInfo] = useState([]);
     const [userBl, setUserBl] = useState([]);
     const [data, setData] = useState([]);
+    const [username, setUsername] = useState([]);
    
     useEffect(() => {
       const GetData = async () => {
@@ -48,6 +49,7 @@ export const Profile = () => {
               const result = await axios.get(`http://localhost:5059/api/Account/user/${userId}`);
               console.log(result);
               setUserBl(result.data.value.userBalance.balance);
+              setUsername(result.data.value);
             } catch (error) {
               console.error("Error fetching data:", error);
             }
@@ -74,7 +76,7 @@ export const Profile = () => {
           <div className="profile-initials">{getInitial(userInfo.email)}</div>
         </div>
         <div className="profile-info">
-            <h1>{getFirst(userInfo.name)}</h1>
+            <h1>{username.name}</h1>
             <p>{userInfo.email}</p>
             <div className='content-profile-balance'>
             <div className="profile-blance" >

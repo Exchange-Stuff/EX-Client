@@ -18,6 +18,9 @@ const Header = ({ handleLoginClick }) => {
       <Link to="/postproduct" className="category">
         Đăng sản phẩm
       </Link>
+      <Link to="/payment" className="category">
+        Mua xu
+      </Link>
 
       <Link to="/profile" className="category">
         Trang cá nhân

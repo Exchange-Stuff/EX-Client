@@ -117,12 +117,16 @@ export const HomePage = () => {
             Xem thêm
           </a>
         </div>
+       
         <ul className="list-container">
           {data.slice(0, 8).map((list) => (
+             
             <li key={list.id} className="list-item">
+            
               <div className="img-container">
                 <img src={list.thumbnail} alt={list.name} />
               </div>
+              <Link to={`/productdetail/${list.id}`} style={{textDecoration: "none"}}> 
               <div className="detail-container">
                 <div className="left-column">
                   <h3>{list.name}</h3>
@@ -150,14 +154,16 @@ export const HomePage = () => {
                   </p>
                 </div>
               </div>
+              </Link>
               <div style={{ textAlign: "center" }}>
-                  <Link to={`/productdetail/${list.id}`}>
                   <button className="buy-button">Mua hàng</button>
-                  </Link>
               </div>
+             
             </li>
+             
           ))}
         </ul>
+       
       </div>
 
       <div className="data-list" style={{ margin: "0 1% 0 1%" }}>
