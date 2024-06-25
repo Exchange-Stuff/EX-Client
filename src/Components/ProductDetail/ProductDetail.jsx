@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 import "./ProductDetail.css";
@@ -8,8 +9,10 @@ import axios from "axios";
 import coin from "../Assets/coin.png";
 import send from "../Assets/send.png";
 import { format } from "date-fns";
+import { Autoplay } from "swiper/modules";
 
 export const ProductDetail = () => {
+  const { id } = useParams(); // Lấy id từ URL
   const [data, setData] = useState({});
   const [userData, setUserData] = useState({});
   const [ratingData, setRatingData] = useState({});
@@ -21,7 +24,7 @@ export const ProductDetail = () => {
     const fetchData = async () => {
       try {
         const productResult = await axios.get(
-          "http://localhost:5059/api/Product/getDetail/91eb76ed-44b2-4b35-a9fd-bbfb4f733e8b"
+          `http://localhost:5059/api/Product/getDetail/${id}`
         );
 
         if (productResult.data.isSuccess) {
@@ -76,7 +79,7 @@ export const ProductDetail = () => {
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
   const handleAddComment = async () => {
     try {
@@ -109,6 +112,11 @@ export const ProductDetail = () => {
           <Swiper
             className="swiper-container"
             style={{ width: "370px", height: "370px", margin: "0 0 10px 0" }}
+            autoplay={{
+              delay: 2000,
+              disableOnInteraction: false,
+            }}
+            modules={[Autoplay]}
           >
             {data.images && data.images.length > 0 ? (
               data.images.map((image) => (

@@ -16,6 +16,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/swiper-bundle.css";
 import axios from "../../utils/axios.js";
+import { Link } from 'react-router-dom';
 
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
@@ -150,7 +151,9 @@ export const HomePage = () => {
                 </div>
               </div>
               <div style={{ textAlign: "center" }}>
-                <button className="buy-button">Mua hàng</button>
+                  <Link to={`/productdetail/${list.id}`}>
+                  <button className="buy-button">Mua hàng</button>
+                  </Link>
               </div>
             </li>
           ))}

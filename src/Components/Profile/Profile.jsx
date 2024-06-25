@@ -14,7 +14,7 @@ export const Profile = () => {
     useEffect(() => {
       const GetData = async () => {
         try {
-          const result = await axios.get("/Product");
+          const result = await axios.get("/Product/getProductByUserId");
           setData(result.data.value);
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -74,7 +74,7 @@ export const Profile = () => {
           <div className="profile-initials">{getInitial(userInfo.email)}</div>
         </div>
         <div className="profile-info">
-            <h1>{getFirst(userInfo.email)}</h1>
+            <h1>{getFirst(userInfo.name)}</h1>
             <p>{userInfo.email}</p>
             <div className='content-profile-balance'>
             <div className="profile-blance" >
