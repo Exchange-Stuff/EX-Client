@@ -50,16 +50,11 @@
     justify-content: center;
 }
   
-  .profile-initials {
-    width: 130px;
-    height: 130px;
-    background-color: #eee9e9;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    margin-right: 20px;
+ 
+
+  .profile-initials img{
+    border-radius: 50px;
+    width: 100px;
   }
   
   .profile-info p{

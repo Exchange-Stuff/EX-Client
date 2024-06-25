@@ -11,6 +11,7 @@ export const Profile = () => {
     const [userBl, setUserBl] = useState([]);
     const [data, setData] = useState([]);
     const [username, setUsername] = useState([]);
+
    
     useEffect(() => {
       const GetData = async () => {
@@ -29,7 +30,7 @@ export const Profile = () => {
           const token = localStorage.getItem('accessToken');
           if (token) {
             const decoded = jwtDecode(token);
-            console.log(decoded);
+            //console.log(decoded);
             setUserInfo(decoded);
           } else {
             toast.error('Bạn chưa đăng nhập');
@@ -50,6 +51,7 @@ export const Profile = () => {
               console.log(result);
               setUserBl(result.data.value.userBalance.balance);
               setUsername(result.data.value);
+              console.log(username.thumbnail);
             } catch (error) {
               console.error("Error fetching data:", error);
             }
@@ -73,7 +75,7 @@ export const Profile = () => {
       <Header/>
       <main className="profile-content">
         <div className="profile-header">
-          <div className="profile-initials">{getInitial(userInfo.email)}</div>
+          <div className="profile-initials"><img src={username.thumbnail} alt="Product Thumbnail" /></div>
         </div>
         <div className="profile-info">
             <h1>{username.name}</h1>

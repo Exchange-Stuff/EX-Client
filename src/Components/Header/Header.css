@@ -28,7 +28,7 @@
   
   .category{
       font-size: 20px;
-      margin-right: 50px;
+      margin-right: 45px;
       font-weight: bold;
       font-family: monospace;
       align-items: center;
@@ -70,4 +70,32 @@
 .financial:hover{
   color: #ffba00;
 }
+
+.header-img-user{
+ margin: auto;
+ margin-left: 50px;
+  width: 50px;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.dropdown {
+  
+  position: absolute;
+  top: 60px; /* Adjust this value as needed */
+  left: 1200px; /* Adjust this value as needed */
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  display: flex;
+  flex-direction: column; 
+}
+
+.dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+  display: block; /* Đảm bảo các mục xếp chồng theo chiều dọc */
+}
+
 
