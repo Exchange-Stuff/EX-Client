@@ -8,8 +8,10 @@ import Footer from "../Footer/Footer";
 import axios from "axios";
 import coin from "../Assets/coin.png";
 import send from "../Assets/send.png";
+import { jwtDecode } from "jwt-decode";
 import { format } from "date-fns";
 import { Autoplay } from "swiper/modules";
+import { toast, ToastContainer } from "react-toastify";
 
 export const ProductDetail = () => {
   const { id } = useParams(); // Lấy id từ URL
@@ -19,10 +21,25 @@ export const ProductDetail = () => {
   const [comments, setComments] = useState([]);
   const [countComments, setCountComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [userInfoData, setUserInfoData] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = localStorage.getItem("accessToken");
+        if (token) {
+          const decoded = jwtDecode(token);
+          const userId = decoded.nameid;
+          console.log(userId);
+          const result = await axios.get(
+            `http://localhost:5059/api/Account/user/${userId}`
+          );
+          setUserInfoData(result.data.value);
+        } else {
+          toast.error("Bạn chưa đăng nhập");
+          window.location.href = "http://localhost:3000/homepage";
+        }
+
         const productResult = await axios.get(
           `http://localhost:5059/api/Product/getDetail/${id}`
         );
@@ -111,7 +128,7 @@ export const ProductDetail = () => {
         <div className="product-images">
           <Swiper
             className="swiper-container"
-            style={{ width: "370px", height: "370px", margin: "0 0 10px 0" }}
+            style={{ width: "420px", height: "420px", margin: "0 0 10px 0" }}
             autoplay={{
               delay: 2000,
               disableOnInteraction: false,
@@ -124,7 +141,7 @@ export const ProductDetail = () => {
                   <img
                     src={image.url}
                     alt="Product Image"
-                    style={{ width: "370px", height: "auto" }}
+                    style={{ width: "430px", height: "auto" }}
                   />
                 </SwiperSlide>
               ))
@@ -168,7 +185,9 @@ export const ProductDetail = () => {
             </div>
           </div>
           <div className="product-info-frame-2">
-            <h1 className="comment-header">Bình luận về sản phẩm ({countComments})</h1>
+            <h1 className="comment-header">
+              Bình luận về sản phẩm ({countComments})
+            </h1>
             <div className="comments-section">
               {comments.length > 0 ? (
                 comments.map((comment, index) => (
@@ -196,14 +215,14 @@ export const ProductDetail = () => {
               )}
             </div>
             <div className="add-comment">
-              <img src={userData.thumbnail} className="logo-comment" />
+              <img src={userInfoData.thumbnail} className="logo-comment" />
               <input
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Thêm nhận xét của bạn..."
               />
               <button onClick={handleAddComment}>
-                <img src={send} style={{width: "100%"}}/>
+                <img src={send} style={{ width: "100%" }} />
               </button>
             </div>
           </div>

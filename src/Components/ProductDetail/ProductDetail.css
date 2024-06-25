@@ -60,8 +60,8 @@
   flex: 1;
   padding-left: 40px;
   padding-right: 40px;
-  min-height: 180px; 
-  max-height: 180px;
+  min-height: 234px; 
+  max-height: 234px;
   overflow-y: auto; 
 }
 
@@ -242,8 +242,8 @@
 }
 
 .thumbnail {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   margin: 0 5px;
   cursor: pointer;
 }
