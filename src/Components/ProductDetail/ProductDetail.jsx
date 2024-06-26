@@ -250,6 +250,7 @@ export const ProductDetail = () => {
         </div>
       </div>
       <Footer />
+      <ToastContainer/>
     </div>
   );
 };

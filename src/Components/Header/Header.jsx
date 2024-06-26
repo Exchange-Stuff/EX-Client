@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./Header.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../Assets/logo.png";
 import {jwtDecode} from "jwt-decode";
 import axios from "../../utils/axios.js";
@@ -10,6 +10,7 @@ const Header = ({ handleLoginClick }) => {
   const [userImg, setUserImg] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
   const isLogin = localStorage.getItem("accessToken");
 
@@ -20,11 +21,9 @@ const Header = ({ handleLoginClick }) => {
         const decoded = jwtDecode(token);
         console.log(decoded);
         setUserInfo(decoded);
-      } else {
-        window.location.href = "http://localhost:3000/homepage";
       }
     } catch (err) {
-      window.location.href = "http://localhost:3000/homepage";
+      console.error(err);
     }
   }, []);
 
@@ -62,6 +61,12 @@ const Header = ({ handleLoginClick }) => {
     };
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    navigate("/homepage");
+  };
+
   return (
     <div className="header-homepage">
       <Link to="/homepage" className="trangchu">
@@ -77,30 +82,29 @@ const Header = ({ handleLoginClick }) => {
       <Link to="/payment" className="category">
         Mua xu
       </Link>
-      <span>
-        
-        
-          <button onClick={handleLoginClick}>Login</button>
-        
-      </span>
-      <div className="category" ref={dropdownRef}>
-        <img
-          src={userImg.thumbnail}
-          alt=""
-          className="header-img-user"
-          onClick={toggleDropdown}
-        />
-        {dropdownVisible && (
-          <div className="dropdown">
-            <Link to="/profile" className="dropdown-item">
-              Trang cá nhân
-            </Link>
-            <Link to="/logout" className="dropdown-item">
-              Logout
-            </Link>
-          </div>
-        )}
-      </div>
+      {!isLogin && (
+        <div onClick={handleLoginClick} className="category">Login</div>
+      )}
+      {isLogin && (
+        <div className="category" ref={dropdownRef}>
+          <img
+            src={userImg.thumbnail}
+            alt=""
+            className="header-img-user"
+            onClick={toggleDropdown}
+          />
+          {dropdownVisible && (
+            <div className="dropdown">
+              <Link to="/profile" className="dropdown-item">
+                Trang cá nhân
+              </Link>
+              <div onClick={handleLogout} className="dropdown-item">
+                Logout
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

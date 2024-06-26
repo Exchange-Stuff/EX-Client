@@ -15,7 +15,7 @@ export const Blank = () => {
       localStorage.setItem("role", "user");
       window.location.href = "http://localhost:3000/HomePage";
     } else {
-      window.location.href = "http://localhost:3000/Payment";
+      window.location.href = "http://localhost:3000/HomePage";
     }
   };
 };
