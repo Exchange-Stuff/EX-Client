@@ -58,7 +58,7 @@ export const HomePage = () => {
     const GetDataProduct = async () => {
       try {
         const result = await axios.get(
-          "http://localhost:5059/getProductByCategory/18286bfd-96b0-4536-9ebb-6a526281bd90"
+          "getProductByCategory/18286bfd-96b0-4536-9ebb-6a526281bd90"
         );
         setProductData(result.data);
       } catch (error) {
@@ -72,7 +72,7 @@ export const HomePage = () => {
     const GetClothingData = async () => {
       try {
         const result = await axios.get(
-          "http://localhost:5059/getProductByCategory/0736139a-3e11-4847-ae7f-51348f6e6a74"
+          "getProductByCategory/0736139a-3e11-4847-ae7f-51348f6e6a74"
         );
         setClothingData(result.data);
       } catch (error) {

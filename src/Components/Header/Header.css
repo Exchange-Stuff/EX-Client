@@ -96,6 +96,11 @@
   padding: 10px;
   cursor: pointer;
   display: block; /* Đảm bảo các mục xếp chồng theo chiều dọc */
+  text-decoration: none;
+}
+
+.dropdown-item:hover{
+  color: #ffba00;
 }
 
 
