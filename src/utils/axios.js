@@ -42,12 +42,11 @@ instance.interceptors.response.use(
 
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-
       // Lấy token cũ
       const oldAccessToken = getAccessToken();
-
       try {
-        // Gửi request làm mới token với refreshToken trong body và accessToken cũ trong header
+
+        // Xét điều kiện
         const res = await axios.post('http://localhost:5059/api/Auth/renew', {
           refreshToken: getRefreshToken(),
         }, {
