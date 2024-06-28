@@ -10,7 +10,7 @@ import { Profile } from "./Components/Profile/Profile.jsx";
 //import Header from "./Components/Header/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FinancialPage from "./Pages/Admin/FinancialPage/financial.page.js";
-import OrderProduct from "./Components/OrderProduct/OrderProduct.jsx"
+import { OrderProduct } from "./Components/OrderProduct/OrderProduct.jsx"
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
           <Route path="/blank" element={<Blank />} />
           <Route path="/financial" element={<FinancialPage />} />
           <Route path="/profile" element={< Profile />} />
-          <Route path="/orderproduct" element={<OrderProduct/>}/>
+          <Route path="/orderproduct/:id" element={<OrderProduct/>}/>
         </Routes>
       </BrowserRouter>
     </div>

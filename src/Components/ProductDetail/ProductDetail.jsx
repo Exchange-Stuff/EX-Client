@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 import "./ProductDetail.css";
@@ -71,7 +71,6 @@ export const ProductDetail = () => {
           const commentsResult = await axios.get(
             `http://localhost:5059/api/Comment/product/${productData.id}?pageSize=5&pageIndex=1`
           );
-
           if (commentsResult.data.isSuccess) {
             setComments(commentsResult.data.value);
           } else {
@@ -244,7 +243,9 @@ export const ProductDetail = () => {
               ({ratingData.ratingCount} đánh giá)
             </span>
           </div>
-          <button className="buy-now-button">MUA NGAY</button>
+          <Link to={`/orderproduct/${data.id}`} style={{ textDecoration: "none", maxWidth : "305px", minWidth: "305px" }}>
+            <button className="buy-now-button">MUA NGAY</button>
+          </Link>
           <button className="inbox-button">Nhắn tin với người bán</button>
           <button className="profile-button">Đi tới trang người bán</button>
         </div>

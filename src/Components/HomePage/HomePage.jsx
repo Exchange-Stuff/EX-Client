@@ -58,7 +58,7 @@ export const HomePage = () => {
     const GetDataProduct = async () => {
       try {
         const result = await axios.get(
-          "getProductByCategory/18286bfd-96b0-4536-9ebb-6a526281bd90"
+          "Product/getProductByCategory/18286bfd-96b0-4536-9ebb-6a526281bd90"
         );
         setProductData(result.data);
       } catch (error) {
