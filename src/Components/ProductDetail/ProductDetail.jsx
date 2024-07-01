@@ -5,7 +5,7 @@ import "swiper/swiper-bundle.css";
 import "./ProductDetail.css";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import axios from "axios";
+import axios from "../../utils/axios.js";
 import coin from "../Assets/coin.png";
 import send from "../Assets/send.png";
 import { jwtDecode } from "jwt-decode";
@@ -24,6 +24,8 @@ export const ProductDetail = () => {
   const [userInfoData, setUserInfoData] = useState({});
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+    
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("accessToken");
@@ -32,7 +34,7 @@ export const ProductDetail = () => {
           const userId = decoded.nameid;
           console.log(userId);
           const result = await axios.get(
-            `http://localhost:5059/api/Account/user/${userId}`
+            `Account/user/${userId}`
           );
           setUserInfoData(result.data.value);
         } else {
@@ -41,7 +43,7 @@ export const ProductDetail = () => {
         }
 
         const productResult = await axios.get(
-          `http://localhost:5059/api/Product/getDetail/${id}`
+          `Product/getDetail/${id}`
         );
 
         if (productResult.data.isSuccess) {
@@ -49,7 +51,7 @@ export const ProductDetail = () => {
           setData(productData);
 
           const userResult = await axios.get(
-            `http://localhost:5059/api/Account/user/${productData.createdBy}?includeBan=true`
+            `Account/user/${productData.createdBy}?includeBan=true`
           );
 
           if (userResult.data.isSuccess) {
@@ -59,7 +61,7 @@ export const ProductDetail = () => {
           }
 
           const ratingResult = await axios.get(
-            `http://localhost:5059/api/Rating/rating-avg-user/${productData.createdBy}`
+            `Rating/rating-avg-user/${productData.createdBy}`
           );
 
           if (ratingResult.data.isSuccess) {
@@ -69,7 +71,7 @@ export const ProductDetail = () => {
           }
 
           const commentsResult = await axios.get(
-            `http://localhost:5059/api/Comment/product/${productData.id}?pageSize=5&pageIndex=1`
+            `Comment/product/${productData.id}?pageSize=5&pageIndex=1`
           );
           if (commentsResult.data.isSuccess) {
             setComments(commentsResult.data.value);
@@ -78,7 +80,7 @@ export const ProductDetail = () => {
           }
 
           const countCommentsResult = await axios.get(
-            `http://localhost:5059/api/Comment/get-total-count/${productData.id}`
+            `Comment/get-total-count/${productData.id}`
           );
 
           if (countCommentsResult.data.isSuccess) {
@@ -99,7 +101,7 @@ export const ProductDetail = () => {
 
   const handleAddComment = async () => {
     try {
-      const result = await axios.post(`http://localhost:5059/api/Comments`, {
+      const result = await axios.post(`Comments`, {
         productId: data.id,
         content: newComment,
       });

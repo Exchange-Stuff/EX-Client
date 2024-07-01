@@ -156,7 +156,9 @@ export const HomePage = () => {
               </div>
               </Link>
               <div style={{ textAlign: "center" }}>
+                <Link to={`/orderproduct/${list.id}`}>
                   <button className="buy-button">Mua hàng</button>
+                </Link>
               </div>
              
             </li>

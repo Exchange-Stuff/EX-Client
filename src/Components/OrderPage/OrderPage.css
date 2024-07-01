@@ -1,0 +1,17 @@
+.orderpage {
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f5fa;
+  }
+  
+  .order-page-content {
+    width: 80%;
+    margin: 87px auto 20px auto;
+    text-align: center;
+    background-color: #ffffff;
+  }
+  
+  .ant-table-wrapper {
+    margin-top: 20px;
+  }
+  
