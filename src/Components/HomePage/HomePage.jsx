@@ -99,6 +99,7 @@ export const HomePage = () => {
         }}
         navigation={true}
         modules={[Autoplay, Pagination, Navigation]}
+        
       >
         <SwiperSlide>
           <img src={img1} alt="" style={{ width: "100%", height: "100%" }} />
@@ -177,9 +178,13 @@ export const HomePage = () => {
         </div>
         <Swiper
           className="list-swiper-container "
-          spaceBetween={35}
-          slidesPerView={4}
+          spaceBetween={20}
+          slidesPerView={4.5}
           navigation={true}
+          loop={true}
+          pagination={{
+            clickable: true,
+          }}
           modules={[Navigation]}
           style={{ padding: "0 1.5% 1.5% 1.5%" }}
         >
@@ -187,28 +192,55 @@ export const HomePage = () => {
             <SwiperSlide
               key={list.id}
               className="list-item-swiper box-shadow"
-              style={{ minHeight: "450px", maxHeight: "450px" }}
+              style={{ Height: "470px", cursor: "pointer", width: "310px", padding: "10px" }}
             >
-              <p className="img-container">
+              <p className="img-container-swiper" style={{ width: "100%", overflow: "hidden", height: "300px" }}>
                 <img
                   src={list.thumbnail}
                   alt={list.name}
-                  style={{ width: "290px", height: "290px" }}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
               </p>
-              <h3>{list.name}</h3>
-              <p>
-                <strong></strong> {list.description}
-              </p>
-              <p>
-                <strong></strong> {list.price}
-              </p>
+              <Link to={`/productdetail/${list.id}`} style={{textDecoration: "none"}}>
+              <div className="detail-container">
+                <div className="left-column">
+                  <h3 style={{color: "black"}}>{list.name}</h3>
+                  <p style={{ width: "200px", whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden", color: "black" }}>{list.description}</p>
+                </div>
+                <div className="right-column">
+                  <p
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img
+                      src={coin}
+                      alt=""
+                      style={{
+                        width: "38px",
+                        height: "35px",
+                        transform: "none",
+                        marginRight: "3px",
+                      }}
+                    />
+                    <p style={{color: "black"}}>{list.price}</p>
+                  </p>
+                </div>
+              </div>
+              </Link>
+              <div style={{ textAlign: "center", marginTop: "15px" }}>
+                <Link to={`/orderproduct/${list.id}`}>
+                  <button className="buy-button">Mua hàng</button>
+                </Link>
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
 
-      <div className="data-list">
+      {/* <div className="data-list">
         <div className="header-container">
           <h2>Quần áo</h2>
           <a href="/new-products" className="view-more-link">
@@ -238,15 +270,13 @@ export const HomePage = () => {
               </p>
               <h3>{list.name}</h3>
               <p>
-                <strong></strong> {list.description}
+                {list.description}
               </p>
-              <p>
-                <strong></strong> {list.price}
-              </p>
+              
             </SwiperSlide>
           ))}
         </Swiper>
-      </div>
+      </div> */}
 
       <Footer />
       <ToastContainer />
