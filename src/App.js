@@ -11,6 +11,7 @@ import { Profile } from "./Components/Profile/Profile.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FinancialPage from "./Pages/Admin/FinancialPage/financial.page.js";
 import { OrderProduct } from "./Components/OrderProduct/OrderProduct.jsx"
+import { OrderPage } from "./Components/OrderPage/OrderPage.jsx"
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/financial" element={<FinancialPage />} />
           <Route path="/profile" element={< Profile />} />
           <Route path="/orderproduct/:id" element={<OrderProduct/>}/>
+          <Route path="/orderpage" element={<OrderPage/>}/>
         </Routes>
       </BrowserRouter>
     </div>

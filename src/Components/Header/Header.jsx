@@ -86,7 +86,7 @@ const Header = ({ handleLoginClick }) => {
         <div onClick={handleLoginClick} className="category">Login</div>
       )}
       {isLogin && (
-        <div className="category" ref={dropdownRef}>
+        <div className="dropdown-user" ref={dropdownRef}>
           <img
             src={userImg.thumbnail}
             alt=""
@@ -95,10 +95,10 @@ const Header = ({ handleLoginClick }) => {
           />
           {dropdownVisible && (
             <div className="dropdown">
-              <Link to="/profile" className="dropdown-item">
-                Trang cá nhân
+              <Link to="/profile" className="dropdown-item-1">
+                  Trang cá nhân
               </Link>
-              <div onClick={handleLogout} className="dropdown-item">
+              <div onClick={handleLogout} className="dropdown-item-2">
                 Logout
               </div>
             </div>
