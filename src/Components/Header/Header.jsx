@@ -34,6 +34,10 @@ const Header = ({ handleLoginClick }) => {
         console.log(userId);
         const result = await axios.get(`http://localhost:5059/api/Account/user/${userId}`);
         console.log(result);
+        if (result.data.value === null) {
+          console.error("User not found");
+          return;
+        }
         setUserImg(result.data.value);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -64,7 +68,7 @@ const Header = ({ handleLoginClick }) => {
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
-    navigate("/homepage");
+    navigate("/login");
   };
 
   return (
