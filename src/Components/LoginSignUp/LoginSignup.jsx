@@ -1,4 +1,3 @@
-
 import React, {useState} from 'react';
 import './LoginSignup.css';
 import user_icon from '../Assets/person.png';
@@ -14,26 +13,8 @@ import {Button, Checkbox, Form, Input} from 'antd';
 import {GoogleOutlined} from '@ant-design/icons';
 
 export const LoginSignup = ({handleCloseModal}) => {
-	const client_id = googleAuthConfig.clientId;
-	const navigate = useNavigate();
-
-	const handleGoogleLoginSuccess = async (response) => {
-		var userInfo = jwtDecode(response.credential);
-		console.log('Login Success:', userInfo);
-
-		navigate('/homepage');
-	};
-
-	const handleGoogleLoginFail = (response) => {
-		console.log('Login Fail:', response);
-	};
-
 	const handleGoogleButtonClick = () => {
 		const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?
-
-export const LoginSignup = ({ handleCloseModal }) => {
-  const handleGoogleButtonClick = () => {
-    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?
 access_type=online
 &client_id=41073021794-d4irfbi6nnopdq1dkgm6otrcidns9110.apps.googleusercontent.com
 &redirect_uri=http://localhost:3000/blank
