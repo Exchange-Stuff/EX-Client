@@ -12,10 +12,9 @@ export const Blank = () => {
       var pTxt = JSON.parse(txt);
       localStorage.setItem("accessToken", pTxt.value.accessToken);
       localStorage.setItem("refreshToken", pTxt.value.refreshToken);
-      localStorage.setItem("role", "user");
       window.location.href = "http://localhost:3000/HomePage";
     } else {
-      window.location.href = "http://localhost:3000/Payment";
+      window.location.href = "http://localhost:3000/HomePage";
     }
   };
 };

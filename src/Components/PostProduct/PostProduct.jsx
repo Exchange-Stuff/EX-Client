@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import "./PostProduct.css";
-import axios from "axios";
+import axios from "../../utils/axios.js";
 import UploadImage from "../UploadImage/UploadImage";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../Firebase/firebase.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,6 +17,7 @@ export const PostProduct = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [thumbnail, setThumbnail] = useState("");
   const [imageFiles, setImageFiles] = useState([]);
+  const [imageUrls, setImageUrls] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -60,34 +61,39 @@ export const PostProduct = () => {
 
     try {
       if (imageFiles.length > 0) {
-        const file = imageFiles[0];
-        const storageRef = ref(storage, `images/${file.name}`);
-        await uploadBytes(storageRef, file);
-        const downloadURL = await getDownloadURL(storageRef);
-        setThumbnail(downloadURL);
-      } else {
-        toast.error("Vui lòng chọn ít nhất một hình ảnh");
-      }
+        const imageUrlsPromises = imageFiles.map(async (file) => {
+          const storageRef = ref(storage, `images/${file.name}`);
+          await uploadBytes(storageRef, file);
+          const downloadURL = await getDownloadURL(storageRef);
+          return downloadURL;
+        });
 
-      if (thumbnail === "") {
-        throw new Error("Vui lòng tải lại hình ảnh");
-      } else {
+        const urls = await Promise.all(imageUrlsPromises);
+        setImageUrls(urls);
+
+        const thumbnailUrl = urls[0];
+        setThumbnail(thumbnailUrl);
+
         const result = await axios.post(
           "http://localhost:5059/api/Product/createProduct",
           {
             name: productName,
             description: productDescription,
             price: parseFloat(productPrice),
-            thumbnail: thumbnail,
+            thumbnail: thumbnailUrl,
+            imageUrls: urls,
             categoryId: [selectedCategory],
           }
         );
 
         if (result.data) {
           toast.success("Tạo sản phẩm thành công");
+          window.location.href = "http://localhost:3000/postproduct";
         }
 
         console.log("Product created:", result.data);
+      } else {
+        toast.error("Vui lòng chọn ít nhất một hình ảnh");
       }
     } catch (error) {
       console.error("Error creating product:", error);
@@ -100,7 +106,7 @@ export const PostProduct = () => {
 
   return (
     <div className="post-product-container">
-      {/* <Header /> */}
+      <Header />
       <h2>Đăng sản phẩm</h2>
       <div className="post-product-content">
         <UploadImage onImageFilesChange={handleImageFilesChange} />

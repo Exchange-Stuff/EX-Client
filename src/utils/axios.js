@@ -7,7 +7,6 @@ import {
   logout,
 } from "../services/authService";
 
-const baseURL = "http://localhost:5059/api";
 export const instance = axios.create({
   baseURL: "http://localhost:5059/api",
 });
@@ -35,33 +34,44 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    console.log(response);
+    // Tùy chỉnh response nếu cần trước khi trả về then hoặc catch
     return response;
   },
-  (error) => {
+  async (error) => {
     const originalRequest = error.config;
-    console.log(error.response.status);
-    if (error.response.status === 400 && !originalRequest._retry) {
-      // call refresh token
+
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      return axios
-        .post(baseURL + "/Auth/renew", {
+      // Lấy token cũ
+      const oldAccessToken = getAccessToken();
+      try {
+
+        // Xét điều kiện
+        const res = await axios.post('http://localhost:5059/api/Auth/renew', {
           refreshToken: getRefreshToken(),
-        })
-        .then((res) => {
-          if (res.data.isSuccess === true) {
-            localStorage.setItem("accessToken", res.data.Value);
-            originalRequest.headers.Authorization = `Bearer ${res.data.Value}`;
-            return instance(originalRequest);
+        }, {
+          headers: {
+            Authorization: `Bearer ${oldAccessToken}`,
           }
-        })
-        .catch((error) => {
-          console.log("error in refresh token", error);
-          logout();
-          window.location.href = "/";
-          return Promise.reject(error);
         });
+
+        if (res.data.isSuccess) {
+          const newToken = res.data.value.accessToken;
+          console.log("newToken", newToken);
+          localStorage.setItem("accessToken", newToken);
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+
+          // Thử lại yêu cầu ban đầu với token mới
+          return instance(originalRequest);
+        }
+      } catch (err) {
+        console.log("Lỗi khi làm mới token", err);
+        logout();
+        window.location.href = "/";
+        return Promise.reject(err);
+      }
     }
+
     return Promise.reject(error);
   }
 );

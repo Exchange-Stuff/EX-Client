@@ -16,6 +16,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/swiper-bundle.css";
 import axios from "../../utils/axios.js";
+import { Link } from 'react-router-dom';
 
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
@@ -57,7 +58,7 @@ export const HomePage = () => {
     const GetDataProduct = async () => {
       try {
         const result = await axios.get(
-          "http://localhost:5059/getProductByCategory/18286bfd-96b0-4536-9ebb-6a526281bd90"
+          "Product/getProductByCategory/18286bfd-96b0-4536-9ebb-6a526281bd90"
         );
         setProductData(result.data);
       } catch (error) {
@@ -71,7 +72,7 @@ export const HomePage = () => {
     const GetClothingData = async () => {
       try {
         const result = await axios.get(
-          "http://localhost:5059/getProductByCategory/0736139a-3e11-4847-ae7f-51348f6e6a74"
+          "getProductByCategory/0736139a-3e11-4847-ae7f-51348f6e6a74"
         );
         setClothingData(result.data);
       } catch (error) {
@@ -83,7 +84,7 @@ export const HomePage = () => {
 
   return (
     <div className="homepage">
-      {/* <Header handleLoginClick={handleLoginClick} /> */}
+      <Header handleLoginClick={handleLoginClick} />
       {isShowLogin && <LoginSignup handleCloseModal={handleCloseModal} />}
       <Swiper
         className="swiper-container"
@@ -116,12 +117,16 @@ export const HomePage = () => {
             Xem thêm
           </a>
         </div>
+       
         <ul className="list-container">
           {data.slice(0, 8).map((list) => (
+             
             <li key={list.id} className="list-item">
+            
               <div className="img-container">
                 <img src={list.thumbnail} alt={list.name} />
               </div>
+              <Link to={`/productdetail/${list.id}`} style={{textDecoration: "none"}}> 
               <div className="detail-container">
                 <div className="left-column">
                   <h3>{list.name}</h3>
@@ -149,12 +154,16 @@ export const HomePage = () => {
                   </p>
                 </div>
               </div>
+              </Link>
               <div style={{ textAlign: "center" }}>
-                <button className="buy-button">Mua hàng</button>
+                  <button className="buy-button">Mua hàng</button>
               </div>
+             
             </li>
+             
           ))}
         </ul>
+       
       </div>
 
       <div className="data-list" style={{ margin: "0 1% 0 1%" }}>

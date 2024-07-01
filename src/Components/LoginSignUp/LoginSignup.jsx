@@ -1,3 +1,4 @@
+
 import React, {useState} from 'react';
 import './LoginSignup.css';
 import user_icon from '../Assets/person.png';
@@ -29,6 +30,10 @@ export const LoginSignup = ({handleCloseModal}) => {
 
 	const handleGoogleButtonClick = () => {
 		const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?
+
+export const LoginSignup = ({ handleCloseModal }) => {
+  const handleGoogleButtonClick = () => {
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?
 access_type=online
 &client_id=41073021794-d4irfbi6nnopdq1dkgm6otrcidns9110.apps.googleusercontent.com
 &redirect_uri=http://localhost:3000/blank
