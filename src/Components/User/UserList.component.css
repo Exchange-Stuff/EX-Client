@@ -91,6 +91,16 @@ table {
   }
 
   .user-list-pagination {
-    margin-top: 5%;
+    margin-top: 20px;
   }
+
+
+.user-list-filter {
+   display: flex;
+}
+
+.user-list-filter input {
+  width: 20%;
+  margin: 0 10px 0 10px;
+}
   

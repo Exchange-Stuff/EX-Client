@@ -1,12 +1,14 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {api} from '../../services/api';
+import {api, Headers} from '../../services/api';
 
 export const fetchUsers = createAsyncThunk(
 	'/Account/users?pageIndex=1&pageSize=10',
 	async ({name, username, email, pageIndex, pageSize, includeBan}, {rejectWithValue}) => {
 		try {
 			const url = `/Account/users?page_size=$name=${name}&username=${username}&emai=${email}&pageIndex=${pageIndex}&pageSize=${pageSize}&includeBan=${includeBan} `;
-			const response = await api.get(url);
+			const response = await api.get(url, {
+				headers: Headers,
+			});
 			console.log('response', response);
 			return response.data.value;
 		} catch (error) {

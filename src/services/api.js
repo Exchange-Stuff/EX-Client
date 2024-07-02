@@ -5,6 +5,7 @@ export const apiURL = `http://localhost:5059/api`;
 export const Headers = {
 	refreshToken: localStorage.getItem('refreshToken'),
 	accessToken: localStorage.getItem('accessToken'),
+	'ngrok-skip-browser-warning': 'true',
 };
 
 export const api = axios.create({

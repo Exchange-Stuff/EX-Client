@@ -1,23 +1,18 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import './Sidebar.css';
 import {Link} from 'react-router-dom';
 import {Menu, Button} from 'antd';
 import {
-	LogoutOutlined,
-	UserAddOutlined,
-	AlignLeftOutlined,
-	FileTextOutlined,
-	DatabaseOutlined,
+	UserOutlined,
 	MenuUnfoldOutlined,
 	MenuFoldOutlined,
+	ProductOutlined,
+	MoneyCollectOutlined,
 } from '@ant-design/icons';
-import {useSelector} from 'react-redux';
 
-export const SideBar = () => {
-	const isChange = useSelector((state) => state.authen.isChange);
-	const [collapsed, setCollapsed] = React.useState(true);
+export const Sidebar = () => {
+	const [collapsed, setCollapsed] = React.useState(false);
 
-	if (user === undefined) return null;
 	// toggle sidebar
 	const toggleCollapsed = () => {
 		setCollapsed(!collapsed);
@@ -34,39 +29,20 @@ export const SideBar = () => {
 			</Button>
 
 			<Menu mode="inline" className="menu" inlineCollapsed={collapsed}>
-				<Menu.SubMenu
-					title="Dashboard"
-					icon={<AlignLeftOutlined />}
-					className="sidebar_menu_item"
-				>
-					<Menu.Item key="5" icon={<FileTextOutlined />}>
-						<Link to="/dashboard/project">Project</Link>
-					</Menu.Item>
-
-					<Menu.Item key="6" icon={<DatabaseOutlined />}>
-						<Link to="/dashboard/task">Task</Link>
-					</Menu.Item>
-
-					<Menu.Item key="7" icon={<UserAddOutlined />}>
-						<Link to="/dashboard/user">User</Link>
-					</Menu.Item>
-				</Menu.SubMenu>
-
-				<Menu.Item key="2" icon={<FileTextOutlined />} className="sidebar_menu_item">
-					<Link to="/project">Project</Link>
+				<Menu.Item key="1" icon={<ProductOutlined />}>
+					<Link to="/homepage">Dashboard</Link>
 				</Menu.Item>
 
-				<Menu.Item key="3" icon={<UserAddOutlined />} className="sidebar_menu_item">
-					<Link to="/user">User</Link>
+				<Menu.Item key="2" icon={<ProductOutlined />}>
+					<Link to="/homepage">Sản phẩm</Link>
 				</Menu.Item>
 
-				<Menu.Item
-					key="4"
-					icon={<LogoutOutlined />}
-					className="sidebar_menu_item"
-					danger={true}
-				>
-					<Link to="/logout">Log out</Link>
+				<Menu.Item key="3" icon={<UserOutlined />}>
+					<Link to="/user">Tài khoản</Link>
+				</Menu.Item>
+
+				<Menu.Item key="4" icon={<MoneyCollectOutlined />}>
+					<Link to="/financial">Tài khoản</Link>
 				</Menu.Item>
 			</Menu>
 		</div>
