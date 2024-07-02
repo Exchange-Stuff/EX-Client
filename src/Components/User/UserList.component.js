@@ -23,7 +23,9 @@ export const UserList = () => {
 	const listUser = useSelector(getAllUserSelector);
 
 	useEffect(() => {
-		dispatch(fetchUsers({name, username, pageIndex, pageSize, includeBan}));
+		dispatch(fetchUsers({name, username, pageIndex, pageSize, includeBan})).catch((err) => {
+			console.log('error', err);
+		});
 	}, [dispatch, name, username, pageIndex, pageSize, includeBan]);
 
 	return (
