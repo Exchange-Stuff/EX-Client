@@ -1,96 +1,105 @@
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  table, th, td {
-    border: 1px solid black;
-  }
-  
-  th, td {
-    padding: 10px;
-    text-align: left;
-  }
-  
-  th {
-    background-color: #f2f2f2;
-  }
-  
- 
-  
-  .admin-badge {
-    background-color: purple;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-  }
-  
-  .player-badge {
-    background-color: brown;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-  }
-  
-  .edit-btn {
-    background-color: blue;
-    color: white;
-    border: none;
-    border-radius: 5px;
-  }
-  
-  .delete-btn {
-    background-color: red;
-    color: white;
-    border: none;
-    border-radius: 5px;
-  }
-  button {
-    padding: 5px 10px;
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  .delete-btn::after {
-    content: attr(title);
-    position: absolute;
-    left: 50%;
-    bottom: 100%;
-    transform: translateX(-50%);
-    background-color: black;
-    color: white;
-    padding: 5px;
-    border-radius: 3px;
-    white-space: nowrap;
-    display: none;
-    font-size: 12px;
-    z-index: 1;
-  }
-  .delete-btn:hover::after {
-    display: block;
-  }
-  .edit-btn:hover::after {
-    display: block;
-  }
-  .edit-btn::after {
-    content: attr(title);
-    position: absolute;
-    left: 50%;
-    bottom: 100%;
-    transform: translateX(-50%);
-    background-color: black;
-    color: white;
-    padding: 5px;
-    border-radius: 3px;
-    white-space: nowrap;
-    display: none;
-    font-size: 12px;
-    z-index: 1;
-  }
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
 
-  .user-list-pagination {
-    margin-top: 5%;
-  }
-  
+table, th, td {
+  border: 1px solid black;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+
+
+.admin-badge {
+  background-color: purple;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.player-badge {
+  background-color: brown;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.edit-btn {
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.delete-btn {
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+button {
+  padding: 5px 10px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.delete-btn::after {
+  content: attr(title);
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  background-color: black;
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+  display: none;
+  font-size: 12px;
+  z-index: 1;
+}
+.delete-btn:hover::after {
+  display: block;
+}
+.edit-btn:hover::after {
+  display: block;
+}
+.edit-btn::after {
+  content: attr(title);
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  background-color: black;
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+  display: none;
+  font-size: 12px;
+  z-index: 1;
+}
+
+.user-list-pagination {
+  margin-top: 20px;
+}
+
+
+.user-list-filter {
+ display: flex;
+}
+
+.user-list-filter input {
+width: 20%;
+margin: 0 10px 0 10px;
+}

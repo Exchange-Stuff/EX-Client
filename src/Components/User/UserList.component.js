@@ -7,7 +7,7 @@ import {
 	getTotalPageSelector,
 } from '../../redux/selectors';
 import {fetchUsers} from '../../redux/slices/userSlice';
-import {Pagination, Input, Row, Col, Table} from 'antd';
+import {Pagination, Input, div, Col, Table, Button} from 'antd';
 
 export const UserList = () => {
 	const dispatch = useDispatch();
@@ -23,72 +23,64 @@ export const UserList = () => {
 	const listUser = useSelector(getAllUserSelector);
 
 	useEffect(() => {
-		dispatch(fetchUsers({name, username, pageIndex, pageSize, includeBan}));
+		dispatch(fetchUsers({name, username, pageIndex, pageSize, includeBan})).catch((err) => {
+			console.log('error', err);
+		});
 	}, [dispatch, name, username, pageIndex, pageSize, includeBan]);
 
 	return (
 		<div>
-			<h2>Manage User</h2>
+			<h2>Quản lí tài khoản</h2>
 
-			<Row className="user-list-filter">
-				<Col span={6}>
-					<Input
-						placeholder="Name"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-					/>
-				</Col>
+			<div className="user-list-filter">
+				<Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+				<Input
+					placeholder="Username"
+					value={username}
+					onChange={(e) => setUsername(e.target.value)}
+				/>
 
-				<Col span={6}>
-					<Input
-						placeholder="Username"
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
-					/>
-				</Col>
+				<Button
+					type="primary"
+					onClick={() => {
+						setIncludeBan(!includeBan);
+					}}
+				>
+					{includeBan ? 'Không bao gồm tài khoản bị khóa' : 'Bao gồm tài khoản bị khóa'}
+				</Button>
+			</div>
 
-				<Col span={6}>
-					<Input
-						type="checkbox"
-						checked={includeBan}
-						onChange={(e) => setIncludeBan(e.target.checked)}
-					/>
-					<span>Include Ban</span>
-				</Col>
-			</Row>
-
-			<table>
-				<thead>
-					<tr>
-						<th>Username</th>
-						<th>Name</th>
-						<th>Email</th>
-						<th>Phone</th>
-						<th>Thumbnail</th>
-						<th>Address</th>
-						<th>Gender</th>
-						<th>Campus</th>
-						<th>Balance</th>
-					</tr>
-				</thead>
-				<tbody>
-					{listUser.map((user, index) => (
-						<tr key={index}>
-							<td>{user.username}</td>
-							<td>{user.name}</td>
-							<td>{user.email}</td>
-							<td>{user.phone}</td>
-							<td>
-								<img src={user.thumbnail} alt="thumbnail" />
-							</td>
-							<td>{user.address}</td>
-							<td>{user.gender}</td>
-							<td>{user.campus}</td>
-							<td>{user.userBalance.balance}</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
+			<Table dataSource={listUser} loading={loading}>
+				<Table.Column title="Username" dataIndex="username" key="username" />
+				<Table.Column title="Name" dataIndex="name" key="name" />
+				<Table.Column title="Email" dataIndex="email" key="email" />
+				<Table.Column
+					align="center"
+					title="Ảnh đại diện"
+					dataIndex="thumbnail"
+					key="thumbnail"
+					render={(thumbnail) => (
+						<img
+							src={thumbnail}
+							alt="thumbnail"
+							style={{width: '50px', height: '50px'}}
+						/>
+					)}
+				/>
+				<Table.Column title="Student ID" dataIndex="studentId" key="studentId" />
+				<Table.Column title="Địa chỉ" dataIndex="address" key="address" />
+				<Table.Column title="Giới tính" dataIndex="gender" key="gender" />
+				<Table.Column
+					title="Hành động"
+					key="action"
+					render={() => (
+						<div className="user-table-action">
+							<Button type="primary">Sửa</Button>
+							<Button type="danger">Xóa</Button>
+						</div>
+					)}
+				/>
+			</Table>
 
 			<Pagination
 				className="user-list-pagination"
