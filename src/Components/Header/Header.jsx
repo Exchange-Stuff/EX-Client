@@ -34,6 +34,10 @@ const Header = ({ handleLoginClick }) => {
         console.log(userId);
         const result = await axios.get(`http://localhost:5059/api/Account/user/${userId}`);
         console.log(result);
+        if (result.data.value === null) {
+          console.error("User not found");
+          return;
+        }
         setUserImg(result.data.value);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -64,7 +68,7 @@ const Header = ({ handleLoginClick }) => {
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
-    navigate("/homepage");
+    navigate("/login");
   };
 
   return (
@@ -86,7 +90,7 @@ const Header = ({ handleLoginClick }) => {
         <div onClick={handleLoginClick} className="category">Login</div>
       )}
       {isLogin && (
-        <div className="category" ref={dropdownRef}>
+        <div className="dropdown-user" ref={dropdownRef}>
           <img
             src={userImg.thumbnail}
             alt=""
@@ -95,10 +99,10 @@ const Header = ({ handleLoginClick }) => {
           />
           {dropdownVisible && (
             <div className="dropdown">
-              <Link to="/profile" className="dropdown-item">
-                Trang cá nhân
+              <Link to="/profile" className="dropdown-item-1">
+                  Trang cá nhân
               </Link>
-              <div onClick={handleLogout} className="dropdown-item">
+              <div onClick={handleLogout} className="dropdown-item-2">
                 Logout
               </div>
             </div>

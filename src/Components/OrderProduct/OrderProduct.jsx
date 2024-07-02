@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import axios from "axios";
+import axios from "../../utils/axios.js";
 import { jwtDecode } from "jwt-decode";
 import { toast, ToastContainer } from "react-toastify";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./OrderProduct.css"; // Assuming you will create this CSS file
 import coin from "../Assets/coin.png";
 
@@ -16,6 +16,8 @@ export const OrderProduct = () => {
   const [userBl, setUserBl] = useState(0); // Khởi tạo số dư là 0
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+    
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("accessToken");
@@ -24,7 +26,7 @@ export const OrderProduct = () => {
           const userId = decoded.nameid;
           console.log(userId);
           const result = await axios.get(
-            `http://localhost:5059/api/Account/user/${userId}`
+            `Account/user/${userId}`
           );
           setUserInfoData(result.data.value);
           setUserBl(result.data.value.userBalance.balance || 0); // Đảm bảo số dư là số
@@ -35,7 +37,7 @@ export const OrderProduct = () => {
         }
 
         const productResult = await axios.get(
-          `http://localhost:5059/api/Product/getDetail/${id}`
+          `Product/getDetail/${id}`
         );
 
         if (productResult.data.isSuccess) {
@@ -43,7 +45,7 @@ export const OrderProduct = () => {
           setData(productData);
 
           const userResult = await axios.get(
-            `http://localhost:5059/api/Account/user/${productData.createdBy}?includeBan=true`
+            `Account/user/${productData.createdBy}?includeBan=true`
           );
 
           if (userResult.data.isSuccess) {

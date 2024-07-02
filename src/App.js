@@ -12,6 +12,7 @@ import {Profile} from './Components/Profile/Profile.jsx';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import FinancialPage from './Pages/Admin/FinancialPage/financial.page.js';
 import {OrderProduct} from './Components/OrderProduct/OrderProduct.jsx';
+import { OrderPage } from "./Components/OrderPage/OrderPage.jsx"
 import Sidebar from './Components/Sidebar/SideBar.js';
 
 function App() {
@@ -20,21 +21,23 @@ function App() {
 	return (
 		<div className="App">
 			<BrowserRouter>
-				{/* <Sidebar /> */}
-				<Routes>
-					<Route path="/*" element={<HomePage />} />
-					<Route path="/homepage" element={<HomePage />} />
-					<Route path="/login" element={<LoginSignup />} />
-					<Route path="/postproduct" element={<PostProduct />} />
-					<Route path="/user" element={<UserPage />} />
-					<Route path="/productdetail/:id" element={<ProductDetail />} />
-					<Route path="/payment" element={<Payment />} />
-					<Route path="/blank" element={<Blank />} />
-					<Route path="/financial" element={<FinancialPage />} />
-					<Route path="/profile" element={<Profile />} />
-					<Route path="/orderproduct/:id" element={<OrderProduct />} />
-				</Routes>
-			</BrowserRouter>
+        {/* <Header /> */}
+        {/* <Sidebar /> */}
+        <Routes>
+          <Route path="/*" element={<HomePage />} />
+          <Route path="/homepage" element={<HomePage />} />
+          <Route path="/login" element={<LoginSignup />} />
+          <Route path="/postproduct" element={<PostProduct />} />
+          <Route path="/user" element={<UserPage />} />
+          <Route path="/productdetail/:id" element={<ProductDetail />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/blank" element={<Blank />} />
+          <Route path="/financial" element={<FinancialPage />} />
+          <Route path="/profile" element={< Profile />} />
+          <Route path="/orderproduct/:id" element={<OrderProduct/>}/>
+          <Route path="/orderpage" element={<OrderPage/>}/>
+        </Routes>
+      </BrowserRouter>
 		</div>
 	);
 }

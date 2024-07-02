@@ -41,10 +41,21 @@
     color: #ffba00;
   }
 
-  .trangchu:hover{
-    color: #ffffff;
-  }
-  .user{
+  .dropdown-user{
+    font-size: 20px;
+    margin-right: 45px;
+    font-weight: bold;
+    font-family: monospace;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+}
+
+.trangchu:hover{
+  color: #ffffff;
+}
+.user{
     font-size: 20px;
     margin-right: 50px;
     font-weight: bold;
@@ -80,10 +91,9 @@
 }
 
 .dropdown {
-  
   position: absolute;
-  top: 60px; /* Adjust this value as needed */
-  left: 1200px; /* Adjust this value as needed */
+  top: 60px;
+  left: 1150px;
   background-color: white;
   border: 1px solid #ccc;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -92,14 +102,25 @@
   flex-direction: column; 
 }
 
-.dropdown-item {
+.dropdown-item-1 {
   padding: 10px;
   cursor: pointer;
-  display: block; /* Đảm bảo các mục xếp chồng theo chiều dọc */
+  display: block; 
   text-decoration: none;
 }
 
-.dropdown-item:hover{
+.dropdown-item-1:hover{
+  color: #ffba00;
+}
+
+.dropdown-item-2 {
+  padding: 10px;
+  cursor: pointer;
+  display: block; 
+  text-decoration: none;
+}
+
+.dropdown-item-2:hover{
   color: #ffba00;
 }
 

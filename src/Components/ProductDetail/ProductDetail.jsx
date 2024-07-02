@@ -5,7 +5,7 @@ import "swiper/swiper-bundle.css";
 import "./ProductDetail.css";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import axios from "axios";
+import axios from "../../utils/axios.js";
 import coin from "../Assets/coin.png";
 import send from "../Assets/send.png";
 import { jwtDecode } from "jwt-decode";
@@ -22,8 +22,18 @@ export const ProductDetail = () => {
   const [countComments, setCountComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [userInfoData, setUserInfoData] = useState({});
+  const [selectedImage, setSelectedImage] = useState(null);
+  
+  useEffect(() => {
+    if (data.images && data.images.length > 0) {
+      setSelectedImage(data.images[0].url);
+    }
+  }, [data.images]);
 
   useEffect(() => {
+    
+    window.scrollTo(0, 0);
+    
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("accessToken");
@@ -32,7 +42,7 @@ export const ProductDetail = () => {
           const userId = decoded.nameid;
           console.log(userId);
           const result = await axios.get(
-            `http://localhost:5059/api/Account/user/${userId}`
+            `Account/user/${userId}`
           );
           setUserInfoData(result.data.value);
         } else {
@@ -41,7 +51,7 @@ export const ProductDetail = () => {
         }
 
         const productResult = await axios.get(
-          `http://localhost:5059/api/Product/getDetail/${id}`
+          `Product/getDetail/${id}`
         );
 
         if (productResult.data.isSuccess) {
@@ -49,7 +59,7 @@ export const ProductDetail = () => {
           setData(productData);
 
           const userResult = await axios.get(
-            `http://localhost:5059/api/Account/user/${productData.createdBy}?includeBan=true`
+            `Account/user/${productData.createdBy}?includeBan=true`
           );
 
           if (userResult.data.isSuccess) {
@@ -59,7 +69,7 @@ export const ProductDetail = () => {
           }
 
           const ratingResult = await axios.get(
-            `http://localhost:5059/api/Rating/rating-avg-user/${productData.createdBy}`
+            `Rating/rating-avg-user/${productData.createdBy}`
           );
 
           if (ratingResult.data.isSuccess) {
@@ -69,7 +79,7 @@ export const ProductDetail = () => {
           }
 
           const commentsResult = await axios.get(
-            `http://localhost:5059/api/Comment/product/${productData.id}?pageSize=5&pageIndex=1`
+            `Comment/product/${productData.id}?pageSize=5&pageIndex=1`
           );
           if (commentsResult.data.isSuccess) {
             setComments(commentsResult.data.value);
@@ -78,7 +88,7 @@ export const ProductDetail = () => {
           }
 
           const countCommentsResult = await axios.get(
-            `http://localhost:5059/api/Comment/get-total-count/${productData.id}`
+            `Comment/get-total-count/${productData.id}`
           );
 
           if (countCommentsResult.data.isSuccess) {
@@ -97,9 +107,11 @@ export const ProductDetail = () => {
     fetchData();
   }, [id]);
 
+  
+
   const handleAddComment = async () => {
     try {
-      const result = await axios.post(`http://localhost:5059/api/Comments`, {
+      const result = await axios.post(`Comments`, {
         productId: data.id,
         content: newComment,
       });
@@ -119,42 +131,35 @@ export const ProductDetail = () => {
     const date = new Date(dateString);
     return format(date, "dd/MM h a");
   };
+  
 
   return (
     <div className="product-detail">
       <Header />
       <div className="product-content">
         <div className="product-images">
+          <div className="img-postproduct-content">
+          <img className="img-postproduct"
+              src={selectedImage}
+              alt="Product Image"
+              style={{ width: "430px", height: "auto" }}
+          />
+          </div>
+          
           <Swiper
             className="swiper-container"
             style={{ width: "420px", height: "420px", margin: "0 0 10px 0" }}
-            autoplay={{
-              delay: 2000,
-              disableOnInteraction: false,
-            }}
+            // autoplay={{
+            //   delay: 4000,
+            //   disableOnInteraction: false,
+            // }}
             modules={[Autoplay]}
-          >
-            {data.images && data.images.length > 0 ? (
-              data.images.map((image) => (
-                <SwiperSlide key={image.id}>
-                  <img
-                    src={image.url}
-                    alt="Product Image"
-                    style={{ width: "430px", height: "auto" }}
-                  />
-                </SwiperSlide>
-              ))
-            ) : (
-              <SwiperSlide>
-                <p>No additional images available</p>
-              </SwiperSlide>
-            )}
-          </Swiper>
+          ></Swiper>
           <div className="image-thumbnails">
             {data.images && data.images.length > 0
               ? data.images.map((image) => (
                   <div key={image.id} className="thumbnail">
-                    <img src={image.url} alt="Product Thumbnail" />
+                    <img onClick={() => setSelectedImage(image.url)} src={image.url} alt="Product Thumbnail" />
                   </div>
                 ))
               : null}
