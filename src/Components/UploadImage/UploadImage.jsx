@@ -1,17 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './UploadImage.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const UploadImage = ({ onImageFilesChange }) => {
   const [selectedImages, setSelectedImages] = useState([]);
 
+  // Load images from localStorage on mount
+  useEffect(() => {
+    const savedImages = JSON.parse(localStorage.getItem('selectedImages')) || [];
+    setSelectedImages(savedImages);
+    // Only call onImageFilesChange if there are saved images
+    if (savedImages.length > 0) {
+      onImageFilesChange(savedImages);
+    }
+  }, []); // Removed onImageFilesChange from dependency array
+
   const handleImageChange = (event) => {
     if (event.target.files && event.target.files.length > 0) {
       const filesArray = Array.from(event.target.files);
-      const imagesArray = filesArray.map((file) => URL.createObjectURL(file));
-      setSelectedImages([...selectedImages, ...imagesArray.slice(0, 3 - selectedImages.length)]);
-      onImageFilesChange(filesArray.slice(0, 3 - selectedImages.length)); // Truyền các tệp lên component cha
+      const imagesArray = [];
+
+      filesArray.slice(0, 3 - selectedImages.length).forEach((file) => {
+        resizeImage(file, 470, 380, (resizedImage) => {
+          imagesArray.push(resizedImage);
+          if (imagesArray.length === filesArray.length) {
+            const newImages = [...selectedImages, ...imagesArray];
+            setSelectedImages(newImages);
+            localStorage.setItem('selectedImages', JSON.stringify(newImages));
+            onImageFilesChange(newImages);
+          }
+        });
+      });
     }
+  };
+
+  const resizeImage = (file, width, height, callback) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob((blob) => {
+          const resizedFile = new File([blob], file.name, { type: file.type });
+          const resizedUrl = URL.createObjectURL(resizedFile);
+          callback({ file: resizedFile, url: resizedUrl });
+        }, file.type);
+      };
+    };
+  };
+
+  const handleClearImages = () => {
+    setSelectedImages([]);
+    localStorage.removeItem('selectedImages');
+    onImageFilesChange([]);
   };
 
   return (
@@ -21,20 +68,23 @@ const UploadImage = ({ onImageFilesChange }) => {
         <div className="upload-placeholder">
           {selectedImages.length > 0 ? (
             selectedImages.map((image, index) => (
-              <img key={index} src={image} alt={`Selected ${index}`} className="selected-image" />
+              <img key={index} src={image.url} alt={`Selected ${index}`} className="selected-image" />
             ))
           ) : (
             <>
               <div className="icon-camera">
                 <i className="fas fa-camera"></i>
               </div>
-              <div className="upload-text">
-                ĐĂNG TỪ 01 ĐẾN 03 HÌNH
-              </div>
+              <div className="upload-text">ĐĂNG TỪ 01 ĐẾN 03 HÌNH</div>
             </>
           )}
         </div>
       </label>
+      {selectedImages.length > 0 && (
+        <button className="clear-images-button" onClick={handleClearImages}>
+          Xóa hình ảnh
+        </button>
+      )}
     </div>
   );
 };

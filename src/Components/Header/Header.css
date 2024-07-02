@@ -93,7 +93,7 @@
 .dropdown {
   position: absolute;
   top: 60px;
-  left: 1150px;
+  left: 1300px;
   background-color: white;
   border: 1px solid #ccc;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -124,4 +124,8 @@
   color: #ffba00;
 }
 
+.search-button{
+  background-color: #ffba00;
+  color: #ffffff;
+}
 
