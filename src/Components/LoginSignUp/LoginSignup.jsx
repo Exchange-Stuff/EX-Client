@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './LoginSignup.css';
 import user_icon from '../Assets/person.png';
 import email_icon from '../Assets/email.png';
@@ -7,29 +7,25 @@ import {GoogleOAuthProvider, GoogleLogin} from '@react-oauth/google';
 import googleAuthConfig from '../../config/googleAuthConfig';
 import {useNavigate} from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
-import google_icon from '../Assets/google.jpg';
-import logo from '../Assets/logo.png';
-import {Button, Checkbox, Form, Input} from 'antd';
+import {Button, Form, Input, Row} from 'antd';
 import {GoogleOutlined} from '@ant-design/icons';
+import {googleAuthUrl} from '../../utils';
 
 export const LoginSignup = ({handleCloseModal}) => {
+	const [selectedUserType, setSelectedUserType] = useState('user');
+
 	const handleGoogleButtonClick = () => {
-		const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?
-access_type=online
-&client_id=41073021794-d4irfbi6nnopdq1dkgm6otrcidns9110.apps.googleusercontent.com
-&redirect_uri=http://localhost:3000/blank
-&response_type=code
-&scope=openid%20profile%20email
-&prompt=consent`;
 		window.location.href = googleAuthUrl;
 	};
 
 	const onFinish = (values) => {
-		console.log('Success:', values);
-	};
-
-	const onFinishFailed = (errorInfo) => {
-		console.log('Failed:', errorInfo);
+		console.log(jwtDecode());
+		if (selectedUserType === 'moderator') {
+			console.log('moderator');
+		}
+		if (selectedUserType === 'admin') {
+			console.log('admin');
+		}
 	};
 
 	return (
@@ -44,78 +40,105 @@ access_type=online
 					}}
 				/>
 
-				<span className="close" onClick={handleCloseModal}>
-					&times;
-				</span>
 				<div className="header">
 					<div className="text">Đăng nhập</div>
 					<div className="underline"></div>
 				</div>
 
-				<Form
-					name="basic"
+				<Row
+					className="login-selected"
 					style={{
 						maxWidth: 600,
 					}}
-					initialValues={{
-						remember: true,
-					}}
-					onFinish={onFinish}
-					onFinishFailed={onFinishFailed}
-					autoComplete="off"
 				>
-					<Form.Item
-						label="Username"
-						name="username"
-						rules={[
-							{
-								required: true,
-								message: 'Please input your username!',
-							},
-						]}
-					>
-						<Input placeholder="Điền username của bạn" />
-					</Form.Item>
-
-					<Form.Item
-						label="Password"
-						name="password"
-						rules={[
-							{
-								required: true,
-								message: 'Please input your password!',
-							},
-						]}
-					>
-						<Input.Password placeholder="Điền mật khẩu của bạn " />
-					</Form.Item>
-
-					<Form.Item
-						name="remember"
-						valuePropName="checked"
-						wrapperCol={{
-							offset: 8,
-							span: 16,
+					<Button
+						style={{
+							backgroundColor: selectedUserType === 'user' ? '#ff9a02' : 'white',
+							color: selectedUserType === 'user' ? 'white' : 'black',
 						}}
+						onClick={() => setSelectedUserType('user')}
 					>
-						<Checkbox>Remember me</Checkbox>
-					</Form.Item>
+						Người dùng
+					</Button>
 
-					<Form.Item>
-						<Button htmlType="submit" className="login-page-form-button">
-							Đăng nhập
+					<Button
+						style={{
+							backgroundColor: selectedUserType === 'moderator' ? '#ff9a02' : 'white',
+							color: selectedUserType === 'moderator' ? 'white' : 'black',
+						}}
+						onClick={() => setSelectedUserType('moderator')}
+					>
+						Quản trị viên
+					</Button>
+
+					<Button
+						style={{
+							backgroundColor: selectedUserType === 'admin' ? '#ff9a02' : 'white',
+							color: selectedUserType === 'admin' ? 'white' : 'black',
+						}}
+						onClick={() => setSelectedUserType('admin')}
+					>
+						Chủ cửa hàng
+					</Button>
+				</Row>
+
+				<div className="login-form">
+					{' '}
+					{selectedUserType === 'user' ? (
+						<Button
+							className="login-page-google-button"
+							onClick={handleGoogleButtonClick}
+							// make icon color red
+							icon={<GoogleOutlined style={{color: 'red'}} />}
+						>
+							Đăng nhập với Google
 						</Button>
-					</Form.Item>
-				</Form>
+					) : (
+						<Form
+							name="basic"
+							style={{
+								maxWidth: 600,
+							}}
+							initialValues={{
+								remember: true,
+							}}
+							onFinish={onFinish}
+							autoComplete="off"
+						>
+							<Form.Item
+								label="Username"
+								name="username"
+								rules={[
+									{
+										required: true,
+										message: 'Please input your username!',
+									},
+								]}
+							>
+								<Input placeholder="Điền username của bạn" />
+							</Form.Item>
 
-				<Button
-					className="login-page-google-button"
-					onClick={handleGoogleButtonClick}
-					// make icon color red
-					icon={<GoogleOutlined style={{color: 'red'}} />}
-				>
-					Đăng nhập với Google
-				</Button>
+							<Form.Item
+								label="Password"
+								name="password"
+								rules={[
+									{
+										required: true,
+										message: 'Please input your password!',
+									},
+								]}
+							>
+								<Input.Password placeholder="Điền mật khẩu của bạn " />
+							</Form.Item>
+
+							<Form.Item>
+								<Button htmlType="submit" className="login-page-form-button">
+									Đăng nhập
+								</Button>
+							</Form.Item>
+						</Form>
+					)}
+				</div>
 			</div>
 		</div>
 	);
