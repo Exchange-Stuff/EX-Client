@@ -22,8 +22,16 @@ export const ProductDetail = () => {
   const [countComments, setCountComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [userInfoData, setUserInfoData] = useState({});
+  const [selectedImage, setSelectedImage] = useState(null);
+  
+  useEffect(() => {
+    if (data.images && data.images.length > 0) {
+      setSelectedImage(data.images[0].url);
+    }
+  }, [data.images]);
 
   useEffect(() => {
+    
     window.scrollTo(0, 0);
     
     const fetchData = async () => {
@@ -99,6 +107,8 @@ export const ProductDetail = () => {
     fetchData();
   }, [id]);
 
+  
+
   const handleAddComment = async () => {
     try {
       const result = await axios.post(`Comments`, {
@@ -121,42 +131,35 @@ export const ProductDetail = () => {
     const date = new Date(dateString);
     return format(date, "dd/MM h a");
   };
+  
 
   return (
     <div className="product-detail">
       <Header />
       <div className="product-content">
         <div className="product-images">
+          <div className="img-postproduct-content">
+          <img className="img-postproduct"
+              src={selectedImage}
+              alt="Product Image"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+          </div>
+          
           <Swiper
             className="swiper-container"
             style={{ width: "420px", height: "420px", margin: "0 0 10px 0" }}
-            autoplay={{
-              delay: 2000,
-              disableOnInteraction: false,
-            }}
+            // autoplay={{
+            //   delay: 4000,
+            //   disableOnInteraction: false,
+            // }}
             modules={[Autoplay]}
-          >
-            {data.images && data.images.length > 0 ? (
-              data.images.map((image) => (
-                <SwiperSlide key={image.id}>
-                  <img
-                    src={image.url}
-                    alt="Product Image"
-                    style={{ width: "430px", height: "auto" }}
-                  />
-                </SwiperSlide>
-              ))
-            ) : (
-              <SwiperSlide>
-                <p>No additional images available</p>
-              </SwiperSlide>
-            )}
-          </Swiper>
+          ></Swiper>
           <div className="image-thumbnails">
             {data.images && data.images.length > 0
               ? data.images.map((image) => (
                   <div key={image.id} className="thumbnail">
-                    <img src={image.url} alt="Product Thumbnail" />
+                    <img onClick={() => setSelectedImage(image.url)} src={image.url} alt="Product Thumbnail" />
                   </div>
                 ))
               : null}

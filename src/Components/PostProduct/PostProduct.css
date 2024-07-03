@@ -1,7 +1,8 @@
 .post-product-container h2{
     margin-top: 100px;
     text-align: center;
-    width: 100%;
+    max-width: 100%;
+    height: auto;
 }
 
 .post-product-content{
