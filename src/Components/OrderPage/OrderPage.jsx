@@ -5,9 +5,10 @@ import axios from "../../utils/axios.js";
 import { jwtDecode } from "jwt-decode";
 import { toast, ToastContainer } from "react-toastify";
 import { useParams } from "react-router-dom";
-import { Table } from 'antd';
+import { Table, Select } from 'antd';
 import "./OrderPage.css";
-import coin from "../Assets/coin.png";
+
+const { Option } = Select;
 
 const columns = [
   {
@@ -40,6 +41,7 @@ const columns = [
 export const OrderPage = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
+  const [status, setStatus] = useState("Pending");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -51,15 +53,14 @@ export const OrderPage = () => {
           const decoded = jwtDecode(token);
           const userId = decoded.nameid;
           console.log(userId);
-          const result = await axios.get(`Account/user/${userId}`);
+          await axios.get(`Account/user/${userId}`);
 
-          const purchaseTicket = await axios.get(`PurchaseTicket/getListPurchaseTicketByUserId/10/1/2`)
+          const purchaseTicket = await axios.get(`PurchaseTicket/getListPurchaseTicketByUserId/10/1/0`);
           setData(purchaseTicket.data.value);
         } else {
           toast.error("Bạn chưa đăng nhập");
           window.location.href = "http://localhost:3000/homepage";
         }
-
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -68,10 +69,23 @@ export const OrderPage = () => {
     fetchData();
   }, [id]);
 
+  const handleStatusChange = async (value) => {
+    const purchaseTicket = await axios.get(`PurchaseTicket/getListPurchaseTicketByUserId/10/1/${value}`);
+          setData(purchaseTicket.data.value);
+  };
+
   return (
     <div className="orderpage">
       <Header />
       <div className="orderpage-content">
+        <div className="status-filter">
+          <span>Status</span>
+          <Select defaultValue="Pending" onChange={handleStatusChange} style={{ width: 120, marginLeft: 10 }}>
+            <Option value="0">Processing</Option>
+            <Option value="1">Cancelled</Option>
+            <Option value="2">Confirmed</Option>
+          </Select>
+        </div>
         <div className="orderpage-form">
           <Table
             columns={columns}
