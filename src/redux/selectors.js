@@ -1,5 +1,8 @@
 //selectors.js
 
+// authen
+export const getErrorAuthenSelector = (state) => state.authenSlice.error;
+
 // users
 export const getAllUserSelector = (state) => state.userSlice.users;
 export const getLoadingUserSelector = (state) => state.userSlice.loading;

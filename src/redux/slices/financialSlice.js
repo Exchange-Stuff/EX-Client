@@ -1,15 +1,17 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {api} from '../../services/api';
+import {api, Headers} from '../../services/api';
 
 export const fetchFinancial = createAsyncThunk(
-	'/Account/users?pageIndex=1&pageSize=10',
+	'Get All Financial Ticket',
 	async ({pageIndex, pageSize, status}, {rejectWithValue}) => {
 		try {
-			console.log('pageIndex', pageIndex);
 			const url = `/getAllFinancialTicket?pageIndex=${pageIndex}&pageSize=${pageSize}&status=${status}`;
-			const response = await api.get(url);
+			console.log('response');
+			const response = await api.get(url, {
+				headers: Headers,
+			});
 			console.log('response', response);
-			return response.data.metadata;
+			return response.data;
 		} catch (error) {
 			console.log('error', error);
 			return rejectWithValue(error.response.data);

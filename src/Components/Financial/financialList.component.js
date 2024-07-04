@@ -4,6 +4,7 @@ import './financialList.component.css';
 import {useDispatch, useSelector} from 'react-redux';
 import {getAllFinancialSelector, getLoadingFinancialSelector} from '../../redux/selectors';
 import {fetchFinancial} from '../../redux/slices/financialSlice';
+import {Table} from 'antd';
 
 export const FinancialList = () => {
 	const dispatch = useDispatch();
@@ -12,12 +13,14 @@ export const FinancialList = () => {
 	const [pageIndex, setPageIndex] = useState(1);
 	const [status, setStatus] = useState(0);
 
-	useEffect(() => {
-		dispatch(fetchFinancial({pageIndex, pageSize, status}));
-	}, [pageIndex, pageSize, status, dispatch]);
-
 	const listFinancial = useSelector(getAllFinancialSelector);
 	const loading = useSelector(getLoadingFinancialSelector);
+
+	useEffect(() => {
+		dispatch(fetchFinancial({pageIndex, pageSize, status})).then((res) => {
+			console.log('res', res);
+		});
+	}, [pageIndex, pageSize, status, dispatch]);
 
 	const handleUpdate = async (id, status) => {
 		// confirm
@@ -59,66 +62,7 @@ export const FinancialList = () => {
 					<option value={2}>Reject</option>
 				</select>
 			</div>
-			<table className="financial-table">
-				<thead>
-					<tr>
-						<th>User Name</th>
-						<th>Email</th>
-						<th>Amount</th>
-						<th>Image QR Code</th>
-						<th>Status</th>
-						<th>Created On</th>
-						<th>Modified On</th>
-						{status == 0 && <th>Action</th>}
-					</tr>
-				</thead>
-				<tbody>
-					{loading === true
-						? listFinancial.map((item, index) => (
-								<tr key={index}>
-									<td>{item.user.name}</td>
-									<td>{item.user.email}</td>
-									<td>{item.amount}</td>
-									<td>{item.imageQRCode}</td>
-									<td>
-										{item.status === 0
-											? 'Pending'
-											: item.status === 1
-											? 'Success'
-											: 'Failed'}
-									</td>
-									<td>
-										{new Date(item.createdOn).toLocaleDateString() +
-											' ' +
-											new Date(item.createdOn).toLocaleTimeString()}
-									</td>
-									<td>
-										{new Date(item.modifiedOn).toLocaleDateString() +
-											' ' +
-											new Date(item.modifiedOn).toLocaleTimeString()}
-									</td>
-
-									{item.status === 0 && (
-										<td>
-											<button
-												className="financial-button button-approve"
-												onClick={() => handleUpdate(item.id, 1)}
-											>
-												Approved
-											</button>
-											<button
-												className="financial-button button-reject"
-												onClick={() => handleUpdate(item.id, 2)}
-											>
-												Reject
-											</button>
-										</td>
-									)}
-								</tr>
-						  ))
-						: 'Loading...'}
-				</tbody>
-			</table>
+			<Table></Table>
 			<div className="financial-paging">
 				<button onClick={() => setPageIndex(pageIndex - 1)}>Previous</button>
 				<button onClick={() => setPageIndex(pageIndex + 1)}>Next</button>

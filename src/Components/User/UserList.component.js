@@ -7,10 +7,12 @@ import {
 	getTotalPageSelector,
 } from '../../redux/selectors';
 import {fetchUsers} from '../../redux/slices/userSlice';
-import {Pagination, Input, div, Col, Table, Button} from 'antd';
+import {Pagination, Input, Table, Button} from 'antd';
+import {useNavigate} from 'react-router-dom';
 
 export const UserList = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const [pageSize, setPageSize] = useState(10);
 	const [pageIndex, setPageIndex] = useState(1);
@@ -23,9 +25,13 @@ export const UserList = () => {
 	const listUser = useSelector(getAllUserSelector);
 
 	useEffect(() => {
-		dispatch(fetchUsers({name, username, pageIndex, pageSize, includeBan})).catch((err) => {
-			console.log('error', err);
-		});
+		try {
+			dispatch(fetchUsers({name, username, pageIndex, pageSize, includeBan})).then((res) => {
+				console.log('res', res);
+			});
+		} catch (error) {
+			console.log('error', error);
+		}
 	}, [dispatch, name, username, pageIndex, pageSize, includeBan]);
 
 	return (
