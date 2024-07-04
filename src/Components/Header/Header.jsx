@@ -5,7 +5,8 @@ import logo from '../Assets/logo.png';
 import {jwtDecode} from 'jwt-decode';
 import axios from '../../utils/axios.js';
 import {Input, Space} from 'antd';
-const {Search} = Input;
+import {FaSearch} from 'react-icons/fa';
+
 
 const Header = ({handleLoginClick}) => {
 	const [userInfo, setUserInfo] = useState([]);
@@ -18,6 +19,12 @@ const Header = ({handleLoginClick}) => {
 	const handleSearch = () => {
 		if (searchKeyword.trim() !== '') {
 			navigate(`/search/${encodeURIComponent(searchKeyword)}`);
+		}
+	};
+
+	const handleKeyPress = (event) => {
+		if (event.key === 'Enter') {
+			handleSearch();
 		}
 	};
 
@@ -95,23 +102,27 @@ const Header = ({handleLoginClick}) => {
 			<Link to="/payment" className="category">
 				Mua xu
 			</Link>
-			<input
-				type="text"
-				placeholder="Nhập từ khóa cần tìm..."
-				style={{
-					width: 250,
-					height: 40,
-					padding: 15,
-					fontSize: 14,
-					border: '1px solid #ccc',
-					borderRadius: 20,
-				}}
-				value={searchKeyword}
-				onChange={(e) => setSearchKeyword(e.target.value)}
-			/>
-			<button className="search-button" onClick={handleSearch}>
-				Tìm kiếm
-			</button>
+			<div className="search-input-header">
+				<input
+					type="text"
+					placeholder="Nhập từ khóa cần tìm..."
+					style={{
+						width: 250,
+						height: 40,
+						padding: 15,
+						fontSize: 14,
+						border: '1px solid #ccc',
+						borderRadius: 20,
+					}}
+					value={searchKeyword}
+					onChange={(e) => setSearchKeyword(e.target.value)}
+					onKeyPress={handleKeyPress}
+				/>
+				<button className="search-button" onClick={handleSearch}>
+					<FaSearch />
+				</button>
+			</div>
+
 			{!isLogin && (
 				<div onClick={handleLoginClick} className="category">
 					Login
