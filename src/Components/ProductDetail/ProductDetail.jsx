@@ -142,7 +142,7 @@ export const ProductDetail = () => {
           <img className="img-postproduct"
               src={selectedImage}
               alt="Product Image"
-              style={{ width: "430px", height: "auto" }}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
           </div>
           

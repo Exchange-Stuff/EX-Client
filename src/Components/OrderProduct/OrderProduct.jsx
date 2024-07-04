@@ -5,7 +5,7 @@ import axios from "../../utils/axios.js";
 import { jwtDecode } from "jwt-decode";
 import { toast, ToastContainer } from "react-toastify";
 import { useParams } from "react-router-dom";
-import "./OrderProduct.css"; // Assuming you will create this CSS file
+import "./OrderProduct.css"; // Đảm bảo rằng bạn đã tạo tệp này
 import coin from "../Assets/coin.png";
 
 export const OrderProduct = () => {
@@ -13,11 +13,10 @@ export const OrderProduct = () => {
   const [data, setData] = useState({});
   const [userData, setUserData] = useState({});
   const [userInfoData, setUserInfoData] = useState({});
-  const [userBl, setUserBl] = useState(0); // Khởi tạo số dư là 0
+  const [userBl, setUserBl] = useState(0);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("accessToken");
@@ -70,6 +69,29 @@ export const OrderProduct = () => {
 
   const totalPrice = userBl - data.price;
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const result = await axios.post(
+        "PurchaseTicket/createPurchaseTicket",
+        {
+          amount: data.price,
+          productId: data.id,
+          quantity: 1
+        }
+      );
+
+      if (result.data) {
+        toast.success("Đặt hàng thành công");
+        window.location.href = "http://localhost:3000/orderpage/true";
+      }
+    } catch (error) {
+      console.error("Error creating product:", error);
+      toast.error(error.message || "Có lỗi xảy ra khi đặt hàng");
+    }
+  };
+
   return (
     <div className="order">
       <Header />
@@ -91,27 +113,27 @@ export const OrderProduct = () => {
               <p>{data.name}</p>
               <p>{userData.name}</p>
               <p className="user-balance">{userBl} 
-              <img className='coin-order'
-                src={coin}
-                alt=""
-                style={{ width: "30px", height: "auto", transform: "none", marginLeft: "5px"}}
-              />
+                <img className='coin-order'
+                  src={coin}
+                  alt=""
+                  style={{ width: "30px", height: "auto", transform: "none", marginLeft: "5px" }}
+                />
               </p>
               <p className="user-balance-2">{data.price} 
-              <img className='coin-order'
-                src={coin}
-                alt=""
-                style={{ width: "30px", height: "auto", transform: "none", marginLeft: "5px"}}
-              />
+                <img className='coin-order'
+                  src={coin}
+                  alt=""
+                  style={{ width: "30px", height: "auto", transform: "none", marginLeft: "5px" }}
+                />
               </p>
-              <p className="user-balance" style={{marginTop: "8px", color: "#32cd32"}}>{totalPrice} 
-              <img className='coin-order'
-                src={coin}
-                alt=""
-                style={{ width: "30px", height: "auto", transform: "none", marginLeft: "5px"}}
-              />
+              <p className="user-balance" style={{ marginTop: "8px", color: "#32cd32" }}>{totalPrice} 
+                <img className='coin-order'
+                  src={coin}
+                  alt=""
+                  style={{ width: "30px", height: "auto", transform: "none", marginLeft: "5px" }}
+                />
               </p>
-              <button className="order-button">Tiến hành đặt hàng</button>
+              <button className="order-button" onClick={handleSubmit}>Tiến hành đặt hàng</button>
               <button className="inbox-order">Nhắn tin với người bán</button>
               <div className="notify-order">
                 <span>Sau khi tiến hành đặt hàng số đồng trong ví sẽ bị trừ</span>

@@ -1,165 +1,193 @@
-import React, { useState, useEffect } from "react";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
-import "./PostProduct.css";
-import axios from "../../utils/axios.js";
-import UploadImage from "../UploadImage/UploadImage";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "../Firebase/firebase.js";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, {useState, useEffect} from 'react';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import './PostProduct.css';
+import axios from '../../utils/axios.js';
+import UploadImage from '../UploadImage/UploadImage';
+import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import {storage} from '../Firebase/firebase.js';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {Flex, Input} from 'antd';
 
 export const PostProduct = () => {
-  const [categoryData, setCategoryData] = useState([]);
-  const [productName, setProductName] = useState("");
-  const [productDescription, setProductDescription] = useState("");
-  const [productPrice, setProductPrice] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [thumbnail, setThumbnail] = useState("");
-  const [imageFiles, setImageFiles] = useState([]);
-  const [imageUrls, setImageUrls] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+	const [categoryData, setCategoryData] = useState([]);
+	const [productName, setProductName] = useState(localStorage.getItem('productName') || '');
+	const [productDescription, setProductDescription] = useState(
+		localStorage.getItem('productDescription') || ''
+	);
+	const [productPrice, setProductPrice] = useState(localStorage.getItem('productPrice') || '');
+	const [selectedCategory, setSelectedCategory] = useState(
+		localStorage.getItem('selectedCategory') || ''
+	);
+	const [thumbnail, setThumbnail] = useState('');
+	const [imageFiles, setImageFiles] = useState([]);
+	const [imageUrls, setImageUrls] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await axios.get("http://localhost:5059/api/Category");
-        setCategoryData(result.data);
-      } catch (error) {
-        setError(error);
-        console.error("Error fetching category data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const result = await axios.get('http://localhost:5059/api/Category');
+				setCategoryData(result.data);
+			} catch (error) {
+				setError(error);
+				console.error('Error fetching category data:', error);
+			} finally {
+				setLoading(false);
+			}
+		};
+		fetchData();
+	}, []);
 
-  const handleProductNameChange = (event) => {
-    setProductName(event.target.value);
-  };
+	useEffect(() => {
+		localStorage.setItem('productName', productName);
+	}, [productName]);
 
-  const handleProductDescriptionChange = (event) => {
-    setProductDescription(event.target.value);
-  };
+	useEffect(() => {
+		localStorage.setItem('productDescription', productDescription);
+	}, [productDescription]);
 
-  const handleProductPriceChange = (event) => {
-    setProductPrice(event.target.value);
-  };
+	useEffect(() => {
+		localStorage.setItem('productPrice', productPrice);
+	}, [productPrice]);
 
-  const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
-  };
+	useEffect(() => {
+		localStorage.setItem('selectedCategory', selectedCategory);
+	}, [selectedCategory]);
 
-  const handleImageFilesChange = (files) => {
-    setImageFiles(files);
-  };
+	const handleProductNameChange = (event) => {
+		setProductName(event.target.value);
+	};
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+	const handleProductDescriptionChange = (event) => {
+		setProductDescription(event.target.value);
+	};
 
-    try {
-      if (imageFiles.length > 0) {
-        const imageUrlsPromises = imageFiles.map(async (file) => {
-          const storageRef = ref(storage, `images/${file.name}`);
-          await uploadBytes(storageRef, file);
-          const downloadURL = await getDownloadURL(storageRef);
-          return downloadURL;
-        });
+	const handleProductPriceChange = (event) => {
+		setProductPrice(event.target.value);
+	};
 
-        const urls = await Promise.all(imageUrlsPromises);
-        setImageUrls(urls);
+	const handleCategoryChange = (event) => {
+		setSelectedCategory(event.target.value);
+	};
 
-        const thumbnailUrl = urls[0];
-        setThumbnail(thumbnailUrl);
+	const handleImageFilesChange = (images) => {
+		setImageFiles(images.map((image) => image.file));
+	};
 
-        const result = await axios.post(
-          "http://localhost:5059/api/Product/createProduct",
-          {
-            name: productName,
-            description: productDescription,
-            price: parseFloat(productPrice),
-            thumbnail: thumbnailUrl,
-            imageUrls: urls,
-            categoryId: [selectedCategory],
-          }
-        );
+	const handleSubmit = async (event) => {
+		event.preventDefault();
 
-        if (result.data) {
-          toast.success("Tạo sản phẩm thành công");
-          window.location.href = "http://localhost:3000/postproduct";
-        }
+		try {
+			if (imageFiles.length > 0) {
+				const imageUrlsPromises = imageFiles.map(async (file) => {
+					const storageRef = ref(storage, `images/${file.name}`);
+					await uploadBytes(storageRef, file);
+					const downloadURL = await getDownloadURL(storageRef);
+					return downloadURL;
+				});
 
-        console.log("Product created:", result.data);
-      } else {
-        toast.error("Vui lòng chọn ít nhất một hình ảnh");
-      }
-    } catch (error) {
-      console.error("Error creating product:", error);
-      toast.error(error.message || "Có lỗi xảy ra khi tạo sản phẩm");
-    }
-  };
+				const urls = await Promise.all(imageUrlsPromises);
+				setImageUrls(urls);
 
-  if (loading) return <p>Loading categories...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+				const thumbnailUrl = urls[0];
+				setThumbnail(thumbnailUrl);
 
-  return (
-    <div className="post-product-container">
-      <Header />
-      <h2>Đăng sản phẩm</h2>
-      <div className="post-product-content">
-        <UploadImage onImageFilesChange={handleImageFilesChange} />
-        <form className="post-product-form" onSubmit={handleSubmit}>
-          <label>Tên sản phẩm</label>
-          <input
-            type="text"
-            placeholder="Tên sản phẩm"
-            value={productName}
-            onChange={handleProductNameChange}
-            required
-          />
+				const result = await axios.post('Product/createProduct', {
+					name: productName,
+					description: productDescription,
+					price: parseFloat(productPrice),
+					thumbnail: thumbnailUrl,
+					imageUrls: urls,
+					categoryId: [selectedCategory],
+				});
 
-          <label>Mô tả chi tiết</label>
-          <input
-            type="text"
-            placeholder="Mô tả chi tiết"
-            value={productDescription}
-            onChange={handleProductDescriptionChange}
-            style={{ height: "130px" }}
-            required
-          />
+				if (result.data) {
+					toast.success('Tạo sản phẩm thành công');
+					localStorage.removeItem('productName');
+					localStorage.removeItem('productDescription');
+					localStorage.removeItem('productPrice');
+					localStorage.removeItem('selectedCategory');
+					localStorage.removeItem('selectedImages');
+					window.location.href = 'http://localhost:3000/postproduct';
+				}
 
-          <label>Giá bán</label>
-          <input
-            type="number"
-            placeholder="Giá bán"
-            value={productPrice}
-            onChange={handleProductPriceChange}
-            required
-          />
+				console.log('Product created:', result.data);
+			} else {
+				toast.error('Vui lòng chọn ít nhất một hình ảnh');
+			}
+		} catch (error) {
+			console.error('Error creating product:', error);
+			toast.error(error.message || 'Có lỗi xảy ra khi tạo sản phẩm');
+		}
+	};
 
-          <label>Loại sản phẩm</label>
-          <select
-            value={selectedCategory}
-            onChange={handleCategoryChange}
-            required
-          >
-            <option value="">Chọn loại sản phẩm</option>
-            {categoryData.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
+	if (loading) return <p>Loading categories...</p>;
+	if (error) return <p>Error: {error.message}</p>;
 
-          <button type="submit">Đăng sản phẩm</button>
-        </form>
-      </div>
-      <Footer />
-      <ToastContainer />
-    </div>
-  );
+	return (
+		<div className="post-product-container">
+			<Header />
+			<h2>Đăng sản phẩm</h2>
+			<div className="post-product-content">
+				<UploadImage onImageFilesChange={handleImageFilesChange} />
+				<form className="post-product-form" onSubmit={handleSubmit}>
+					<label>Tên sản phẩm</label>
+					<Input
+						type="text"
+						value={productName}
+						onChange={handleProductNameChange}
+						placeholder="Tên sản phẩm"
+						style={{
+							marginTop: '5px',
+							
+						}}
+						required
+						maxLength={30}
+						showCount
+					/>
+
+					<label>Mô tả chi tiết</label>
+					<Input
+						type="text"
+						placeholder="Mô tả chi tiết"
+						value={productDescription}
+						onChange={handleProductDescriptionChange}
+						style={{height: '130px', marginTop: '5px',}}
+						maxLength={100}
+						showCount
+						required
+					/>
+
+					<label>Giá bán</label>
+					<Input
+						type="number"
+						placeholder="Giá bán"
+						style={{height: '50px', marginTop: '5px',}}
+						value={productPrice}
+						onChange={handleProductPriceChange}
+						required
+					/>
+
+					<label>Loại sản phẩm</label>
+					<select value={selectedCategory} onChange={handleCategoryChange} required>
+						<option value="">Chọn loại sản phẩm</option>
+						{categoryData.map((category) => (
+							<option key={category.id} value={category.id}>
+								{category.name}
+							</option>
+						))}
+					</select>
+
+					<button type="submit">Đăng sản phẩm</button>
+				</form>
+			</div>
+			<Footer />
+			<ToastContainer />
+		</div>
+	);
 };
 
 export default PostProduct;
