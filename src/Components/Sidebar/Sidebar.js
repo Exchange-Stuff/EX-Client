@@ -42,7 +42,7 @@ export const SideBar = () => {
 				</Menu.Item>
 
 				<Menu.Item key="4" icon={<MoneyCollectOutlined />}>
-					<Link to="/financial">Tài khoản</Link>
+					<Link to="/financial">Quản lý tài chính</Link>
 				</Menu.Item>
 			</Menu>
 		</div>
