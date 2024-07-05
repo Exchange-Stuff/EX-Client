@@ -84,7 +84,7 @@ export const OrderProduct = () => {
 
       if (result.data) {
         toast.success("Đặt hàng thành công");
-        window.location.href = "http://localhost:3000/orderpage/true";
+        window.location.href = "http://localhost:3000/orderpage";
       }
     } catch (error) {
       console.error("Error creating product:", error);

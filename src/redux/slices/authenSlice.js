@@ -2,14 +2,28 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {api} from '../../services/api';
 
 export const loginByAdmin = createAsyncThunk(
-	'/Account/users?pageIndex=1&pageSize=10',
-	async ({body}, {rejectWithValue}) => {
+	'Login by admin',
+	async ({username, password}, {rejectWithValue}) => {
 		try {
+			console.log('username', username);
+			console.log('password ', password);
 			const url = `/Admin/login`;
-			console.log('response', response);
-			return response.data.metadata;
+			const response = await api.post(url, {username, password});
+			return response.data;
 		} catch (error) {
-			console.log('error', error);
+			return rejectWithValue(error.response.data);
+		}
+	}
+);
+
+export const loginByModerator = createAsyncThunk(
+	'Login by moderator',
+	async ({username, password}, {rejectWithValue}) => {
+		try {
+			const url = `/Auth/signin`;
+			const response = await api.post(url, {username, password});
+			return response.data;
+		} catch (error) {
 			return rejectWithValue(error.response.data);
 		}
 	}
@@ -18,7 +32,7 @@ export const loginByAdmin = createAsyncThunk(
 export const authenSlice = createSlice({
 	name: 'authenSlice',
 	initialState: {
-		financialList: [],
+		user: {},
 		loading: true,
 		error: null,
 	},
@@ -29,15 +43,27 @@ export const authenSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			//add case for fetch data function example
-			.addCase(fetchFinancial.pending, (state) => {
+			// Case for login by admin
+			.addCase(loginByAdmin.pending, (state) => {
 				state.loading = true;
 			})
-			.addCase(fetchFinancial.fulfilled, (state, action) => {
+			.addCase(loginByAdmin.fulfilled, (state, action) => {
 				state.loading = false;
-				state.financialList = action.payload;
+				state.user = action.payload;
 			})
-			.addCase(fetchFinancial.rejected, (state, action) => {
+			.addCase(loginByAdmin.rejected, (state, action) => {
+				state.loading = true;
+				state.error = action.payload;
+			})
+			// Case for login by moderator
+			.addCase(loginByModerator.pending, (state) => {
+				state.loading = true;
+			})
+			.addCase(loginByModerator.fulfilled, (state, action) => {
+				state.loading = false;
+				state.user = action.payload;
+			})
+			.addCase(loginByModerator.rejected, (state, action) => {
 				state.loading = true;
 				state.error = action.payload;
 			});

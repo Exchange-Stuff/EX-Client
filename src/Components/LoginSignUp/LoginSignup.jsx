@@ -1,17 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import './LoginSignup.css';
-import user_icon from '../Assets/person.png';
-import email_icon from '../Assets/email.png';
-import password_icon from '../Assets/password.png';
-import {GoogleOAuthProvider, GoogleLogin} from '@react-oauth/google';
-import googleAuthConfig from '../../config/googleAuthConfig';
-import {useNavigate} from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
 import {Button, Form, Input, Row} from 'antd';
 import {GoogleOutlined} from '@ant-design/icons';
 import {googleAuthUrl} from '../../utils';
+import {useDispatch} from 'react-redux';
+import {loginByAdmin, loginByModerator} from '../../redux/slices/authenSlice';
+import {toast, ToastContainer} from 'react-toastify';
+import {useNavigate} from 'react-router-dom';
 
 export const LoginSignup = ({handleCloseModal}) => {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
 	const [selectedUserType, setSelectedUserType] = useState('user');
 
 	const handleGoogleButtonClick = () => {
@@ -19,12 +20,44 @@ export const LoginSignup = ({handleCloseModal}) => {
 	};
 
 	const onFinish = (values) => {
-		console.log(jwtDecode());
+		console.log(values);
 		if (selectedUserType === 'moderator') {
-			console.log('moderator');
+			dispatch(
+				loginByModerator({
+					username: values.username,
+					password: values.password,
+				})
+			).then((res) => {
+				console.log(`res`, res);
+				if (res.error) {
+					toast.error(`${res.payload.error.message}`);
+				} else {
+					// save token to local storage
+					localStorage.setItem('accessToken', res.payload.value);
+					localStorage.setItem('role', 'moderator');
+					toast.success('Đăng nhập thành công');
+					window.location.href = '/product';
+				}
+			});
 		}
 		if (selectedUserType === 'admin') {
-			console.log('admin');
+			dispatch(
+				loginByAdmin({
+					username: values.username,
+					password: values.password,
+				})
+			).then((res) => {
+				console.log(`res`, res);
+				if (res.error) {
+					toast.error(`${res.payload.error.message}`);
+				} else {
+					// save token to local storage
+					localStorage.setItem('accessToken', res.payload.value);
+					localStorage.setItem('role', 'admin');
+					toast.success('Đăng nhập thành công');
+					window.location.href = '/user';
+				}
+			});
 		}
 	};
 
@@ -140,6 +173,7 @@ export const LoginSignup = ({handleCloseModal}) => {
 					)}
 				</div>
 			</div>
+			<ToastContainer />
 		</div>
 	);
 };
