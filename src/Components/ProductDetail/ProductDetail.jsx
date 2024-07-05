@@ -9,7 +9,8 @@ import axios from "../../utils/axios.js";
 import coin from "../Assets/coin.png";
 import send from "../Assets/send.png";
 import { jwtDecode } from "jwt-decode";
-import { format } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
+import { vi } from "date-fns/locale";
 import { Autoplay } from "swiper/modules";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -31,7 +32,6 @@ export const ProductDetail = () => {
   }, [data.images]);
 
   useEffect(() => {
-    
     window.scrollTo(0, 0);
     
     const fetchData = async () => {
@@ -107,13 +107,12 @@ export const ProductDetail = () => {
     fetchData();
   }, [id]);
 
-  
-
   const handleAddComment = async () => {
     try {
-      const result = await axios.post(`Comments`, {
-        productId: data.id,
+      const result = await axios.post(`Comment/create`, {
         content: newComment,
+        accountId: userInfoData.id,
+        productId: data.id
       });
 
       if (result.data.isSuccess) {
@@ -129,7 +128,23 @@ export const ProductDetail = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return format(date, "dd/MM h a");
+    return formatDistanceToNow(date, { locale: vi }) + " trước";
+  };
+
+  const handleDeletePost = async () => {
+    try {
+      const result = await axios.delete(`Product/delete/${id}`);
+      if (result.data.isSuccess) {
+        toast.success("Xóa bài đăng thành công");
+        window.location.href = "http://localhost:3000/homepage";
+      } else {
+        console.error("Error in response:", result.data.error);
+        toast.error("Xóa bài đăng thất bại");
+      }
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      toast.error("Xóa bài đăng thất bại");
+    }
   };
   
 
@@ -139,20 +154,17 @@ export const ProductDetail = () => {
       <div className="product-content">
         <div className="product-images">
           <div className="img-postproduct-content">
-          <img className="img-postproduct"
+            <img
+              className="img-postproduct"
               src={selectedImage}
               alt="Product Image"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
-          />
+            />
           </div>
           
           <Swiper
             className="swiper-container"
             style={{ width: "420px", height: "420px", margin: "0 0 10px 0" }}
-            // autoplay={{
-            //   delay: 4000,
-            //   disableOnInteraction: false,
-            // }}
             modules={[Autoplay]}
           ></Swiper>
           <div className="image-thumbnails">
@@ -243,20 +255,28 @@ export const ProductDetail = () => {
           </div>
           <div className="seller-rating">
             <span className="avg-rating">{ratingData.ratingAvg}</span>
-            <span className="start"> ★ </span>
+            <span className="star"> ★ </span>
             <span className="count-rating">
               ({ratingData.ratingCount} đánh giá)
             </span>
           </div>
-          <Link to={`/orderproduct/${data.id}`} style={{ textDecoration: "none", maxWidth : "305px", minWidth: "305px" }}>
-            <button className="buy-now-button">MUA NGAY</button>
-          </Link>
-          <button className="inbox-button">Nhắn tin với người bán</button>
-          <button className="profile-button">Đi tới trang người bán</button>
+          {userData.id !== userInfoData.id ? (
+            <>
+              <Link to={`/orderproduct/${data.id}`} style={{ textDecoration: "none", maxWidth : "305px", minWidth: "305px" }}>
+                <button className="buy-now-button">MUA NGAY</button>
+              </Link>
+              <button className="inbox-button">Nhắn tin với người bán</button>
+              <button className="profile-button">Đi tới trang người bán</button>
+            </>
+          ) : (
+            <button className="buy-now-button" onClick={handleDeletePost}>
+              Xóa bài đăng
+            </button>
+          )}
         </div>
       </div>
       <Footer />
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 };
