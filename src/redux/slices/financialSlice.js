@@ -1,15 +1,13 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {api, Headers} from '../../services/api';
+import {api} from '../../services/api';
 
 export const fetchFinancial = createAsyncThunk(
 	'Get All Financial Ticket',
 	async ({pageIndex, pageSize, status}, {rejectWithValue}) => {
 		try {
-			const url = `/getAllFinancialTicket?pageIndex=${pageIndex}&pageSize=${pageSize}&status=${status}`;
-			console.log('response');
-			const response = await api.get(url, {
-				headers: Headers,
-			});
+			console.log('pageIndex', pageIndex);
+			const url = `/FinancialTicket/getAllFinancialTicket?pageIndex=${pageIndex}&pageSize=${pageSize}&status=${status}`;
+			const response = await api.get(url);
 			console.log('response', response);
 			return response.data;
 		} catch (error) {
@@ -25,6 +23,7 @@ export const financialSlice = createSlice({
 		financialList: [],
 		loading: true,
 		error: null,
+		totalPage: 0,
 	},
 	reducers: {
 		setUser: (state, action) => {
@@ -39,7 +38,7 @@ export const financialSlice = createSlice({
 			})
 			.addCase(fetchFinancial.fulfilled, (state, action) => {
 				state.loading = false;
-				state.financialList = action.payload;
+				state.financialList = action.payload.value;
 			})
 			.addCase(fetchFinancial.rejected, (state, action) => {
 				state.loading = true;

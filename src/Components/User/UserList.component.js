@@ -8,11 +8,9 @@ import {
 } from '../../redux/selectors';
 import {fetchUsers} from '../../redux/slices/userSlice';
 import {Pagination, Input, Table, Button} from 'antd';
-import {useNavigate} from 'react-router-dom';
 
 export const UserList = () => {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 
 	const [pageSize, setPageSize] = useState(10);
 	const [pageIndex, setPageIndex] = useState(1);

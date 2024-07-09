@@ -2,9 +2,13 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import './financialList.component.css';
 import {useDispatch, useSelector} from 'react-redux';
-import {getAllFinancialSelector, getLoadingFinancialSelector} from '../../redux/selectors';
+import {
+	getAllFinancialSelector,
+	getLoadingFinancialSelector,
+	getTotalPageFinancialSelector,
+} from '../../redux/selectors';
 import {fetchFinancial} from '../../redux/slices/financialSlice';
-import {Table} from 'antd';
+import {Pagination, Table} from 'antd';
 
 export const FinancialList = () => {
 	const dispatch = useDispatch();
@@ -15,9 +19,16 @@ export const FinancialList = () => {
 
 	const listFinancial = useSelector(getAllFinancialSelector);
 	const loading = useSelector(getLoadingFinancialSelector);
+	const totalPage = useSelector(getTotalPageFinancialSelector);
 
 	useEffect(() => {
-		dispatch(fetchFinancial({pageIndex, pageSize, status})).then((res) => {
+		dispatch(
+			fetchFinancial({
+				pageIndex: pageIndex,
+				pageSize: pageSize,
+				status: status,
+			})
+		).then((res) => {
 			console.log('res', res);
 		});
 	}, [pageIndex, pageSize, status, dispatch]);
@@ -62,11 +73,69 @@ export const FinancialList = () => {
 					<option value={2}>Reject</option>
 				</select>
 			</div>
-			<Table></Table>
-			<div className="financial-paging">
-				<button onClick={() => setPageIndex(pageIndex - 1)}>Previous</button>
-				<button onClick={() => setPageIndex(pageIndex + 1)}>Next</button>
-			</div>
+			<Table dataSource={listFinancial} loading={loading}>
+				<Table.Column title="Số tiền" dataIndex="amount" key="amount" />
+				<Table.Column
+					title="Name"
+					dataIndex="user"
+					key="name"
+					render={(user) => user.name}
+				/>
+				<Table.Column
+					title="Username"
+					dataIndex="user"
+					key="username"
+					render={(user) => user.username}
+				/>
+				<Table.Column
+					title="Email"
+					dataIndex="user"
+					key="email"
+					render={(user) => user.email}
+				/>
+
+				<Table.Column
+					align="center"
+					title="QR Code"
+					dataIndex="thumbnail"
+					key="imageQRCode"
+					render={(imageQRCode) => (
+						<img
+							src={imageQRCode}
+							alt="imageQRCode"
+							style={{width: '50px', height: '50px'}}
+						/>
+					)}
+				/>
+				<Table.Column
+					title="Thời gian tạo"
+					dataIndex="createdOn"
+					key="createdOn"
+					render={(data) =>
+						new Date(data).toLocaleDateString('en-GB', {
+							day: 'numeric',
+							month: 'numeric',
+							year: 'numeric',
+						})
+					}
+				/>
+
+				<Table.Column
+					title="Status"
+					dataIndex="status"
+					key="status"
+					render={(status) => {
+						if (status === 0) {
+							return <span className="status-pending">Pending</span>;
+						} else if (status === 1) {
+							return <span className="status-success">Success</span>;
+						} else {
+							return <span className="status-reject">Reject</span>;
+						}
+					}}
+				/>
+			</Table>
+			<Pagination defaultCurrent={1} total={totalPage} />
 		</div>
 	);
 };

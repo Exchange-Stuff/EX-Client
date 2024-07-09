@@ -34,7 +34,7 @@ export const SideBar = () => {
 				</Menu.Item>
 
 				<Menu.Item key="2" icon={<ProductOutlined />}>
-					<Link to="/homepage">Sản phẩm</Link>
+					<Link to="/product">Sản phẩm</Link>
 				</Menu.Item>
 
 				<Menu.Item key="3" icon={<UserOutlined />}>
