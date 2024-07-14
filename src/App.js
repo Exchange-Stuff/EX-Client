@@ -1,20 +1,21 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
-import { LoginSignup } from './Components/LoginSignUp/LoginSignup.jsx';
-import { HomePage } from './Components/HomePage/HomePage';
-import { PostProduct } from './Components/PostProduct/PostProduct';
-import { UserPage } from './Pages/Admin/UserPage/UserPage';
-import { ProductDetail } from './Components/ProductDetail/ProductDetail.jsx';
-import { Payment } from './Components/PaymentPage/Payment.jsx';
-import { Blank } from './Components/Blank/Blank.jsx';
-import { Profile } from './Components/Profile/Profile.jsx';
+import {LoginSignup} from './Components/LoginSignUp/LoginSignup.jsx';
+import {HomePage} from './Components/HomePage/HomePage';
+import {PostProduct} from './Components/PostProduct/PostProduct';
+import {UserPage} from './Pages/Admin/UserPage/UserPage';
+import {ProductDetail} from './Components/ProductDetail/ProductDetail.jsx';
+import {Payment} from './Components/PaymentPage/Payment.jsx';
+import {Blank} from './Components/Blank/Blank.jsx';
+import {Profile} from './Components/Profile/Profile.jsx';
 //import Header from "./Components/Header/Header";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import FinancialPage from './Pages/Admin/FinancialPage/financial.page.js';
-import { OrderProduct } from './Components/OrderProduct/OrderProduct.jsx';
-import { OrderPage } from './Components/OrderPage/OrderPage.jsx';
-import { SideBar } from './Components/Sidebar/Sidebar.js';
-import { Search } from './Components/Search/Search.jsx';
+import {OrderProduct} from './Components/OrderProduct/OrderProduct.jsx';
+import {OrderPage} from './Components/OrderPage/OrderPage.jsx';
+import {SideBar} from './Components/Sidebar/Sidebar.js';
+import {Search} from './Components/Search/Search.jsx';
+import {FinancicalTicket} from './Components/FinancialTicket/FinancicalTicket.jsx';
 
 function App() {
 	const role = localStorage.getItem('role');
@@ -30,7 +31,6 @@ function App() {
 						<Route path="/login" element={<LoginSignup />} />
 						<Route path="/user" element={<UserPage />} />
 						<Route path="/financial" element={<FinancialPage />} />
-						<Route path="/profile" element={<Profile />} />
 					</Routes>
 				) : role === 'moderate' ? (
 					<Routes>
@@ -48,10 +48,11 @@ function App() {
 						<Route path="/blank" element={<Blank />} />
 						<Route path="/orderproduct/:id" element={<OrderProduct />} />
 						<Route path="/orderpage" element={<OrderPage />} />
-            <Route path="/search/:keyword" element={<Search />} />
+						<Route path="/profile" element={<Profile />} />
+						<Route path="/search/:keyword" element={<Search />} />
+						<Route path="/financicalTicket" element={<FinancicalTicket />} />
 					</Routes>
 				)}
-
 			</BrowserRouter>
 		</div>
 	);

@@ -7,7 +7,6 @@ import axios from '../../utils/axios.js';
 import {Input, Space} from 'antd';
 import {FaSearch} from 'react-icons/fa';
 
-
 const Header = ({handleLoginClick}) => {
 	const [userInfo, setUserInfo] = useState([]);
 	const [userImg, setUserImg] = useState([]);
@@ -84,6 +83,12 @@ const Header = ({handleLoginClick}) => {
 	const handleLogout = () => {
 		localStorage.removeItem('accessToken');
 		localStorage.removeItem('refreshToken');
+		localStorage.removeItem('productDescription');
+		localStorage.removeItem('selectedCategory');
+		localStorage.removeItem('selectedImages');
+		localStorage.removeItem('productPrice');
+		localStorage.removeItem('productName');
+		localStorage.removeItem('persist:root');
 		navigate('/login');
 	};
 
@@ -140,6 +145,9 @@ const Header = ({handleLoginClick}) => {
 						<div className="dropdown">
 							<Link to="/profile" className="dropdown-item-1">
 								Trang cá nhân
+							</Link>
+							<Link to="/financicalTicket" className="dropdown-item-2">
+								Rút tiền
 							</Link>
 							<div onClick={handleLogout} className="dropdown-item-2">
 								Logout

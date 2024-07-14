@@ -1,0 +1,69 @@
+.financial-ticket-container h2{
+    margin-top: 100px;
+    text-align: center;
+    max-width: 100%;
+    height: auto;
+}
+
+.financial-ticket-content{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.financial-ticket-form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 400px;
+    padding: 25px;
+    padding-bottom: 360px;
+    margin: auto;
+    justify-content: space-between;
+    border-radius: 10px;
+    background-color: #ffffff;
+    margin-left: 0px;
+  }
+
+  .financial-ticket-form input{
+    height: 30px;
+    margin-bottom: 10px;
+  }
+
+  .financial-ticket-form select{
+    height: 45px;
+    margin-bottom: 10px;
+  }
+
+  .financial-ticket-form button {
+    margin-top: 20px;
+    align-self: center;
+    width: 200px;
+    height: 40px;
+    background-color: #f80;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 17px;
+  }
+  
+  .financial-ticket-form button:hover {
+    background-color: rgb(255, 191, 117);
+  }
+
+  .financial-ticket-blance{
+    display: flex;
+    margin-left: 670px;
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    width: 180px;
+    font-weight: 600;
+    font-size: 20px;
+    height: 40px;
+    background-color: #eac367;
+    justify-content: center;
+    align-items: center;
+  }

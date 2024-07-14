@@ -107,6 +107,7 @@
   cursor: pointer;
   display: block; 
   text-decoration: none;
+  color: black;
 }
 
 .dropdown-item-1:hover{
@@ -118,6 +119,7 @@
   cursor: pointer;
   display: block; 
   text-decoration: none;
+  color: black;
 }
 
 .dropdown-item-2:hover{
