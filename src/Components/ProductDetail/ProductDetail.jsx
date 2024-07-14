@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/swiper-bundle.css";
-import "./ProductDetail.css";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
-import axios from "../../utils/axios.js";
-import coin from "../Assets/coin.png";
-import send from "../Assets/send.png";
-import { jwtDecode } from "jwt-decode";
-import { formatDistanceToNow } from "date-fns";
-import { vi } from "date-fns/locale";
-import { Autoplay } from "swiper/modules";
-import { toast, ToastContainer } from "react-toastify";
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper-bundle.css';
+import './ProductDetail.css';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import axios from '../../utils/axios.js';
+import coin from '../Assets/coin.png';
+import send from '../Assets/send.png';
+import { jwtDecode } from 'jwt-decode';
+import { formatDistanceToNow } from 'date-fns';
+import { vi } from 'date-fns/locale';
+import { Autoplay } from 'swiper/modules';
+import { toast, ToastContainer } from 'react-toastify';
 
 export const ProductDetail = () => {
   const { id } = useParams(); // Lấy id từ URL
@@ -21,10 +21,10 @@ export const ProductDetail = () => {
   const [ratingData, setRatingData] = useState({});
   const [comments, setComments] = useState([]);
   const [countComments, setCountComments] = useState([]);
-  const [newComment, setNewComment] = useState("");
+  const [newComment, setNewComment] = useState('');
   const [userInfoData, setUserInfoData] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
-  
+
   useEffect(() => {
     if (data.images && data.images.length > 0) {
       setSelectedImage(data.images[0].url);
@@ -33,26 +33,22 @@ export const ProductDetail = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    
+
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
+        const token = localStorage.getItem('accessToken');
         if (token) {
           const decoded = jwtDecode(token);
           const userId = decoded.nameid;
           console.log(userId);
-          const result = await axios.get(
-            `Account/user/${userId}`
-          );
+          const result = await axios.get(`Account/user/${userId}`);
           setUserInfoData(result.data.value);
         } else {
-          toast.error("Bạn chưa đăng nhập");
-          window.location.href = "http://localhost:3000/homepage";
+          toast.error('Bạn chưa đăng nhập');
+          window.location.href = 'http://localhost:3000/homepage';
         }
 
-        const productResult = await axios.get(
-          `Product/getDetail/${id}`
-        );
+        const productResult = await axios.get(`Product/getDetail/${id}`);
 
         if (productResult.data.isSuccess) {
           const productData = productResult.data.value;
@@ -65,7 +61,7 @@ export const ProductDetail = () => {
           if (userResult.data.isSuccess) {
             setUserData(userResult.data.value);
           } else {
-            console.error("Error in response:", userResult.data.error);
+            console.error('Error in response:', userResult.data.error);
           }
 
           const ratingResult = await axios.get(
@@ -75,16 +71,14 @@ export const ProductDetail = () => {
           if (ratingResult.data.isSuccess) {
             setRatingData(ratingResult.data.value);
           } else {
-            console.error("Error in response:", ratingResult.data.error);
+            console.error('Error in response:', ratingResult.data.error);
           }
 
-          const commentsResult = await axios.get(
-            `Comment/product/${productData.id}?pageSize=5&pageIndex=1`
-          );
+          const commentsResult = await axios.get(`Comment/product/${productData.id}`);
           if (commentsResult.data.isSuccess) {
             setComments(commentsResult.data.value);
           } else {
-            console.error("Error in response:", commentsResult.data.error);
+            console.error('Error in response:', commentsResult.data.error);
           }
 
           const countCommentsResult = await axios.get(
@@ -94,13 +88,13 @@ export const ProductDetail = () => {
           if (countCommentsResult.data.isSuccess) {
             setCountComments(countCommentsResult.data.value);
           } else {
-            console.error("Error in response:", countCommentsResult.data.error);
+            console.error('Error in response:', countCommentsResult.data.error);
           }
         } else {
-          console.error("Error in response:", productResult.data.error);
+          console.error('Error in response:', productResult.data.error);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       }
     };
 
@@ -108,45 +102,70 @@ export const ProductDetail = () => {
   }, [id]);
 
   const handleAddComment = async () => {
+    if (!newComment.trim()) {
+      // Do not proceed if newComment is null, empty, or contains only whitespace
+      return;
+    }
+
     try {
       const result = await axios.post(`Comment/create`, {
         content: newComment,
         accountId: userInfoData.id,
-        productId: data.id
+        productId: data.id,
       });
 
       if (result.data.isSuccess) {
-        setComments([...comments, result.data.value]);
-        setNewComment("");
+        const newCommentData = result.data.value;
+
+        // Clear the input field after successfully adding a comment
+        setNewComment('');
+
+        // Fetch updated comments list after adding a comment
+        fetchComments();
       } else {
-        console.error("Error in response:", result.data.error);
+        console.error('Error in response:', result.data.error);
       }
     } catch (error) {
-      console.error("Error adding comment:", error);
+      console.error('Error adding comment:', error);
+    }
+  };
+
+  const fetchComments = async () => {
+    try {
+      const commentsResult = await axios.get(`Comment/product/${data.id}`);
+      if (commentsResult.data.isSuccess) {
+        setComments(commentsResult.data.value);
+      } else {
+        console.error('Error fetching comments:', commentsResult.data.error);
+      }
+    } catch (error) {
+      console.error('Error fetching comments:', error);
     }
   };
 
   const formatDate = (dateString) => {
+    if (!dateString) {
+      return ''; // Handle case where dateString is null or undefined
+    }
     const date = new Date(dateString);
-    return formatDistanceToNow(date, { locale: vi }) + " trước";
+    return formatDistanceToNow(date, { locale: vi }) + ' trước';
   };
 
   const handleDeletePost = async () => {
     try {
       const result = await axios.delete(`Product/delete/${id}`);
       if (result.data.isSuccess) {
-        toast.success("Xóa bài đăng thành công");
-        window.location.href = "http://localhost:3000/homepage";
+        toast.success('Xóa bài đăng thành công');
+        window.location.href = 'http://localhost:3000/homepage';
       } else {
-        console.error("Error in response:", result.data.error);
-        toast.error("Xóa bài đăng thất bại");
+        console.error('Error in response:', result.data.error);
+        toast.error('Xóa bài đăng thất bại');
       }
     } catch (error) {
-      console.error("Error deleting post:", error);
-      toast.error("Xóa bài đăng thất bại");
+      console.error('Error deleting post:', error);
+      toast.error('Xóa bài đăng thất bại');
     }
   };
-  
 
   return (
     <div className="product-detail">
@@ -158,20 +177,24 @@ export const ProductDetail = () => {
               className="img-postproduct"
               src={selectedImage}
               alt="Product Image"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           </div>
-          
+
           <Swiper
             className="swiper-container"
-            style={{ width: "420px", height: "420px", margin: "0 0 10px 0" }}
+            style={{ width: '420px', height: '420px', margin: '0 0 10px 0' }}
             modules={[Autoplay]}
           ></Swiper>
           <div className="image-thumbnails">
             {data.images && data.images.length > 0
               ? data.images.map((image) => (
                   <div key={image.id} className="thumbnail">
-                    <img onClick={() => setSelectedImage(image.url)} src={image.url} alt="Product Thumbnail" />
+                    <img
+                      onClick={() => setSelectedImage(image.url)}
+                      src={image.url}
+                      alt="Product Thumbnail"
+                    />
                   </div>
                 ))
               : null}
@@ -187,10 +210,10 @@ export const ProductDetail = () => {
                 src={coin}
                 alt=""
                 style={{
-                  width: "38px",
-                  height: "35px",
-                  transform: "none",
-                  marginRight: "3px",
+                  width: '38px',
+                  height: '35px',
+                  transform: 'none',
+                  marginRight: '3px',
                 }}
               />
               <span className="discounted-price">{data.price}</span>
@@ -201,22 +224,24 @@ export const ProductDetail = () => {
             </div>
           </div>
           <div className="product-info-frame-2">
-            <h1 className="comment-header">
-              Bình luận về sản phẩm ({countComments})
-            </h1>
+            <h1 className="comment-header">Bình luận về sản phẩm ({countComments})</h1>
             <div className="comments-section">
               {comments.length > 0 ? (
                 comments.map((comment, index) => (
                   <div key={index} className="comment">
                     <div className="info-commenter">
-                      <img
-                        src={comment.user.thumbnail}
-                        className="logo-commenter"
-                        style={{
-                          marginRight: "10px",
-                        }}
-                      />
-                      <span>{comment.user.name}</span>
+                      {comment.user && comment.user.thumbnail ? (
+                        <img
+                          src={comment.user.thumbnail}
+                          className="logo-commenter"
+                          style={{
+                            marginRight: '10px',
+                          }}
+                        />
+                      ) : null}
+                      <span>
+                        {comment.user && comment.user.name ? comment.user.name : ''}
+                      </span>
                     </div>
                     <div className="comment-content">
                       <p>{comment.content}</p>
@@ -236,9 +261,13 @@ export const ProductDetail = () => {
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Thêm nhận xét của bạn..."
+                disabled={data.quantity < 1 || data.productStatus !== 1}
               />
-              <button onClick={handleAddComment}>
-                <img src={send} style={{ width: "100%" }} />
+              <button
+                onClick={handleAddComment}
+                disabled={data.quantity < 1 || data.productStatus !== 1}
+              >
+                <img src={send} style={{ width: '100%' }} />
               </button>
             </div>
           </div>
@@ -246,28 +275,42 @@ export const ProductDetail = () => {
 
         <div className="seller-info">
           <div className="seller-header">
-            <img
-              src={userData.thumbnail}
-              alt="Seller Logo"
-              className="seller-logo"
-            />
+            <img src={userData.thumbnail} alt="Seller Logo" className="seller-logo" />
             <div className="seller-name">{userData.name}</div>
           </div>
           <div className="seller-rating">
             <span className="avg-rating">{ratingData.ratingAvg}</span>
             <span className="star"> ★ </span>
-            <span className="count-rating">
-              ({ratingData.ratingCount} đánh giá)
-            </span>
+            <span className="count-rating">({ratingData.ratingCount} đánh giá)</span>
           </div>
           {userData.id !== userInfoData.id ? (
-            <>
-              <Link to={`/orderproduct/${data.id}`} style={{ textDecoration: "none", maxWidth : "305px", minWidth: "305px" }}>
-                <button className="buy-now-button">MUA NGAY</button>
-              </Link>
-              <button className="inbox-button">Nhắn tin với người bán</button>
-              <button className="profile-button">Đi tới trang người bán</button>
-            </>
+            data.quantity > 0 && data.productStatus === 1 ? (
+              <>
+                <Link
+                  to={`/orderproduct/${data.id}`}
+                  style={{
+                    textDecoration: 'none',
+                    maxWidth: '305px',
+                    minWidth: '305px',
+                  }}
+                >
+                  <button className="buy-now-button">MUA NGAY</button>
+                </Link>
+                <button className="inbox-button">Nhắn tin với người bán</button>
+                <Link
+                  to={`/profile/${userData.id}`}
+                  style={{
+                    textDecoration: 'none',
+                    maxWidth: '305px',
+                    minWidth: '305px',
+                  }}
+                >
+                  <button className="profile-button">
+                    Đi tới trang người bán
+                  </button>
+                </Link>
+              </>
+            ) : null
           ) : (
             <button className="buy-now-button" onClick={handleDeletePost}>
               Xóa bài đăng

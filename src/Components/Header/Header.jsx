@@ -7,6 +7,7 @@ import {jwtDecode} from 'jwt-decode';
 import axios from '../../utils/axios.js';
 import {Input, Space} from 'antd';
 import {FaBell, FaFacebookMessenger, FaSearch} from 'react-icons/fa';
+import {FaSearch} from 'react-icons/fa';
 
 const Header = ({handleLoginClick}) => {
 	const [userInfo, setUserInfo] = useState([]);
@@ -34,9 +35,7 @@ const Header = ({handleLoginClick}) => {
 		}
 	};
 	const handleSearch = () => {
-		if (searchKeyword.trim() !== '') {
-			navigate(`/search/${encodeURIComponent(searchKeyword)}`);
-		}
+		navigate(`/search/${encodeURIComponent(searchKeyword)}`);
 	};
 
 	const handleKeyPress = (event) => {
@@ -100,6 +99,12 @@ const Header = ({handleLoginClick}) => {
 	const handleLogout = () => {
 		localStorage.removeItem('accessToken');
 		localStorage.removeItem('refreshToken');
+		localStorage.removeItem('productDescription');
+		localStorage.removeItem('selectedCategory');
+		localStorage.removeItem('selectedImages');
+		localStorage.removeItem('productPrice');
+		localStorage.removeItem('productName');
+		localStorage.removeItem('persist:root');
 		navigate('/login');
 	};
 
@@ -108,15 +113,20 @@ const Header = ({handleLoginClick}) => {
 			<Link to="/homepage" className="trangchu">
 				<img src={logo} alt="Trang chủ" className="logo" />
 			</Link>
-			<div className="category">Đồ điện tử</div>
-			<div className="category">Quần áo</div>
-			<div className="category">Dụng cụ học tập</div>
-			<div className="category">Giày dép</div>
-			<Link to="/postproduct" className="category">
-				Đăng sản phẩm
+			<Link to="/productByCategory/18286bfd-96b0-4536-9ebb-6a526281bd90" className="category">
+				Đồ điện tử
 			</Link>
-			<Link to="/payment" className="category">
-				Mua xu
+			<Link to="/productByCategory/0736139a-3e11-4847-ae7f-51348f6e6a74" className="category">
+				Quần áo
+			</Link>
+			<Link to="/productByCategory/d6c3e8cf-0a73-4fb3-a843-56e8b8c56b72" className="category">
+				Dụng cụ học tập
+			</Link>
+			<Link to="/productByCategory/9a41c85b-57f5-4d8c-92b6-8b16e55fb1dc" className="category">
+				Giày dép
+			</Link>
+			<Link to="/productByCategory/9a41c85b-57f5-4d8c-92b6-8b16e55fb1dc" className="category">
+				Khác
 			</Link>
 			<div className="search-input-header">
 				<input
@@ -138,6 +148,9 @@ const Header = ({handleLoginClick}) => {
 					<FaSearch />
 				</button>
 			</div>
+			<Link to="/postproduct" className="post-button">
+				Đăng sản phẩm
+			</Link>
 
 			{!isLogin && (
 				<div onClick={handleLoginClick} className="category">
@@ -154,8 +167,17 @@ const Header = ({handleLoginClick}) => {
 					/>
 					{dropdownVisible && (
 						<div className="dropdown">
-							<Link to="/profile" className="dropdown-item-1">
+							<Link to={`/profile/${userInfo.nameid}`} className="dropdown-item-1">
 								Trang cá nhân
+							</Link>
+							<Link to="/orderpage" className="dropdown-item-2">
+								Lịch sử mua hàng
+							</Link>
+							<Link to="/payment" className="dropdown-item-2">
+								Mua xu
+							</Link>
+							<Link to="/financicalTicket" className="dropdown-item-2">
+								Rút tiền
 							</Link>
 							<div onClick={handleLogout} className="dropdown-item-2">
 								Logout
