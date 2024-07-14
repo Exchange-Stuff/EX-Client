@@ -143,7 +143,7 @@ const Header = ({handleLoginClick}) => {
 					/>
 					{dropdownVisible && (
 						<div className="dropdown">
-							<Link to="/profile" className="dropdown-item-1">
+							<Link to={`/profile/${userInfo.nameid}`} className="dropdown-item-1">
 								Trang cá nhân
 							</Link>
 							<Link to="/financicalTicket" className="dropdown-item-2">

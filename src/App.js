@@ -48,7 +48,7 @@ function App() {
 						<Route path="/blank" element={<Blank />} />
 						<Route path="/orderproduct/:id" element={<OrderProduct />} />
 						<Route path="/orderpage" element={<OrderPage />} />
-						<Route path="/profile" element={<Profile />} />
+						<Route path="/profile/:id" element={<Profile />} />
 						<Route path="/search/:keyword" element={<Search />} />
 						<Route path="/financicalTicket" element={<FinancicalTicket />} />
 					</Routes>
