@@ -113,9 +113,6 @@ export const HomePage = () => {
 			<div className="data-list">
 				<div className="header-container" style={{marginBottom: '20px'}}>
 					<h2>Sản phẩm mới</h2>
-					<a href="/new-products" className="view-more-link">
-						Xem thêm
-					</a>
 				</div>
 
 				<ul className="list-container">
@@ -166,7 +163,7 @@ export const HomePage = () => {
 			<div className="data-list" style={{margin: '0 1% 0 1%'}}>
 				<div className="header-container">
 					<h2>Đồ điện tử</h2>
-					<a href="/new-products" className="view-more-link">
+					<a href="/productByCategory/18286bfd-96b0-4536-9ebb-6a526281bd90" className="view-more-link">
 						Xem thêm
 					</a>
 				</div>
@@ -255,7 +252,7 @@ export const HomePage = () => {
 			<div className="data-list" style={{margin: '0 1% 0 1%'}}>
 				<div className="header-container">
 					<h2>Quần áo</h2>
-					<a href="/new-products" className="view-more-link">
+					<a href="/productByCategory/0736139a-3e11-4847-ae7f-51348f6e6a74" className="view-more-link">
 						Xem thêm
 					</a>
 				</div>

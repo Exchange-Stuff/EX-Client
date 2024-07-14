@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import './Search.css';
 import Header from '../Header/Header.jsx';
 import Footer from '../Footer/Footer';
 import axios from '../../utils/axios.js';
@@ -7,38 +6,32 @@ import {useParams} from 'react-router-dom';
 import coin from '../Assets/coin.png';
 import {Link} from 'react-router-dom';
 
-export const Search = () => {
+export const ProductByCategory = () => {
 	const [searchResults, setSearchResults] = useState([]);
-	const {keyword} = useParams();
+	const {id} = useParams();
 
 	useEffect(() => {
-        const fetchData = async () => {
-            try {
-                let result;
-                if (keyword.trim() !== '') {
-                    result = await axios.get(`/Product/getProductName/${keyword}`);
-                } else {
-                    result = await axios.get(`/Product/getProductName/ `);
-                }
-                setSearchResults(result.data.value);
-                console.log(result.data.value);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-        fetchData();
-    }, [keyword]);
+		const fetchData = async () => {
+			try {
+				const result = await axios.get(`/Product/getProductByCategory/${id}`);
+				setSearchResults(result.data);
+				console.log(result.data);
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+		};
+		fetchData();
+	}, [id]);
 
 	return (
 		<div>
 			<Header />
 			<div className="search-results">
-				<h2>Kết quả tìm kiếm cho: "{keyword}"</h2>
 				{searchResults.length === 0 ? (
 					<p>Không tìm thấy sản phẩm nào khớp với lựa chọn của bạn.</p>
 				) : (
 					<div className="data-list">
-						<ul className="list-container">
+						<ul className="list-container" style={{marginTop : "65px"}}>
 							{searchResults.map((list) => (
 								<li key={list.id} className="list-item">
 									<div className="img-container">
@@ -87,9 +80,9 @@ export const Search = () => {
 					</div>
 				)}
 			</div>
-			<Footer />
+            <Footer />
 		</div>
 	);
 };
 
-export default Search;
+export default ProductByCategory;
