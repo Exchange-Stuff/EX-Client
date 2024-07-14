@@ -15,6 +15,7 @@ import { OrderProduct } from './Components/OrderProduct/OrderProduct.jsx';
 import { OrderPage } from './Components/OrderPage/OrderPage.jsx';
 import { SideBar } from './Components/Sidebar/Sidebar.js';
 import { Search } from './Components/Search/Search.jsx';
+import ChatPage from './Components/ChatPage/ChatPage.jsx';
 
 function App() {
 	const role = localStorage.getItem('role');
@@ -48,6 +49,7 @@ function App() {
 						<Route path="/blank" element={<Blank />} />
 						<Route path="/orderproduct/:id" element={<OrderProduct />} />
 						<Route path="/orderpage" element={<OrderPage />} />
+						<Route path="/chat" element={<ChatPage />} />
             <Route path="/search/:keyword" element={<Search />} />
 					</Routes>
 				)}

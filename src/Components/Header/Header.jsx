@@ -1,12 +1,12 @@
 import React, {useEffect, useState, useRef} from 'react';
 import './Header.css';
 import {Link, useNavigate} from 'react-router-dom';
+import {HubConnectionBuilder, HubConnectionState} from '@microsoft/signalr';
 import logo from '../Assets/logo.png';
 import {jwtDecode} from 'jwt-decode';
 import axios from '../../utils/axios.js';
 import {Input, Space} from 'antd';
-import {FaSearch} from 'react-icons/fa';
-
+import {FaBell, FaFacebookMessenger, FaSearch} from 'react-icons/fa';
 
 const Header = ({handleLoginClick}) => {
 	const [userInfo, setUserInfo] = useState([]);
@@ -15,7 +15,24 @@ const Header = ({handleLoginClick}) => {
 	const dropdownRef = useRef(null);
 	const [searchKeyword, setSearchKeyword] = useState('');
 	const navigate = useNavigate();
+	const [listNotification, setListNotification] = useState(['123',"adsgufkao ieof fhaiwoe hfasdlfhw"]);
+	const [notificationConnection, setNotificationConnection] = useState();
 
+	const connectNotification = async () => {
+		try {
+			const conn = new HubConnectionBuilder()
+				.withUrl('http://localhost:5059/esnotification')
+				.build();
+			conn.on('ReceiveNotification', (msg) => {
+				setListNotification((listNotification) => [...listNotification, msg]);
+			});
+			await conn.start();
+
+			setNotificationConnection(conn);
+		} catch (error) {
+			console.log('try catch', error);
+		}
+	};
 	const handleSearch = () => {
 		if (searchKeyword.trim() !== '') {
 			navigate(`/search/${encodeURIComponent(searchKeyword)}`);
@@ -30,7 +47,7 @@ const Header = ({handleLoginClick}) => {
 
 	const isLogin = localStorage.getItem('accessToken');
 
-	useEffect(() => {
+	useEffect(async () => {
 		try {
 			const token = localStorage.getItem('accessToken');
 			if (token) {
@@ -38,6 +55,7 @@ const Header = ({handleLoginClick}) => {
 				console.log(decoded);
 				setUserInfo(decoded);
 			}
+			await connectNotification();
 		} catch (err) {
 			console.error(err);
 		}
@@ -47,9 +65,7 @@ const Header = ({handleLoginClick}) => {
 		const getUserBl = async () => {
 			try {
 				const userId = userInfo.nameid;
-				console.log(userId);
 				const result = await axios.get(`http://localhost:5059/api/Account/user/${userId}`);
-				console.log(result);
 				if (result.data.value === null) {
 					console.error('User not found');
 					return;
@@ -148,6 +164,23 @@ const Header = ({handleLoginClick}) => {
 					)}
 				</div>
 			)}
+			<div className="chat-notification">
+				<div className="notification">
+					<FaBell className="notification-icon" />
+					<div className="notification-dropdown">
+						{listNotification.length == 0 ? (
+							<div className='notification-item'>No notification</div>
+						) : (
+							listNotification.map((item, index) => {
+								return <div className="notification-item" key={index}>{item}</div>;
+							})
+						)}
+					</div>
+				</div>
+				<Link to={'/chat'} className="chat">
+					<FaFacebookMessenger />
+				</Link>
+			</div>
 		</div>
 	);
 };

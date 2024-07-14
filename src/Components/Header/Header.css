@@ -28,7 +28,7 @@
   
   .category{
       font-size: 20px;
-      margin-right: 45px;
+      margin-right: 30px;
       font-weight: bold;
       font-family: monospace;
       align-items: center;
@@ -127,5 +127,73 @@
 .search-button{
   background-color: #ffba00;
   color: #ffffff;
+}
+
+.chat-notification {
+  flex: 1;
+  display: flex;
+  justify-content: space-evenly;
+
+}
+
+.notification {
+  position: relative;
+  display: inline-block;
+}
+.notification-dropdown {
+  display: none;
+  position: absolute;
+  left: -100px;
+  background-color: #f9f9f9;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.notification:hover .notification-dropdown {
+  display: block;
+}
+.chat-notification .notification .notification-dropdown {
+  border-radius: 10px;
+}
+.chat-notification .notification .notification-dropdown .notification-item:first-child  {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.chat-notification .notification .notification-dropdown .notification-item:last-child {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.chat-notification .notification .notification-dropdown .notification-item {
+  border: 1px solid gray;
+  width: 200px;
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  padding: 5px 5px 5px 5px;
+}
+
+.chat-notification,
+.chat-notification .chat{
+  font-size: 20px;
+  /* font-weight: bold; */
+  font-family: monospace;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+
+
+.chat-notification .chat {
+  margin-right: 15px;
+}
+
+.chat-notification .notification .notification-icon:hover,
+.chat-notification .chat:hover{
+  color: #ffba00;
 }
 
