@@ -23,10 +23,26 @@ const ChatPage = () => {
 		setIsShowLogin(true);
 	};
 	useEffect(() => {
+		async function startChat() {
+			const receiverId = localStorage.getItem("receiverId");
+			localStorage.removeItem("receiverId");
+			if(receiverId != null && receiverId.length > 0) {
+				setReceiverId(receiverId);
+				const group = await axios.get(`/Chat/check-group?senderId=${senderId}&receiverId=${receiverId}`);
+				const result = await axios.get(`/Chat/get-list-joined/${senderId}`);
+				await connectChat(senderId);
+				const listGroup = JSON.parse(JSON.stringify(result.data.value));
+				setListGroupChat(listGroup);
+				const groupIdData = group.data.value.id;	
+				setGroupId(groupIdData);
+				await joinChatRoom(groupIdData);
+				const resultMsg = await axios.get(`/Chat/get-list-messages/${groupIdData}`);
+				setListMsg(JSON.parse(JSON.stringify(resultMsg.data.value)));
+			}
+		}
 		async function getGroupChat() {
 			const result = await axios.get(`/Chat/get-list-joined/${senderId}`);
 			await connectChat(senderId);
-			// console.log(JSON.parse(JSON.stringify(result.data.value)));
 			const listGroup = JSON.parse(JSON.stringify(result.data.value));
 			setListGroupChat(listGroup);
 			const groupIdData = listGroup[0].id;
@@ -35,6 +51,7 @@ const ChatPage = () => {
 			setListMsg(JSON.parse(JSON.stringify(resultMsg.data.value)));
 		};
 		getGroupChat();
+		startChat();
 	}, []);
 	const connectChat = async (senderId) => {
 		try {

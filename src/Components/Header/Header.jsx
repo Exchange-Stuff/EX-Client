@@ -7,7 +7,6 @@ import {jwtDecode} from 'jwt-decode';
 import axios from '../../utils/axios.js';
 import {Input, Space} from 'antd';
 import {FaBell, FaFacebookMessenger, FaSearch} from 'react-icons/fa';
-import {FaSearch} from 'react-icons/fa';
 
 const Header = ({handleLoginClick}) => {
 	const [userInfo, setUserInfo] = useState([]);

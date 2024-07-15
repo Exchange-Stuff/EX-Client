@@ -14,7 +14,6 @@ export const OrderProduct = () => {
   const [userData, setUserData] = useState({});
   const [userInfoData, setUserInfoData] = useState({});
   const [userBl, setUserBl] = useState(0);
-
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetchData = async () => {
@@ -68,7 +67,10 @@ export const OrderProduct = () => {
   console.log("User Balance:", userBl);
 
   const totalPrice = userBl - data.price;
-
+  const handleChatOwner = () => {
+    localStorage.setItem("receiverId", userData.id);
+    window.location.href = '/chat';
+  }
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -134,7 +136,7 @@ export const OrderProduct = () => {
                 />
               </p>
               <button className="order-button" onClick={handleSubmit}>Tiến hành đặt hàng</button>
-              <button className="inbox-order">Nhắn tin với người bán</button>
+              <button className="inbox-order" onClick={handleChatOwner}>Nhắn tin với người bán</button>
               <div className="notify-order">
                 <span>Sau khi tiến hành đặt hàng số đồng trong ví sẽ bị trừ</span>
                 <span>Bạn hãy nhắn tin với người bán để liên hệ nhận hàng</span>
