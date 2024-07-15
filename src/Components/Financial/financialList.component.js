@@ -74,7 +74,9 @@ export const FinancialList = () => {
 				</select>
 			</div>
 			<Table dataSource={listFinancial} loading={loading}>
-				<Table.Column title="Số tiền" dataIndex="amount" key="amount" />
+				<Table.Column title="Số tiền" dataIndex="amount" key="amount">
+					
+				</Table.Column>
 				<Table.Column
 					title="Name"
 					dataIndex="user"
