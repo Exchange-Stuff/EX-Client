@@ -155,6 +155,9 @@ const Header = ({handleLoginClick}) => {
 							<Link to="/orderpage" className="dropdown-item-2">
 								Lịch sử mua hàng
 							</Link>
+							<Link to="/transactionHistory" className="dropdown-item-2">
+								Lịch sử giao dịch
+							</Link>
 							<Link to="/payment" className="dropdown-item-2">
 								Mua xu
 							</Link>

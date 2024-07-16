@@ -1,10 +1,10 @@
-.orderpage {
+.transactionHistorypage {
     display: flex;
     flex-direction: column;
     background-color: #f5f5fa;
   }
   
-  .orderpage-content {
+  .transactionHistorypage-content {
     width: 80%;
     margin: 87px auto 20px auto;
     background-color: #ffffff;
@@ -13,13 +13,7 @@
     padding: 20px;
   }
   
-  .status-filter {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .orderpage-form {
+  .transactionHistorypage-form {
     border-radius: 10px; /* Bo tròn góc */
     padding: 20px;
     background-color: #fff;

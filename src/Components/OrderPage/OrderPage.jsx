@@ -34,7 +34,7 @@ const columns = [
     key: 'operation',
     fixed: 'right',
     width: 100,
-    render: () => <a>action</a>,
+    render: () => <a style={{ color: '#ff8c00' }}>action</a>, // Màu chữ cam đậm
   },
 ];
 
@@ -71,13 +71,14 @@ export const OrderPage = () => {
 
   const handleStatusChange = async (value) => {
     const purchaseTicket = await axios.get(`PurchaseTicket/getListPurchaseTicketByUserId/10/1/${value}`);
-          setData(purchaseTicket.data.value);
+    setData(purchaseTicket.data.value);
   };
 
   return (
     <div className="orderpage">
       <Header />
       <div className="orderpage-content">
+        <h2 style={{ color: '#ff8c00' }}>Lịch sử mua hàng</h2> {/* Màu chữ cam đậm */}
         <div className="status-filter">
           <span>Status</span>
           <Select defaultValue="Pending" onChange={handleStatusChange} style={{ width: 120, marginLeft: 10 }}>
