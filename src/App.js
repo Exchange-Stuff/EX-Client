@@ -17,6 +17,7 @@ import SideBar from './Components/Sidebar/Sidebar.js';
 import {Search} from './Components/Search/Search.jsx';
 import ProductPage from './Pages/Admin/ProductPage/product.page.js';
 import {ToastContainer} from 'react-toastify';
+import ChatPage from './Components/ChatPage/ChatPage.jsx';
 import {FinancicalTicket} from './Components/FinancialTicket/FinancicalTicket.jsx';
 import {ProductByCategory} from './Components/ProductByCategory/ProductByCategory.jsx';
 import {TransactionHistory} from './Components/TransactionHistory/TransactionHistory.jsx';
@@ -60,7 +61,11 @@ function App() {
 						<Route path="/blank" element={<Blank />} />
 						<Route path="/orderproduct/:id" element={<OrderProduct />} />
 						<Route path="/orderpage" element={<OrderPage />} />
+						<Route path="/chat" element={<ChatPage />} />
+						<Route path="/profile/:id" element={<Profile />} />
 						<Route path="/search/:keyword" element={<Search />} />
+						<Route path="/financicalTicket" element={<FinancicalTicket />} />
+						<Route path="/productByCategory/:id" element={<ProductByCategory />} />
 					</Routes>
 				)}
 				<ToastContainer limit={3} />

@@ -1,0 +1,131 @@
+.container-chat {
+    /* background-color: brown; */
+    margin-top: 65px;
+    display: flex;
+    height: 90vh;
+}
+.container-chat .list-group-chat {
+    border-right: 1px solid brown;
+    padding: 0 10px;
+    overflow-y: auto;
+    width: 30%;
+    height: 100%;
+}
+.list-group-chat .item {
+    cursor: pointer;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    height: 100px;
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+.list-group-chat .item:hover {
+    background-color: rgba(188, 188, 188, 0.5);
+}
+.list-group-chat .active {
+    background-color: rgba(188, 188, 188, 0.5);
+}
+.list-group-chat .item .image {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    padding-right: 20px;
+}
+.list-group-chat .item .image img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+.list-group-chat .item .group-name-content {
+    text-align: start;
+}
+.list-group-chat .item .group-name-content .group-name {
+    padding: 10px 0;
+    font-weight: bold;
+    font-size: 18px;
+    width: 18em;
+    overflow-x: hidden;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    font-size: 16px;
+}
+.list-group-chat .item .group-name-content .content {
+    width: 18em;
+    overflow-x: hidden;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    font-size: 16px;
+}
+.list-group-chat .item .group-name-content .time {
+    font-size: 16px;
+    color: rgb(3, 218, 103);
+}
+
+.content-chat {
+    position: relative;  
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+    width: 70%;
+}
+.container-chat .content-message {
+    height: 100%;
+    overflow-y: auto;
+}
+.container-chat .my-message {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    margin: 2px 0;
+}
+.container-chat .my-message .body-message {
+    background-color: #0084FF;
+    color: white;
+}
+.container-chat .my-message .body-message,
+.container-chat .your-message .body-message {
+    /* overflow-x: wrap; */
+    text-align: start;
+    width: fit-content;
+    max-width: 50%;
+    overflow: nowrap;
+    margin: 0;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.container-chat .your-message {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    margin: 2px 0;
+}
+.container-chat .your-message .body-message {
+    background-color: #F0F0F0;
+    color: black;
+}
+.container-chat .container-input-content {
+    display: flex;
+}
+.container-chat .container-input-content .input-message{
+    width: 95%;
+    /* margin: 0 20px; */
+}
+.container-chat .container-input-content .icon-send {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5%;
+    border-radius: 10px;
+}
+.container-chat .container-input-content .icon-send:hover .fa-paper-plane {
+    color: blue;
+}
+.container-chat .container-input-content .icon-send .fa-paper-plane {
+    color: black;
+    font-size: 20px;
+}
