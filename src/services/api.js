@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const apiURL = `http://localhost:5059/api`;
+export const apiURL = `https://haddock-wise-mallard.ngrok-free.app/api`;
 
 export const api = axios.create({
 	baseURL: apiURL,

@@ -1,13 +1,13 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {api, Headers} from '../../services/api';
+import {api} from '../../services/api';
 
 export const getAllProductByAdmin = createAsyncThunk(
-	'Get All Financial Ticket By Admin',
+	'product/getAllProductByAdmin',
 	async ({rejectWithValue}) => {
 		try {
 			const url = `/Product/getForAdmin`;
-			console.log('response');
 			const response = await api.get(url);
+			console.log('response', response.data);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(error.response.data);
@@ -16,12 +16,12 @@ export const getAllProductByAdmin = createAsyncThunk(
 );
 
 export const getAllProductByModerator = createAsyncThunk(
-	'Get All Financial Ticket By Moderator',
+	'product/getAllProductByModerator',
 	async ({rejectWithValue}) => {
 		try {
 			const url = `/Product/getForModerator`;
-			console.log('response');
 			const response = await api.get(url);
+			console.log('response', response.data);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(error.response.data);

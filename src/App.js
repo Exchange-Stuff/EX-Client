@@ -13,35 +13,39 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import FinancialPage from './Pages/Admin/FinancialPage/financial.page.js';
 import {OrderProduct} from './Components/OrderProduct/OrderProduct.jsx';
 import {OrderPage} from './Components/OrderPage/OrderPage.jsx';
-import {SideBar} from './Components/Sidebar/Sidebar.js';
+import SideBar from './Components/Sidebar/Sidebar.js';
 import {Search} from './Components/Search/Search.jsx';
 import ProductPage from './Pages/Admin/ProductPage/product.page.js';
+import {ToastContainer} from 'react-toastify';
 
 function App() {
 	const role = localStorage.getItem('role');
+	const token = localStorage.getItem('accessToken');
 
 	return (
 		<div className="App">
 			<BrowserRouter>
-				{role === 'admin' || role === 'moderator' ? <SideBar /> : null}
-
 				{role === 'admin' ? (
-					<Routes>
-						<Route path="/*" element={<UserPage />} />
-						<Route path="/login" element={<LoginSignup />} />
-						<Route path="/user" element={<UserPage />} />
-						<Route path="/financial" element={<FinancialPage />} />
-						<Route path="/profile" element={<Profile />} />
-						<Route path="/product" element={<ProductPage />} />
-					</Routes>
+					<SideBar>
+						<Routes>
+							<Route path="/*" element={<UserPage />} />
+							<Route path="/login" element={<LoginSignup />} />
+							<Route path="/user" element={<UserPage />} />
+							<Route path="/financial" element={<FinancialPage />} />
+							<Route path="/profile" element={<Profile />} />
+							<Route path="/product" element={<ProductPage />} />
+						</Routes>
+					</SideBar>
 				) : role === 'moderator' ? (
-					<Routes>
-						<Route path="/*" element={<ProductPage />} />
-						<Route path="/login" element={<LoginSignup />} />
-						<Route path="/user" element={<UserPage />} />
-						<Route path="/product" element={<ProductPage />} />
-						<Route path="/financial" element={<FinancialPage />} />
-					</Routes>
+					<SideBar>
+						<Routes>
+							<Route path="/*" element={<ProductPage />} />
+							<Route path="/login" element={<LoginSignup />} />
+							<Route path="/user" element={<UserPage />} />
+							<Route path="/product" element={<ProductPage />} />
+							<Route path="/financial" element={<FinancialPage />} />
+						</Routes>
+					</SideBar>
 				) : (
 					<Routes>
 						<Route path="/*" element={<HomePage />} />
@@ -56,6 +60,7 @@ function App() {
 						<Route path="/search/:keyword" element={<Search />} />
 					</Routes>
 				)}
+				<ToastContainer limit={3} />
 			</BrowserRouter>
 		</div>
 	);

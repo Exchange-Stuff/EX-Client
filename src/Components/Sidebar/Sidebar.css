@@ -1,56 +1,14 @@
-.Sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 10% !important;
-    z-index: 100;
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-    background-color: rgb(218, 141, 54) !important;
+/* Sidebar.css */
+
+.site-layout-background {
+    background-color: #fff;
 }
 
-.Sidebar button {
-    text-align: left;
-    margin-top: 20%;
-    margin-right: 70%;
-    
-    background-color: #b2baf4;
+.site-layout-sidebar {
+    background-color: #ffb973 !important;
 }
 
 .menu {
     height: 100%;
-    background-color: rgb(218, 141, 54) !important;
-}
-
-.sidebar_menu_item {
-    margin: 20px 0 !important;
-    font-size: 20px;
-    text-align: left;
-}
-
-.sidebar_menu_item a {
-    text-decoration: none;
-}
-
-@media screen and (max-width: 1024px) {
-
-    .Sidebar {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        width: 10% !important;
-        z-index: 100;
-        box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-        background-color: white !important;
-    }
-
-    .menu {
-        height: 100%;
-    }
-
-    .Sidebar button {
-        display: none;
-    }
-
+    background-color: #ffb973;
 }
