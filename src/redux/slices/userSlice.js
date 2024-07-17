@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {api} from '../../services/api';
+import api from '../../utils/axios';
 
 export const fetchUsers = createAsyncThunk(
 	'Get List User',
@@ -10,7 +10,7 @@ export const fetchUsers = createAsyncThunk(
 			console.log('response', response);
 			return response.data.value;
 		} catch (error) {
-			console.log('error', error);
+			console.log('Error', error);
 			return rejectWithValue(error.response.data);
 		}
 	}

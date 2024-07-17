@@ -8,11 +8,11 @@ import {
 } from '../../redux/selectors';
 import {fetchUsers} from '../../redux/slices/userSlice';
 import {Pagination, Input, Table, Button} from 'antd';
-import {useNavigate} from 'react-router-dom';
+import {toast} from 'react-toastify';
+import {DeleteOutlined} from '@ant-design/icons';
 
 export const UserList = () => {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 
 	const [pageSize, setPageSize] = useState(10);
 	const [pageIndex, setPageIndex] = useState(1);
@@ -27,6 +27,9 @@ export const UserList = () => {
 	useEffect(() => {
 		try {
 			dispatch(fetchUsers({name, username, pageIndex, pageSize, includeBan})).then((res) => {
+				if (res.error) {
+					toast.error('Lỗi khi lấy dữ liệu');
+				}
 				console.log('res', res);
 			});
 		} catch (error) {
@@ -81,8 +84,28 @@ export const UserList = () => {
 					key="action"
 					render={() => (
 						<div className="user-table-action">
-							<Button type="primary">Sửa</Button>
-							<Button type="danger">Xóa</Button>
+							<Button
+								type="primary"
+								icon={
+									<DeleteOutlined
+										style={{
+											color: 'red',
+										}}
+									/>
+								}
+							></Button>
+
+							<Button
+								type="primary"
+								danger
+								icon={
+									<DeleteOutlined
+										style={{
+											color: 'red',
+										}}
+									/>
+								}
+							></Button>
 						</div>
 					)}
 				/>

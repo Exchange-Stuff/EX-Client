@@ -63,7 +63,9 @@ const Header = ({handleLoginClick}) => {
 		const getUserBl = async () => {
 			try {
 				const userId = userInfo.nameid;
-				const result = await axios.get(`http://localhost:5059/api/Account/user/${userId}`);
+				console.log(userId);
+				const result = await axios.get(`/Account/user/${userId}`);
+				console.log(result);
 				if (result.data.value === null) {
 					console.error('User not found');
 					return;
@@ -150,12 +152,6 @@ const Header = ({handleLoginClick}) => {
 			<Link to="/postproduct" className="post-button">
 				Đăng sản phẩm
 			</Link>
-
-			{!isLogin && (
-				<div onClick={handleLoginClick} className="category">
-					Login
-				</div>
-			)}
 			{isLogin && (
 				<div className="dropdown-user" ref={dropdownRef}>
 					<img
@@ -171,6 +167,9 @@ const Header = ({handleLoginClick}) => {
 							</Link>
 							<Link to="/orderpage" className="dropdown-item-2">
 								Lịch sử mua hàng
+							</Link>
+							<Link to="/transactionHistory" className="dropdown-item-2">
+								Lịch sử giao dịch
 							</Link>
 							<Link to="/payment" className="dropdown-item-2">
 								Mua xu

@@ -1,14 +1,13 @@
 .orderpage {
   display: flex;
   flex-direction: column;
-  background-color: #f5f5fa;
 }
 
 .orderpage-content {
   width: 80%;
   margin: 87px auto 20px auto;
   background-color: #ffffff;
-  border-radius: 10px; /* Bo tròn góc */
+  border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
 }
@@ -19,9 +18,77 @@
   margin-bottom: 20px;
 }
 
+.status-filter span {
+  font-weight: bold;
+}
+
 .orderpage-form {
-  border-radius: 10px; /* Bo tròn góc */
+  border-radius: 10px;
   padding: 20px;
-  background-color: #fff;
-  border: 1px solid #e8e8e8;
+  background-color: #fffaf0;
+  border: 1px solid #ff8c00;
+}
+
+.order-table .ant-table {
+  border: none !important;
+}
+
+.order-table .ant-table-container table > thead > tr > th,
+.order-table .ant-table-container table > tbody > tr > td {
+  border: none !important;
+}
+
+.order-table .ant-table-thead > tr > th {
+  background-color: #f0f0f0;
+  color: #000;
+  font-weight: bold;
+  padding: 8px;
+  text-align: left;
+}
+
+.order-table .ant-table-tbody > tr > td {
+  background-color: #ffffff;
+  color: #000;
+  padding: 8px;
+  border-bottom: 1px solid #e8e8e8;
+  text-align: left;
+}
+
+.order-table .ant-table-tbody > tr:hover > td {
+  background-color: #f5f5f5;
+}
+
+.ant-btn {
+  background-color: #e0e0e0 !important;
+  color: #000 !important;
+  border: 1px solid #d0d0d0 !important;
+  padding: 4px 12px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.ant-select-selector {
+  background-color: #ff8c00 !important; 
+  font-weight: bold;
+  color: #fff !important; 
+  border: none !important;
+}
+
+.ant-select-dropdown {
+  background-color: #fffaf0 !important; 
+}
+
+.ant-select-item {
+  color: #000000 !important; 
+}
+
+.ant-btn {
+  background-color: #ff8c00 !important; 
+  color: #fff !important; 
+  border: none !important;
+}
+
+.orderpage-content h2 {
+  text-align: center;
+  color: #ff8c00; 
 }

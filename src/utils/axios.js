@@ -1,9 +1,15 @@
-// src/utils/axios.js
 import axios from 'axios';
 import {getAccessToken, getRefreshToken, refreshAccessToken, logout} from '../services/authService';
 
+// https://haddock-wise-mallard.ngrok-free.app/api
+// http://localhost:5059/api
+// 'ngrok-skip-browser-warning': 'true',
+
 export const instance = axios.create({
-	baseURL: 'http://localhost:5059/api',
+	baseURL: 'https://haddock-wise-mallard.ngrok-free.app/api',
+	headers: {
+		'ngrok-skip-browser-warning': 'true',
+	},
 });
 
 instance.interceptors.request.use(
@@ -11,7 +17,17 @@ instance.interceptors.request.use(
 		let token = getAccessToken();
 
 		if (!token) {
-			token = await refreshAccessToken();
+			try {
+				token = await refreshAccessToken();
+				if (!token) {
+					window.location.href = 'http://localhost:3000/login';
+					throw new Error('No refresh token available');
+				}
+			} catch (error) {
+				window.location.href = 'http://localhost:3000/login';
+				console.log('Error refreshing token:', error);
+				throw error;
+			}
 		}
 
 		if (token) {
@@ -32,7 +48,11 @@ instance.interceptors.response.use(
 	async (error) => {
 		const originalRequest = error.config;
 
-		if (error.response && error.response.status === 401 && !originalRequest._retry) {
+		if (
+			error.response &&
+			error.response.headers['is-exchangestuff-token-expired'] === 'true' &&
+			!originalRequest._retry
+		) {
 			originalRequest._retry = true;
 			const oldAccessToken = getAccessToken();
 			try {
@@ -50,17 +70,18 @@ instance.interceptors.response.use(
 
 				if (res.data.isSuccess) {
 					const newToken = res.data.value.accessToken;
-					console.log('newToken', newToken);
 					localStorage.setItem('accessToken', newToken);
 					originalRequest.headers.Authorization = `Bearer ${newToken}`;
 
 					return instance(originalRequest);
+				} else {
+					logout();
+					throw new Error('Token renewal failed');
 				}
 			} catch (err) {
-				console.log('Lỗi khi làm mới token', err);
+				console.log('Error renewing token:', err);
 				logout();
-				window.location.href = '/';
-				return Promise.reject(err);
+				throw new Error('No refresh token available');
 			}
 		}
 

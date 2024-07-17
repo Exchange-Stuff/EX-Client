@@ -11,37 +11,48 @@ import {Profile} from './Components/Profile/Profile.jsx';
 //import Header from "./Components/Header/Header";
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import FinancialPage from './Pages/Admin/FinancialPage/financial.page.js';
-import { OrderProduct } from './Components/OrderProduct/OrderProduct.jsx';
-import { OrderPage } from './Components/OrderPage/OrderPage.jsx';
-import { SideBar } from './Components/Sidebar/Sidebar.js';
-import { Search } from './Components/Search/Search.jsx';
+import {OrderProduct} from './Components/OrderProduct/OrderProduct.jsx';
+import {OrderPage} from './Components/OrderPage/OrderPage.jsx';
+import SideBar from './Components/Sidebar/Sidebar.js';
+import {Search} from './Components/Search/Search.jsx';
+import ProductPage from './Pages/Admin/ProductPage/product.page.js';
+import {ToastContainer} from 'react-toastify';
 import ChatPage from './Components/ChatPage/ChatPage.jsx';
 import {FinancicalTicket} from './Components/FinancialTicket/FinancicalTicket.jsx';
 import {ProductByCategory} from './Components/ProductByCategory/ProductByCategory.jsx';
+import {TransactionHistory} from './Components/TransactionHistory/TransactionHistory.jsx';
 
 function App() {
 	const role = localStorage.getItem('role');
+	const token = localStorage.getItem('accessToken');
 
 	return (
 		<div className="App">
 			<BrowserRouter>
-				{role === 'admin' || role === 'moderate' ? <SideBar /> : null}
-
 				{role === 'admin' ? (
-					<Routes>
-						<Route path="/*" element={<UserPage />} />
-						<Route path="/login" element={<LoginSignup />} />
-						<Route path="/user" element={<UserPage />} />
-						<Route path="/financial" element={<FinancialPage />} />
-					</Routes>
-				) : role === 'moderate' ? (
-					<Routes>
-						<Route path="/login" element={<LoginSignup />} />
-						<Route path="/product" element={<HomePage />} />
-					</Routes>
+					<SideBar>
+						<Routes>
+							<Route path="/*" element={<UserPage />} />
+							<Route path="/login" element={<LoginSignup />} />
+							<Route path="/user" element={<UserPage />} />
+							<Route path="/financial" element={<FinancialPage />} />
+							<Route path="/profile" element={<Profile />} />
+							<Route path="/product" element={<ProductPage />} />
+						</Routes>
+					</SideBar>
+				) : role === 'moderator' ? (
+					<SideBar>
+						<Routes>
+							<Route path="/*" element={<ProductPage />} />
+							<Route path="/login" element={<LoginSignup />} />
+							<Route path="/user" element={<UserPage />} />
+							<Route path="/product" element={<ProductPage />} />
+							<Route path="/financial" element={<FinancialPage />} />
+						</Routes>
+					</SideBar>
 				) : (
 					<Routes>
-						<Route path="/*" element={<HomePage />} />
+						<Route path="/*" element={<LoginSignup />} />
 						<Route path="/homepage" element={<HomePage />} />
 						<Route path="/login" element={<LoginSignup />} />
 						<Route path="/postproduct" element={<PostProduct />} />
@@ -54,9 +65,10 @@ function App() {
 						<Route path="/profile/:id" element={<Profile />} />
 						<Route path="/search/:keyword" element={<Search />} />
 						<Route path="/financicalTicket" element={<FinancicalTicket />} />
-						<Route path="/productByCategory/:id" element={<ProductByCategory />} />in
+						<Route path="/productByCategory/:id" element={<ProductByCategory />} />
 					</Routes>
 				)}
+				<ToastContainer limit={3} />
 			</BrowserRouter>
 		</div>
 	);

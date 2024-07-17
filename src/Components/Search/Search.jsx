@@ -6,28 +6,77 @@ import axios from '../../utils/axios.js';
 import {useParams} from 'react-router-dom';
 import coin from '../Assets/coin.png';
 import {Link} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 
 export const Search = () => {
 	const [searchResults, setSearchResults] = useState([]);
 	const {keyword} = useParams();
+	const [isAuthorized, setIsAuthorized] = useState(null);
+	const navigate = useNavigate();
 
 	useEffect(() => {
-        const fetchData = async () => {
-            try {
-                let result;
-                if (keyword.trim() !== '') {
-                    result = await axios.get(`/Product/getProductName/${keyword}`);
-                } else {
-                    result = await axios.get(`/Product/getProductName/ `);
-                }
-                setSearchResults(result.data.value);
-                console.log(result.data.value);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-        fetchData();
-    }, [keyword]);
+		const checkUserScreenAccess = async () => {
+			try {
+				const response = await axios.post('Auth/screen', {
+					resource: 'UserScreen',
+				});
+				if (response.data.isSuccess) {
+					setIsAuthorized(true);
+				} else {
+					setIsAuthorized(false);
+				}
+			} catch (error) {
+				console.error('Error checking user screen access:', error);
+				setIsAuthorized(false);
+			}
+		};
+
+		checkUserScreenAccess();
+	}, []);
+
+	useEffect(() => {
+		if (isAuthorized === false) {
+			navigate('/login');
+		}
+	}, [isAuthorized, navigate]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				let result;
+				if (keyword.trim() !== '') {
+					result = await axios.get(`/Product/getProductName/${keyword}`);
+				} else {
+					result = await axios.get(`/Product/getProductName/ `);
+				}
+				setSearchResults(result.data.value);
+				console.log(result.data.value);
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+		};
+		fetchData();
+	}, [keyword]);
+
+	if (!isAuthorized) {
+		return (
+			<div>
+				<div className="loading-container">
+					<div className="loading-spinner"></div>
+				</div>
+			</div>
+		);
+	}
+
+	if (isAuthorized === null) {
+		return (
+			<div>
+				<div className="loading-container">
+					<div className="loading-spinner"></div>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div>
@@ -35,7 +84,9 @@ export const Search = () => {
 			<div className="search-results">
 				<h2>Kết quả tìm kiếm cho: "{keyword}"</h2>
 				{searchResults.length === 0 ? (
-					<p>Không tìm thấy sản phẩm nào khớp với lựa chọn của bạn.</p>
+					<p className="title-not-found-product">
+						Không tìm thấy sản phẩm nào khớp với lựa chọn của bạn.
+					</p>
 				) : (
 					<div className="data-list">
 						<ul className="list-container">
