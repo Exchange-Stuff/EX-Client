@@ -61,6 +61,10 @@ function App() {
 						<Route path="/orderproduct/:id" element={<OrderProduct />} />
 						<Route path="/orderpage" element={<OrderPage />} />
 						<Route path="/search/:keyword" element={<Search />} />
+						<Route path="/financicalTicket" element={<FinancicalTicket />} />
+						<Route path="/productByCategory/:id" element={<ProductByCategory />} />
+						<Route path="/transactionHistory" element={<TransactionHistory />} />
+						<Route path="/profile/:id" element={<Profile />} />
 					</Routes>
 				)}
 				<ToastContainer limit={3} />

@@ -1,12 +1,19 @@
 import axios from 'axios';
-import {getAccessToken, getRefreshToken, refreshAccessToken, logout} from '../services/authService';
+import {getAccessToken, getRefreshToken, refreshAccessToken} from '../services/authService';
+import {TruckOutlined} from '@ant-design/icons';
+
+let navigateCallback = null;
+
+export const setNavigateCallback = (callback) => {
+	navigateCallback = callback;
+};
 
 // https://haddock-wise-mallard.ngrok-free.app/api
 // http://localhost:5059/api
 // 'ngrok-skip-browser-warning': 'true',
 
 export const instance = axios.create({
-	baseURL: 'https://haddock-wise-mallard.ngrok-free.app/api',
+	baseURL: 'http://localhost:5059/api',
 	headers: {
 		'ngrok-skip-browser-warning': 'true',
 	},
@@ -20,11 +27,15 @@ instance.interceptors.request.use(
 			try {
 				token = await refreshAccessToken();
 				if (!token) {
-					window.location.href = 'http://localhost:3000/login';
+					if (navigateCallback) {
+						navigateCallback('/login');
+					}
 					throw new Error('No refresh token available');
 				}
 			} catch (error) {
-				window.location.href = 'http://localhost:3000/login';
+				if (navigateCallback) {
+					navigateCallback('/login');
+				}
 				console.log('Error refreshing token:', error);
 				throw error;
 			}
@@ -47,12 +58,16 @@ instance.interceptors.response.use(
 	},
 	async (error) => {
 		const originalRequest = error.config;
+		console.log('error.response.status', JSON.stringify(error.response.status));
+		console.log('error.message', JSON.stringify(error.message));
+		console.log('error.status', JSON.stringify(error.status));
+		console.log('error.response', JSON.stringify(error.response));
+		console.log(
+			'error.response.headers',
+			JSON.stringify(error.response.headers.get('is-exchangestuff-token-expired'))
+		);
 
-		if (
-			error.response &&
-			error.response.headers['is-exchangestuff-token-expired'] === 'true' &&
-			!originalRequest._retry
-		) {
+		if (error.response.status === 401 || error.response.status === 400) {
 			originalRequest._retry = true;
 			const oldAccessToken = getAccessToken();
 			try {
@@ -75,12 +90,16 @@ instance.interceptors.response.use(
 
 					return instance(originalRequest);
 				} else {
-					logout();
+					if (navigateCallback) {
+						navigateCallback('/login');
+					}
 					throw new Error('Token renewal failed');
 				}
 			} catch (err) {
 				console.log('Error renewing token:', err);
-				logout();
+				if (navigateCallback) {
+					navigateCallback('/login');
+				}
 				throw new Error('No refresh token available');
 			}
 		}
