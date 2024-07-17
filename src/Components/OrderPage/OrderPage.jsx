@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import axios from '../../utils/axios.js';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { toast, ToastContainer } from 'react-toastify';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Table, Select } from 'antd';
