@@ -5,6 +5,7 @@ import axios from '../../utils/axios.js';
 import {useParams} from 'react-router-dom';
 import coin from '../Assets/coin.png';
 import {Link} from 'react-router-dom';
+import './ProductByCategory.css';
 
 export const ProductByCategory = () => {
 	const [searchResults, setSearchResults] = useState([]);
@@ -28,10 +29,12 @@ export const ProductByCategory = () => {
 			<Header />
 			<div className="search-results">
 				{searchResults.length === 0 ? (
-					<p>Không tìm thấy sản phẩm nào khớp với lựa chọn của bạn.</p>
+					<p className="title-notfound-category">
+						Không tìm thấy sản phẩm nào khớp với lựa chọn của bạn.
+					</p>
 				) : (
 					<div className="data-list">
-						<ul className="list-container" style={{marginTop : "65px"}}>
+						<ul className="list-container" style={{marginTop: '65px'}}>
 							{searchResults.map((list) => (
 								<li key={list.id} className="list-item">
 									<div className="img-container">
@@ -80,7 +83,7 @@ export const ProductByCategory = () => {
 					</div>
 				)}
 			</div>
-            <Footer />
+			<Footer />
 		</div>
 	);
 };

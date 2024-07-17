@@ -45,7 +45,7 @@ const Header = ({handleLoginClick}) => {
 			try {
 				const userId = userInfo.nameid;
 				console.log(userId);
-				const result = await axios.get(`http://localhost:5059/api/Account/user/${userId}`);
+				const result = await axios.get(`/Account/user/${userId}`);
 				console.log(result);
 				if (result.data.value === null) {
 					console.error('User not found');

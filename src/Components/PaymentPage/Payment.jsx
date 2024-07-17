@@ -20,7 +20,9 @@ export const Payment = () => {
 	useEffect(() => {
 		const status = new URLSearchParams(location.search).get('status');
 		if (status === 'success') {
-			toast.success('Thanh toán thành công!');
+			toast.success('Giao dịch thành công!');
+		} else if (status === 'fail') {
+			toast.error('Giao dịch thất bại');
 		} else if (status === 'error') {
 			toast.error('Có lỗi xảy ra khi thanh toán.');
 		}

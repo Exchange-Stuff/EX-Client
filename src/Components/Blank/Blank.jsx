@@ -1,20 +1,45 @@
+import React, {useEffect, useState} from 'react';
+import './Blank.css';
+
 export const Blank = () => {
-  window.onload = async function () {
-    const queryString = window.location.search;
-    var url = "http://localhost:5059/api/Auth/signin" + queryString;
-    var request = new Request(url, {
-      method: "GET",
-    });
-    var rs = await fetch(request);
-    console.log(rs);
-    if (rs.ok) {
-      var txt = await rs.text();
-      var pTxt = JSON.parse(txt);
-      localStorage.setItem("accessToken", pTxt.value.accessToken);
-      localStorage.setItem("refreshToken", pTxt.value.refreshToken);
-      window.location.href = "http://localhost:3000/HomePage";
-    } else {
-      window.location.href = "http://localhost:3000/HomePage";
-    }
-  };
+	const [isLoading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const queryString = window.location.search;
+				const url = `http://localhost:5059/api/Auth/signin${queryString}`;
+				const response = await fetch(url, {
+					method: 'GET',
+				});
+
+				if (response.ok) {
+					const result = await response.json();
+					localStorage.setItem('accessToken', result.value.accessToken);
+					localStorage.setItem('refreshToken', result.value.refreshToken);
+				}
+
+				await new Promise((resolve) => setTimeout(resolve, 2000));
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			} finally {
+				setLoading(false);
+				window.location.href = '/HomePage';
+			}
+		};
+
+		fetchData();
+	}, []);
+
+	return (
+		<div>
+			{isLoading && (
+				<div className="loading-container">
+					<div className="loading-spinner"></div>
+				</div>
+			)}
+		</div>
+	);
 };
+
+export default Blank;
