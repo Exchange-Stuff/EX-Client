@@ -133,12 +133,6 @@ const Header = ({handleLoginClick}) => {
 			<Link to="/postproduct" className="post-button">
 				Đăng sản phẩm
 			</Link>
-
-			{!isLogin && (
-				<div onClick={handleLoginClick} className="category">
-					Login
-				</div>
-			)}
 			{isLogin && (
 				<div className="dropdown-user" ref={dropdownRef}>
 					<img

@@ -1,4 +1,3 @@
-// src/utils/axios.js
 import axios from 'axios';
 import {getAccessToken, getRefreshToken, refreshAccessToken, logout} from '../services/authService';
 
@@ -11,7 +10,17 @@ instance.interceptors.request.use(
 		let token = getAccessToken();
 
 		if (!token) {
-			token = await refreshAccessToken();
+			try {
+				token = await refreshAccessToken();
+				if (!token) {
+					window.location.href = 'http://localhost:3000/login';
+					throw new Error('No refresh token available');
+				}
+			} catch (error) {
+				window.location.href = 'http://localhost:3000/login';
+				console.log('Error refreshing token:', error);
+				throw error;
+			}
 		}
 
 		if (token) {
@@ -50,17 +59,15 @@ instance.interceptors.response.use(
 
 				if (res.data.isSuccess) {
 					const newToken = res.data.value.accessToken;
-					console.log('newToken', newToken);
 					localStorage.setItem('accessToken', newToken);
 					originalRequest.headers.Authorization = `Bearer ${newToken}`;
 
 					return instance(originalRequest);
 				}
 			} catch (err) {
-				console.log('Lỗi khi làm mới token', err);
+				console.log('Error renewing token:', err);
 				logout();
-				window.location.href = '/';
-				return Promise.reject(err);
+				throw new Error('No refresh token available');
 			}
 		}
 

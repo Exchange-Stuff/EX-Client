@@ -29,7 +29,7 @@ export const PostProduct = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const result = await axios.get('http://localhost:5059/api/Category');
+				const result = await axios.get('/Category');
 				setCategoryData(result.data);
 			} catch (error) {
 				setError(error);
