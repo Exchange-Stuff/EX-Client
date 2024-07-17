@@ -1,8 +1,15 @@
 import axios from 'axios';
 import {getAccessToken, getRefreshToken, refreshAccessToken, logout} from '../services/authService';
 
+// https://haddock-wise-mallard.ngrok-free.app/api
+// http://localhost:5059/api
+// 'ngrok-skip-browser-warning': 'true',
+
 export const instance = axios.create({
-	baseURL: 'http://localhost:5059/api',
+	baseURL: 'https://haddock-wise-mallard.ngrok-free.app/api',
+	headers: {
+		'ngrok-skip-browser-warning': 'true',
+	},
 });
 
 instance.interceptors.request.use(
