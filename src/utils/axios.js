@@ -41,7 +41,11 @@ instance.interceptors.response.use(
 	async (error) => {
 		const originalRequest = error.config;
 
-		if (error.response && error.response.status === 401 && !originalRequest._retry) {
+		if (
+			error.response &&
+			error.response.headers['is-exchangestuff-token-expired'] === 'true' &&
+			!originalRequest._retry
+		) {
 			originalRequest._retry = true;
 			const oldAccessToken = getAccessToken();
 			try {
@@ -63,6 +67,9 @@ instance.interceptors.response.use(
 					originalRequest.headers.Authorization = `Bearer ${newToken}`;
 
 					return instance(originalRequest);
+				} else {
+					logout();
+					throw new Error('Token renewal failed');
 				}
 			} catch (err) {
 				console.log('Error renewing token:', err);

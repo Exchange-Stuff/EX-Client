@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Profile.css';
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from '../../utils/axios.js';
+import { useLocation, useNavigate } from 'react-router-dom';
 import coin from '../Assets/coin.png';
 import Header from '../Header/Header';
 import { Link, useParams } from "react-router-dom";
@@ -13,28 +14,50 @@ export const Profile = () => {
 	const [data, setData] = useState([]);
 	const [userName, setUsername] = useState('');
 	const [userCurrentData, setUserCurrentData] = useState('');
+	const [isAuthorized, setIsAuthorized] = useState(null);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const checkUserScreenAccess = async () => {
+			try {
+				const response = await axios.post('Auth/screen', {
+					resource: 'UserScreen',
+				});
+				if (response.data.isSuccess) {
+					setIsAuthorized(true);
+				} else {
+					setIsAuthorized(false);
+				}
+			} catch (error) {
+				console.error('Error checking user screen access:', error);
+				setIsAuthorized(false);
+			}
+		};
+
+		checkUserScreenAccess();
+	}, []);
+
+	useEffect(() => {
+		if (isAuthorized === false) {
+			navigate('/login');
+		}
+	}, [isAuthorized, navigate]);
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				// Lấy token từ localStorage
 				const token = localStorage.getItem('accessToken');
 				if (token) {
 					const decoded = jwtDecode(token);
-
 					const userId = decoded.nameid;
 					const userResult = await axios.get(`Account/user/${userId}`);
 					console.log(userResult.data.value);
 					setUserCurrentData(userResult.data.value);
 
-					const result = await axios.get(
-						`Account/user/${id}`
-					);
+					const result = await axios.get(`Account/user/${id}`);
 					setUsername(result.data.value);
-
 					setUserBl(result.data.value.userBalance.balance);
 
-					// Lấy dữ liệu sản phẩm của người dùng
 					if (userResult.data.value.id === result.data.value.id) {
 						const productResult = await axios.get('/Product/getProductByUserId');
 						setData(productResult.data.value);
@@ -42,20 +65,31 @@ export const Profile = () => {
 						const productResult = await axios.get(`/Product/getOtherUserProducts/${id}`);
 						setData(productResult.data.value);
 					}
-
-				} else {
-					toast.error('Bạn chưa đăng nhập');
-					window.location.href = 'http://localhost:3000/homepage';
 				}
 			} catch (error) {
 				console.error('Error fetching data:', error);
 				toast.error('Có lỗi xảy ra khi lấy dữ liệu');
-				window.location.href = 'http://localhost:3000/homepage';
 			}
 		};
 
-		fetchData();
-	}, [userName, userCurrentData.nameid]);
+		if (isAuthorized) {
+			fetchData();
+		}
+	}, [isAuthorized, id]);
+
+	if (isAuthorized === null) {
+		return (
+			<div>
+				<div className="loading-container">
+					<div className="loading-spinner"></div>
+				</div>
+			</div>
+		);
+	}
+
+	if (!isAuthorized) {
+		return null;
+	}
 
 	return (
 		<div className="profile-container">

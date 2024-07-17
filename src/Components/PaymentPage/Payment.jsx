@@ -10,9 +10,10 @@ import Coin from '../Assets/coin.jpg';
 
 export const Payment = () => {
 	const [amount, setSelectedAmount] = useState(null);
-	const [isAuthorized, setIsAuthorized] = useState(null); // null for loading state
-	const location = useLocation();
+	const [isAuthorized, setIsAuthorized] = useState(null);
 	const navigate = useNavigate();
+	const location = useLocation();
+	const [enableButton, setButton] = useState(null);
 
 	const handleSelect = (amount) => {
 		setSelectedAmount(amount);
@@ -27,6 +28,15 @@ export const Payment = () => {
 				});
 				if (response.data.isSuccess) {
 					setIsAuthorized(true);
+					const responseButton = await axios.post('Auth/screen', {
+						resource: 'ButtonPayment',
+					});
+					if (responseButton.data.isSuccess) {
+						setButton(true);
+					} else {
+						setButton(false);
+					}
+					
 				} else {
 					setIsAuthorized(false);
 				}
@@ -74,7 +84,7 @@ export const Payment = () => {
 		}
 	};
 
-	if (isAuthorized === null) {
+	if (!isAuthorized) {
 		return (
 			<div>
 				<div className="loading-container">
@@ -84,6 +94,15 @@ export const Payment = () => {
 		);
 	}
 
+	if (isAuthorized === null) {
+		return (
+			<div>
+				<div className="loading-container">
+					<div className="loading-spinner"></div>
+				</div>
+			</div>
+		);
+	}
 	return (
 		<div className="payment-container">
 			<Header />
@@ -118,9 +137,11 @@ export const Payment = () => {
 							className={amount === 400 ? 'selected' : ''}
 						/>
 					</div>
-					<button className="button-payment" type="button" onClick={handlePayment}>
-						Thanh toán
-					</button>
+					{enableButton && (
+						<button className="button-payment" type="button" onClick={handlePayment}>
+							Thanh toán
+						</button>
+					)}
 				</form>
 			</div>
 			<Footer />
