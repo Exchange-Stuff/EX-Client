@@ -29,42 +29,42 @@
   border: 1px solid #ff8c00;
 }
 
-.ant-table {
+.order-table .ant-table {
   border: none !important;
 }
 
-.ant-table-container table > thead > tr > th,
-.ant-table-container table > tbody > tr > td {
+.order-table .ant-table-container table > thead > tr > th,
+.order-table .ant-table-container table > tbody > tr > td {
   border: none !important;
 }
 
-.ant-table-thead > tr > th {
-  background-color: #f0f0f0; /* Màu nền đầu bảng xám nhạt */
-  color: #000; /* Màu chữ đen */
-  font-weight: bold; /* Chữ in đậm */
-  padding: 8px; /* Khoảng cách padding */
-  text-align: left; /* Căn trái */
+.order-table .ant-table-thead > tr > th {
+  background-color: #f0f0f0;
+  color: #000;
+  font-weight: bold;
+  padding: 8px;
+  text-align: left;
 }
 
-.ant-table-tbody > tr > td {
-  background-color: #ffffff; /* Màu nền ô bảng trắng */
-  color: #000; /* Màu chữ đen */
-  padding: 8px; /* Khoảng cách padding */
-  border-bottom: 1px solid #e8e8e8; /* Đường viền dưới của mỗi ô */
-  text-align: left; /* Căn trái */
+.order-table .ant-table-tbody > tr > td {
+  background-color: #ffffff;
+  color: #000;
+  padding: 8px;
+  border-bottom: 1px solid #e8e8e8;
+  text-align: left;
 }
 
-.ant-table-tbody > tr:hover > td {
-  background-color: #f5f5f5; /* Màu nền khi hover */
+.order-table .ant-table-tbody > tr:hover > td {
+  background-color: #f5f5f5;
 }
 
 .ant-btn {
-  background-color: #e0e0e0 !important; /* Màu nền nút xám nhạt */
-  color: #000 !important; /* Màu chữ đen */
-  border: 1px solid #d0d0d0 !important; /* Đường viền nút */
-  padding: 4px 12px; /* Khoảng cách padding */
-  border-radius: 4px; /* Bo góc nút */
-  text-align: center; /* Căn giữa chữ */
+  background-color: #e0e0e0 !important;
+  color: #000 !important;
+  border: 1px solid #d0d0d0 !important;
+  padding: 4px 12px;
+  border-radius: 4px;
+  text-align: center;
 }
 
 .ant-select-selector {

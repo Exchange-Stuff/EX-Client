@@ -10,6 +10,7 @@ import Footer from '../Footer/Footer';
 import {jwtDecode} from 'jwt-decode';
 import coin from '../Assets/coin.png';
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {storage} from '../Firebase/firebase.js';
 
 export const FinancicalTicket = () => {
@@ -17,6 +18,34 @@ export const FinancicalTicket = () => {
 	const [amount, setAmount] = useState(localStorage.getItem('amount') || 0);
 	const [userBl, setUserBl] = useState(0);
 	const [userId, setUserId] = useState('');
+	const [isAuthorized, setIsAuthorized] = useState(null); // null for loading state
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const checkUserScreenAccess = async () => {
+			try {
+				const response = await axios.post('Auth/screen', {
+					resource: 'UserScreen',
+				});
+				if (response.data.isSuccess) {
+					setIsAuthorized(true);
+				} else {
+					setIsAuthorized(false);
+				}
+			} catch (error) {
+				console.error('Error checking user screen access:', error);
+				setIsAuthorized(false);
+			}
+		};
+
+		checkUserScreenAccess();
+	}, []);
+
+	useEffect(() => {
+		if (isAuthorized === false) {
+			navigate('/login');
+		}
+	}, [isAuthorized, navigate]);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -29,9 +58,6 @@ export const FinancicalTicket = () => {
 					console.log(userResult.data.value);
 					setUserId(userId);
 					setUserBl(userResult.data.value.userBalance.balance);
-				} else {
-					toast.error('Bạn chưa đăng nhập');
-					window.location.href = 'http://localhost:3000/login';
 				}
 			} catch (error) {
 				console.error('Error fetching data:', error);
@@ -112,44 +138,54 @@ export const FinancicalTicket = () => {
 		}
 	};
 
-	return (
-		<div className="financial-ticket-container">
-			<Header />
-			<h2>Rút tiền</h2>
-			<div className="financial-ticket-balance">
-				<div className="financial-ticket-blance">
-					<img
-						className="coin-image-profile"
-						src={coin}
-						alt=""
-						style={{
-							width: '38px',
-							height: '35px',
-							transform: 'none',
-							marginRight: '3px',
-						}}
-					/>
-					<div className="coin-profile">{userBl}</div>
+	if (!isAuthorized) {
+		return (
+			<div>
+				<div className="loading-container">
+					<div className="loading-spinner"></div>
 				</div>
 			</div>
-			<div className="financial-ticket-content">
-				<UploadImage onImageFilesChange={handleImageFilesChange} />
-				<form className="financial-ticket-form" onSubmit={handleSubmits}>
-					<label>Số tiền muốn rút</label>
+		);
+	} else {
+		return (
+			<div className="financial-ticket-container">
+				<Header />
+				<h2>Rút tiền</h2>
+				<div className="financial-ticket-balance">
+					<div className="financial-ticket-blance">
+						<img
+							className="coin-image-profile"
+							src={coin}
+							alt=""
+							style={{
+								width: '38px',
+								height: '35px',
+								transform: 'none',
+								marginRight: '3px',
+							}}
+						/>
+						<div className="coin-profile">{userBl}</div>
+					</div>
+				</div>
+				<div className="financial-ticket-content">
+					<UploadImage onImageFilesChange={handleImageFilesChange} />
+					<form className="financial-ticket-form" onSubmit={handleSubmits}>
+						<label>Số tiền muốn rút</label>
 
-					<Input
-						type="number"
-						placeholder="Giá bán"
-						style={{height: '50px', marginTop: '5px'}}
-						value={amount}
-						onChange={handleAmountChange}
-						required
-					/>
-					<button type="submit">Gửi đơn</button>
-				</form>
+						<Input
+							type="number"
+							placeholder="Giá bán"
+							style={{height: '50px', marginTop: '5px'}}
+							value={amount}
+							onChange={handleAmountChange}
+							required
+						/>
+						<button type="submit">Gửi đơn</button>
+					</form>
+				</div>
+				<Footer />
+				<ToastContainer />
 			</div>
-			<Footer />
-			<ToastContainer />
-		</div>
-	);
+		);
+	}
 };
