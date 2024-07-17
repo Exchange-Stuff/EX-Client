@@ -9,6 +9,7 @@ import {
 import {fetchUsers} from '../../redux/slices/userSlice';
 import {Pagination, Input, Table, Button} from 'antd';
 import {toast} from 'react-toastify';
+import {DeleteOutlined} from '@ant-design/icons';
 
 export const UserList = () => {
 	const dispatch = useDispatch();
@@ -83,8 +84,28 @@ export const UserList = () => {
 					key="action"
 					render={() => (
 						<div className="user-table-action">
-							<Button type="primary">Sửa</Button>
-							<Button type="danger">Xóa</Button>
+							<Button
+								type="primary"
+								icon={
+									<DeleteOutlined
+										style={{
+											color: 'red',
+										}}
+									/>
+								}
+							></Button>
+
+							<Button
+								type="primary"
+								danger
+								icon={
+									<DeleteOutlined
+										style={{
+											color: 'red',
+										}}
+									/>
+								}
+							></Button>
 						</div>
 					)}
 				/>
