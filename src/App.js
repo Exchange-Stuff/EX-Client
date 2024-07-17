@@ -1,4 +1,5 @@
 import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {LoginSignup} from './Components/LoginSignUp/LoginSignup.jsx';
 import {HomePage} from './Components/HomePage/HomePage';
@@ -17,6 +18,10 @@ import SideBar from './Components/Sidebar/Sidebar.js';
 import {Search} from './Components/Search/Search.jsx';
 import ProductPage from './Pages/Admin/ProductPage/product.page.js';
 import {ToastContainer} from 'react-toastify';
+import {Search} from './Components/Search/Search.jsx';
+import {FinancicalTicket} from './Components/FinancialTicket/FinancicalTicket.jsx';
+import {ProductByCategory} from './Components/ProductByCategory/ProductByCategory.jsx';
+import {TransactionHistory} from './Components/TransactionHistory/TransactionHistory.jsx';
 
 function App() {
 	const role = localStorage.getItem('role');
@@ -48,7 +53,7 @@ function App() {
 					</SideBar>
 				) : (
 					<Routes>
-						<Route path="/*" element={<HomePage />} />
+						<Route path="/*" element={<LoginSignup />} />
 						<Route path="/homepage" element={<HomePage />} />
 						<Route path="/login" element={<LoginSignup />} />
 						<Route path="/postproduct" element={<PostProduct />} />

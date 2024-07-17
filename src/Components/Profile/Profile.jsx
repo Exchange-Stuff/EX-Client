@@ -1,23 +1,22 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './Profile.css';
-import {jwtDecode} from 'jwt-decode';
-import {toast, ToastContainer} from 'react-toastify';
+import { jwtDecode } from 'jwt-decode';
+import { toast, ToastContainer } from 'react-toastify';
 import axios from '../../utils/axios.js';
 import coin from '../Assets/coin.png';
 import Header from '../Header/Header';
+import { Link, useParams } from "react-router-dom";
 
 export const Profile = () => {
+	const { id } = useParams();
 	const [userBl, setUserBl] = useState(0);
 	const [data, setData] = useState([]);
 	const [userName, setUsername] = useState('');
+	const [userCurrentData, setUserCurrentData] = useState('');
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				// Lấy dữ liệu sản phẩm của người dùng
-				const productResult = await axios.get('/Product/getProductByUserId');
-				setData(productResult.data.value);
-
 				// Lấy token từ localStorage
 				const token = localStorage.getItem('accessToken');
 				if (token) {
@@ -26,9 +25,24 @@ export const Profile = () => {
 					const userId = decoded.nameid;
 					const userResult = await axios.get(`Account/user/${userId}`);
 					console.log(userResult.data.value);
-					setUsername(userResult.data.value);
+					setUserCurrentData(userResult.data.value);
 
-					setUserBl(userResult.data.value.userBalance.balance);
+					const result = await axios.get(
+						`Account/user/${id}`
+					);
+					setUsername(result.data.value);
+
+					setUserBl(result.data.value.userBalance.balance);
+
+					// Lấy dữ liệu sản phẩm của người dùng
+					if (userResult.data.value.id === result.data.value.id) {
+						const productResult = await axios.get('/Product/getProductByUserId');
+						setData(productResult.data.value);
+					} else {
+						const productResult = await axios.get(`/Product/getOtherUserProducts/${id}`);
+						setData(productResult.data.value);
+					}
+
 				} else {
 					toast.error('Bạn chưa đăng nhập');
 					window.location.href = 'http://localhost:3000/homepage';
@@ -41,7 +55,7 @@ export const Profile = () => {
 		};
 
 		fetchData();
-	}, []);
+	}, [userName, userCurrentData.nameid]);
 
 	return (
 		<div className="profile-container">
@@ -55,22 +69,24 @@ export const Profile = () => {
 				<div className="profile-info">
 					<h1>{userName.name}</h1>
 					<p>{userName.email}</p>
-					<div className="content-profile-balance">
-						<div className="profile-blance">
-							<img
-								className="coin-image-profile"
-								src={coin}
-								alt=""
-								style={{
-									width: '38px',
-									height: '35px',
-									transform: 'none',
-									marginRight: '3px',
-								}}
-							/>
-							<div className="coin-profile">{userBl}</div>
+					{userName.id === userCurrentData.id && (
+						<div className="content-profile-balance">
+							<div className="profile-blance">
+								<img
+									className="coin-image-profile"
+									src={coin}
+									alt=""
+									style={{
+										width: '38px',
+										height: '35px',
+										transform: 'none',
+										marginRight: '3px',
+									}}
+								/>
+								<div className="coin-profile">{userBl}</div>
+							</div>
 						</div>
-					</div>
+					)}
 				</div>
 			</main>
 
@@ -82,18 +98,20 @@ export const Profile = () => {
 			<ul className="list-container-profile">
 				{data.map((list) => (
 					<li key={list.id} className="list-item-profile">
-						<div className="img-overflow">
-							<div className="img-container-profile">
-								<img src={list.thumbnail} alt={list.name} />
+						<Link to={`/productdetail/${list.id}`} style={{ textDecoration: 'none' }}>
+							<div className="img-overflow">
+								<div className="img-container-profile">
+									<img src={list.thumbnail} alt={list.name} />
+								</div>
 							</div>
-						</div>
 
-						<div className="detail-container-profile">
-							<div className="left-column-profile">
-								<h3>{list.name}</h3>
-								<p style={{width: '300px'}}></p>
+							<div className="detail-container-profile">
+								<div className="left-column-profile">
+									<h3>{list.name}</h3>
+									<p style={{ width: '300px' }}></p>
+								</div>
 							</div>
-						</div>
+						</Link>
 					</li>
 				))}
 			</ul>

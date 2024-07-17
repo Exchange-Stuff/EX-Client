@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from '../../utils/axios.js';
 import {toast, ToastContainer} from 'react-toastify';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import './Payment.css';
 import Header from '../Header/Header.jsx';
@@ -10,7 +10,9 @@ import Coin from '../Assets/coin.jpg';
 
 export const Payment = () => {
 	const [amount, setSelectedAmount] = useState(null);
+	const [isAuthorized, setIsAuthorized] = useState(null); // null for loading state
 	const location = useLocation();
+	const navigate = useNavigate();
 
 	const handleSelect = (amount) => {
 		setSelectedAmount(amount);
@@ -18,9 +20,37 @@ export const Payment = () => {
 	};
 
 	useEffect(() => {
+		const checkUserScreenAccess = async () => {
+			try {
+				const response = await axios.post('Auth/screen', {
+					resource: 'UserScreen',
+				});
+				if (response.data.isSuccess) {
+					setIsAuthorized(true);
+				} else {
+					setIsAuthorized(false);
+				}
+			} catch (error) {
+				console.error('Error checking user screen access:', error);
+				setIsAuthorized(false);
+			}
+		};
+
+		checkUserScreenAccess();
+	}, []);
+
+	useEffect(() => {
+		if (isAuthorized === false) {
+			navigate('/login');
+		}
+	}, [isAuthorized, navigate]);
+
+	useEffect(() => {
 		const status = new URLSearchParams(location.search).get('status');
 		if (status === 'success') {
-			toast.success('Thanh toán thành công!');
+			toast.success('Giao dịch thành công!');
+		} else if (status === 'fail') {
+			toast.error('Giao dịch thất bại');
 		} else if (status === 'error') {
 			toast.error('Có lỗi xảy ra khi thanh toán.');
 		}
@@ -43,6 +73,16 @@ export const Payment = () => {
 			toast.error('Có lỗi xảy ra khi tạo thanh toán');
 		}
 	};
+
+	if (isAuthorized === null) {
+		return (
+			<div>
+				<div className="loading-container">
+					<div className="loading-spinner"></div>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="payment-container">

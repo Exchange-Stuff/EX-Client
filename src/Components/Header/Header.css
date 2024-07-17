@@ -43,7 +43,6 @@
 
   .dropdown-user{
     font-size: 20px;
-    margin-right: 45px;
     font-weight: bold;
     font-family: monospace;
     align-items: center;
@@ -107,6 +106,7 @@
   cursor: pointer;
   display: block; 
   text-decoration: none;
+  color: black;
 }
 
 .dropdown-item-1:hover{
@@ -118,6 +118,7 @@
   cursor: pointer;
   display: block; 
   text-decoration: none;
+  color: black;
 }
 
 .dropdown-item-2:hover{
@@ -129,3 +130,19 @@
   color: #ffffff;
 }
 
+.search-input-header{
+  margin-right: 45px;
+}
+
+.post-button {
+  display: inline-block;
+  text-decoration: none;
+  padding: 10px 20px;
+  background-color: #ffba00;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  width: 128px;
+}

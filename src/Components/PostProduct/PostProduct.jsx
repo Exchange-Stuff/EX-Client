@@ -29,7 +29,7 @@ export const PostProduct = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const result = await axios.get('http://localhost:5059/api/Category');
+				const result = await axios.get('/Category');
 				setCategoryData(result.data);
 			} catch (error) {
 				setError(error);
@@ -111,7 +111,9 @@ export const PostProduct = () => {
 					localStorage.removeItem('productPrice');
 					localStorage.removeItem('selectedCategory');
 					localStorage.removeItem('selectedImages');
-					window.location.href = 'http://localhost:3000/postproduct';
+					setTimeout(() => {
+						window.location.href = 'http://localhost:3000/postproduct';
+					}, 3000);
 				}
 
 				console.log('Product created:', result.data);
@@ -142,7 +144,6 @@ export const PostProduct = () => {
 						placeholder="Tên sản phẩm"
 						style={{
 							marginTop: '5px',
-							
 						}}
 						required
 						maxLength={30}
@@ -155,7 +156,7 @@ export const PostProduct = () => {
 						placeholder="Mô tả chi tiết"
 						value={productDescription}
 						onChange={handleProductDescriptionChange}
-						style={{height: '130px', marginTop: '5px',}}
+						style={{height: '130px', marginTop: '5px'}}
 						maxLength={100}
 						showCount
 						required
@@ -165,7 +166,7 @@ export const PostProduct = () => {
 					<Input
 						type="number"
 						placeholder="Giá bán"
-						style={{height: '50px', marginTop: '5px',}}
+						style={{height: '50px', marginTop: '5px'}}
 						value={productPrice}
 						onChange={handleProductPriceChange}
 						required

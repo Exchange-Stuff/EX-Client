@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './Search.css';
 import Header from '../Header/Header.jsx';
+import Footer from '../Footer/Footer';
 import axios from '../../utils/axios.js';
 import {useParams} from 'react-router-dom';
 import coin from '../Assets/coin.png';
@@ -13,7 +14,12 @@ export const Search = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const result = await axios.get(`/Product/getProductName/${keyword}`);
+				let result;
+				if (keyword.trim() !== '') {
+					result = await axios.get(`/Product/getProductName/${keyword}`);
+				} else {
+					result = await axios.get(`/Product/getProductName/ `);
+				}
 				setSearchResults(result.data.value);
 				console.log(result.data.value);
 			} catch (error) {
@@ -29,7 +35,9 @@ export const Search = () => {
 			<div className="search-results">
 				<h2>Kết quả tìm kiếm cho: "{keyword}"</h2>
 				{searchResults.length === 0 ? (
-					<p>Không tìm thấy sản phẩm nào khớp với lựa chọn của bạn.</p>
+					<p className="title-not-found-product">
+						Không tìm thấy sản phẩm nào khớp với lựa chọn của bạn.
+					</p>
 				) : (
 					<div className="data-list">
 						<ul className="list-container">
@@ -81,6 +89,7 @@ export const Search = () => {
 					</div>
 				)}
 			</div>
+			<Footer />
 		</div>
 	);
 };
