@@ -32,7 +32,7 @@
 .financial-table td {
     padding: 10px; /* Khoảng cách bên trong các ô */
     text-align: center; /* Căn giữa nội dung trong các ô */
-    border: 1px solid black ; /* Viền các ô */
+    border: 1px solid rgb(240, 135, 49) ; /* Viền các ô */
 }
 .labelsattus{
     color: #e66123;
@@ -51,4 +51,7 @@
     border-radius: 4px;
     font-size: 14px;
     cursor: pointer;
+}
+.antd_table_financial{
+    background: #f7ce2b;
 }
