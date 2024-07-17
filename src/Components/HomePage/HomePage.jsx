@@ -9,7 +9,7 @@ import img3 from '../Assets/image4.jpg';
 import img1 from '../Assets/banner.png';
 import coin from '../Assets/coin.png';
 import {jwtDecode} from 'jwt-decode';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {toast, ToastContainer} from 'react-toastify';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -26,6 +26,34 @@ export const HomePage = () => {
 	const [clothingData, setClothingData] = useState([]);
 	const [isShowLogin, setIsShowLogin] = useState(false);
 	const location = useLocation();
+	const [isAuthorized, setIsAuthorized] = useState(null);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const checkUserScreenAccess = async () => {
+			try {
+				const response = await axios.post('Auth/screen', {
+					resource: 'UserScreen',
+				});
+				if (response.data.isSuccess) {
+					setIsAuthorized(true);
+				} else {
+					setIsAuthorized(false);
+				}
+			} catch (error) {
+				console.error('Error checking user screen access:', error);
+				setIsAuthorized(false);
+			}
+		};
+
+		checkUserScreenAccess();
+	}, []);
+
+	useEffect(() => {
+		if (isAuthorized === false) {
+			navigate('/login');
+		}
+	}, [isAuthorized, navigate]);
 
 	useEffect(() => {
 		const status = new URLSearchParams(location.search).get('status');
@@ -81,6 +109,26 @@ export const HomePage = () => {
 		};
 		GetClothingData();
 	}, []);
+
+	if (!isAuthorized) {
+		return (
+			<div>
+				<div className="loading-container">
+					<div className="loading-spinner"></div>
+				</div>
+			</div>
+		);
+	}
+
+	if (isAuthorized === null) {
+		return (
+			<div>
+				<div className="loading-container">
+					<div className="loading-spinner"></div>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="homepage">
@@ -163,7 +211,10 @@ export const HomePage = () => {
 			<div className="data-list" style={{margin: '0 1% 0 1%'}}>
 				<div className="header-container">
 					<h2>Đồ điện tử</h2>
-					<a href="/productByCategory/18286bfd-96b0-4536-9ebb-6a526281bd90" className="view-more-link">
+					<a
+						href="/productByCategory/18286bfd-96b0-4536-9ebb-6a526281bd90"
+						className="view-more-link"
+					>
 						Xem thêm
 					</a>
 				</div>
@@ -252,7 +303,10 @@ export const HomePage = () => {
 			<div className="data-list" style={{margin: '0 1% 0 1%'}}>
 				<div className="header-container">
 					<h2>Quần áo</h2>
-					<a href="/productByCategory/0736139a-3e11-4847-ae7f-51348f6e6a74" className="view-more-link">
+					<a
+						href="/productByCategory/0736139a-3e11-4847-ae7f-51348f6e6a74"
+						className="view-more-link"
+					>
 						Xem thêm
 					</a>
 				</div>

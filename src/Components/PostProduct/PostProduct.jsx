@@ -9,9 +9,11 @@ import {storage} from '../Firebase/firebase.js';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Flex, Input} from 'antd';
+import {useLocation, useNavigate} from 'react-router-dom';
 
 export const PostProduct = () => {
 	const [categoryData, setCategoryData] = useState([]);
+	const [isAuthorized, setIsAuthorized] = useState(null);
 	const [productName, setProductName] = useState(localStorage.getItem('productName') || '');
 	const [productDescription, setProductDescription] = useState(
 		localStorage.getItem('productDescription') || ''
@@ -25,6 +27,33 @@ export const PostProduct = () => {
 	const [imageUrls, setImageUrls] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const checkUserScreenAccess = async () => {
+			try {
+				const response = await axios.post('Auth/screen', {
+					resource: 'UserScreen',
+				});
+				if (response.data.isSuccess) {
+					setIsAuthorized(true);
+				} else {
+					setIsAuthorized(false);
+				}
+			} catch (error) {
+				console.error('Error checking user screen access:', error);
+				setIsAuthorized(false);
+			}
+		};
+
+		checkUserScreenAccess();
+	}, []);
+
+	useEffect(() => {
+		if (isAuthorized === false) {
+			navigate('/login');
+		}
+	}, [isAuthorized, navigate]);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -126,7 +155,34 @@ export const PostProduct = () => {
 		}
 	};
 
-	if (loading) return <p>Loading categories...</p>;
+	if (!isAuthorized) {
+		return (
+			<div>
+				<div className="loading-container">
+					<div className="loading-spinner"></div>
+				</div>
+			</div>
+		);
+	}
+
+	if (isAuthorized === null) {
+		return (
+			<div>
+				<div className="loading-container">
+					<div className="loading-spinner"></div>
+				</div>
+			</div>
+		);
+	}
+
+	if (loading)
+		return (
+			<div>
+				<div className="loading-container">
+					<div className="loading-spinner"></div>
+				</div>
+			</div>
+		);
 	if (error) return <p>Error: {error.message}</p>;
 
 	return (
