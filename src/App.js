@@ -17,6 +17,7 @@ import {SideBar} from './Components/Sidebar/Sidebar.js';
 import {Search} from './Components/Search/Search.jsx';
 import {FinancicalTicket} from './Components/FinancialTicket/FinancicalTicket.jsx';
 import {ProductByCategory} from './Components/ProductByCategory/ProductByCategory.jsx';
+import {TransactionHistory} from './Components/TransactionHistory/TransactionHistory.jsx';
 
 function App() {
 	const role = localStorage.getItem('role');
@@ -53,6 +54,7 @@ function App() {
 						<Route path="/search/:keyword" element={<Search />} />
 						<Route path="/financicalTicket" element={<FinancicalTicket />} />
 						<Route path="/productByCategory/:id" element={<ProductByCategory />} />
+						<Route path="/transactionHistory" element={<TransactionHistory />} />
 					</Routes>
 				)}
 			</BrowserRouter>
