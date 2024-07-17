@@ -1,17 +1,14 @@
 import React, {useState} from 'react';
 import './LoginSignup.css';
-import {jwtDecode} from 'jwt-decode';
 import {Button, Form, Input, Row} from 'antd';
 import {GoogleOutlined} from '@ant-design/icons';
 import {googleAuthUrl} from '../../utils';
 import {useDispatch} from 'react-redux';
 import {loginByAdmin, loginByModerator} from '../../redux/slices/authenSlice';
 import {toast, ToastContainer} from 'react-toastify';
-import {useNavigate} from 'react-router-dom';
 
 export const LoginSignup = ({handleCloseModal}) => {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 
 	const [selectedUserType, setSelectedUserType] = useState('user');
 
@@ -32,8 +29,10 @@ export const LoginSignup = ({handleCloseModal}) => {
 				if (res.error) {
 					toast.error(`${res.payload.error.message}`);
 				} else {
+					console.log(res.payload.value);
 					// save token to local storage
-					localStorage.setItem('accessToken', res.payload.value);
+					localStorage.setItem('accessToken', res.payload.value.accessToken);
+					localStorage.setItem('refreshToken', res.payload.value.refreshToken);
 					localStorage.setItem('role', 'moderator');
 					toast.success('Đăng nhập thành công');
 					window.location.href = '/product';
@@ -51,8 +50,10 @@ export const LoginSignup = ({handleCloseModal}) => {
 				if (res.error) {
 					toast.error(`${res.payload.error.message}`);
 				} else {
+					console.log(res.payload.value);
 					// save token to local storage
-					localStorage.setItem('accessToken', res.payload.value);
+					localStorage.setItem('accessToken', res.payload.value.accessToken);
+					localStorage.setItem('refreshToken', res.payload.value.refreshToken);
 					localStorage.setItem('role', 'admin');
 					toast.success('Đăng nhập thành công');
 					window.location.href = '/user';
