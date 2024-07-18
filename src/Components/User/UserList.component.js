@@ -59,7 +59,7 @@ export const UserList = () => {
 				</Button>
 			</div>
 
-			<Table dataSource={listUser} loading={loading}>
+			<Table dataSource={listUser} loading={loading} pagination={false}>
 				<Table.Column title="Username" dataIndex="username" key="username" />
 				<Table.Column title="Name" dataIndex="name" key="name" />
 				<Table.Column title="Email" dataIndex="email" key="email" />
