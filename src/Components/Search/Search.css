@@ -1,8 +1,10 @@
 .title-not-found-product {
-    margin-bottom: 210px;
     font-weight: bold;
     text-align: center;
+    padding-top: 250px;
     vertical-align: middle;
+    font-size: 20px;
     line-height: 1.5;
-    margin-top: 170px;
 }
+
+
