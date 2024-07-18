@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-// import api from '../../utils/axios';
-import {api} from '../../services/api';
+import api from '../../utils/axios';
+// import {api} from '../../services/api';
 
 export const fetchUsers = createAsyncThunk(
 	'Get List User',
