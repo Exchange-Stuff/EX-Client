@@ -20,6 +20,7 @@ import {ToastContainer} from 'react-toastify';
 import {FinancicalTicket} from './Components/FinancialTicket/FinancicalTicket.jsx';
 import {ProductByCategory} from './Components/ProductByCategory/ProductByCategory.jsx';
 import {TransactionHistory} from './Components/TransactionHistory/TransactionHistory.jsx';
+import UserBanPage from './Pages/Admin/UserBanPage/UserBanPage.jsx';
 import ChatPage, {Chat} from './Components/ChatPage/ChatPage.jsx';
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
 							<Route path="/financial" element={<FinancialPage />} />
 							<Route path="/profile" element={<Profile />} />
 							<Route path="/product" element={<ProductPage />} />
+							<Route path="/userBan" element={<FinancicalTicket />} />
 						</Routes>
 					</SideBar>
 				) : role === 'moderator' ? (
