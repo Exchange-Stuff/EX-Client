@@ -85,6 +85,7 @@ export const ProductDetail = () => {
 					);
 
 					if (userResult.data.isSuccess) {
+						console.log(userResult);
 						setUserData(userResult.data.value);
 					} else {
 						console.error('Error in response:', userResult.data.error);
@@ -126,6 +127,13 @@ export const ProductDetail = () => {
 
 		fetchData();
 	}, [id]);
+
+	const handleChat = () => {
+		const userId = userData.id;
+		localStorage.setItem('receiverId', userId);
+		navigate('/chatpage');
+		console.log(userId);
+	};
 
 	const handleAddComment = async () => {
 		if (!newComment.trim()) {
@@ -341,7 +349,9 @@ export const ProductDetail = () => {
 									>
 										<button className="buy-now-button">MUA NGAY</button>
 									</Link>
-									<button className="inbox-button">Nhắn tin với người bán</button>
+									<button className="inbox-button" onClick={handleChat}>
+										Nhắn tin với người bán
+									</button>
 									<Link
 										to={`/profile/${userData.id}`}
 										style={{

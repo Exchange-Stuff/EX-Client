@@ -21,6 +21,7 @@ import {Link} from 'react-router-dom';
 import {Autoplay, Pagination, Navigation} from 'swiper/modules';
 
 export const HomePage = () => {
+	const [userInfoData, setUserInfoData] = useState({});
 	const [data, setData] = useState([]);
 	const [productData, setProductData] = useState([]);
 	const [clothingData, setClothingData] = useState([]);
@@ -73,6 +74,14 @@ export const HomePage = () => {
 	useEffect(() => {
 		const GetData = async () => {
 			try {
+				const token = localStorage.getItem('accessToken');
+				if (token) {
+					const decoded = jwtDecode(token);
+					const userId = decoded.nameid;
+					console.log(userId);
+					const result = await axios.get(`Account/user/${userId}`);
+					setUserInfoData(result.data.value);
+				}
 				const result = await axios.get('/Product');
 				setData(result.data);
 			} catch (error) {
@@ -198,11 +207,13 @@ export const HomePage = () => {
 									</div>
 								</div>
 							</Link>
-							<div style={{textAlign: 'center'}}>
-								<Link to={`/orderproduct/${list.id}`}>
-									<button className="buy-button">Mua hàng</button>
-								</Link>
-							</div>
+							{list.createdBy !== userInfoData.id ? (
+								<div style={{textAlign: 'center'}}>
+									<Link to={`/orderproduct/${list.id}`}>
+										<button className="buy-button">Mua hàng</button>
+									</Link>
+								</div>
+							) : null}
 						</li>
 					))}
 				</ul>
@@ -290,11 +301,13 @@ export const HomePage = () => {
 									</div>
 								</div>
 							</Link>
-							<div style={{textAlign: 'center', marginTop: '25px'}}>
-								<Link to={`/orderproduct/${list.id}`}>
-									<button className="buy-button">Mua hàng</button>
-								</Link>
-							</div>
+							{list.createdBy !== userInfoData.id ? (
+								<div style={{textAlign: 'center', marginTop: '25px'}}>
+									<Link to={`/orderproduct/${list.id}`}>
+										<button className="buy-button">Mua hàng</button>
+									</Link>
+								</div>
+							) : null}
 						</SwiperSlide>
 					))}
 				</Swiper>
@@ -383,11 +396,13 @@ export const HomePage = () => {
 									</div>
 								</div>
 							</Link>
-							<div style={{textAlign: 'center', marginTop: '25px'}}>
-								<Link to={`/orderproduct/${list.id}`}>
-									<button className="buy-button">Mua hàng</button>
-								</Link>
-							</div>
+							{list.createdBy !== userInfoData.id ? (
+								<div style={{textAlign: 'center', marginTop: '25px'}}>
+									<Link to={`/orderproduct/${list.id}`}>
+										<button className="buy-button">Mua hàng</button>
+									</Link>
+								</div>
+							) : null}
 						</SwiperSlide>
 					))}
 				</Swiper>

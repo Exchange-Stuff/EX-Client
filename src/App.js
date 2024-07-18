@@ -21,6 +21,7 @@ import {FinancicalTicket} from './Components/FinancialTicket/FinancicalTicket.js
 import {ProductByCategory} from './Components/ProductByCategory/ProductByCategory.jsx';
 import {TransactionHistory} from './Components/TransactionHistory/TransactionHistory.jsx';
 import UserBanPage from './Pages/Admin/UserBanPage/UserBanPage.jsx';
+import ChatPage, {Chat} from './Components/ChatPage/ChatPage.jsx';
 
 function App() {
 	const role = localStorage.getItem('role');
@@ -63,6 +64,11 @@ function App() {
 						<Route path="/orderproduct/:id" element={<OrderProduct />} />
 						<Route path="/orderpage" element={<OrderPage />} />
 						<Route path="/search/:keyword" element={<Search />} />
+						<Route path="/financicalTicket" element={<FinancicalTicket />} />
+						<Route path="/productByCategory/:id" element={<ProductByCategory />} />
+						<Route path="/transactionHistory" element={<TransactionHistory />} />
+						<Route path="/profile/:id" element={<Profile />} />
+						<Route path="/chatpage" element={<ChatPage />} />
 					</Routes>
 				)}
 				<ToastContainer limit={3} />
