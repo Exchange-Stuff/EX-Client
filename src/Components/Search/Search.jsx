@@ -4,11 +4,13 @@ import Header from '../Header/Header.jsx';
 import Footer from '../Footer/Footer';
 import axios from '../../utils/axios.js';
 import {useParams} from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode';
 import coin from '../Assets/coin.png';
 import {Link} from 'react-router-dom';
 import {useLocation, useNavigate} from 'react-router-dom';
 
 export const Search = () => {
+	const [userInfoData, setUserInfoData] = useState({});
 	const [searchResults, setSearchResults] = useState([]);
 	const {keyword} = useParams();
 	const [isAuthorized, setIsAuthorized] = useState(null);
@@ -43,6 +45,14 @@ export const Search = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
+				const token = localStorage.getItem('accessToken');
+				if (token) {
+					const decoded = jwtDecode(token);
+					const userId = decoded.nameid;
+					console.log(userId);
+					const result = await axios.get(`Account/user/${userId}`);
+					setUserInfoData(result.data.value);
+				}
 				let result;
 				if (keyword.trim() !== '') {
 					result = await axios.get(`/Product/getProductName/${keyword}`);
@@ -127,11 +137,13 @@ export const Search = () => {
 											</div>
 										</div>
 									</Link>
-									<div style={{textAlign: 'center'}}>
-										<Link to={`/orderproduct/${list.id}`}>
-											<button className="buy-button">Mua hàng</button>
-										</Link>
-									</div>
+									{list.createdBy !== userInfoData.id ? (
+										<div style={{textAlign: 'center'}}>
+											<Link to={`/orderproduct/${list.id}`}>
+												<button className="buy-button">Mua hàng</button>
+											</Link>
+										</div>
+									) : null}
 								</li>
 							))}
 						</ul>

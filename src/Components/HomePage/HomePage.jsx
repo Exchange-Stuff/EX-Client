@@ -207,7 +207,7 @@ export const HomePage = () => {
 									</div>
 								</div>
 							</Link>
-							{data.CreatedBy === userInfoData.id ? (
+							{list.createdBy !== userInfoData.id ? (
 								<div style={{textAlign: 'center'}}>
 									<Link to={`/orderproduct/${list.id}`}>
 										<button className="buy-button">Mua hàng</button>
@@ -301,11 +301,13 @@ export const HomePage = () => {
 									</div>
 								</div>
 							</Link>
-							<div style={{textAlign: 'center', marginTop: '25px'}}>
-								<Link to={`/orderproduct/${list.id}`}>
-									<button className="buy-button">Mua hàng</button>
-								</Link>
-							</div>
+							{list.createdBy !== userInfoData.id ? (
+								<div style={{textAlign: 'center', marginTop: '25px'}}>
+									<Link to={`/orderproduct/${list.id}`}>
+										<button className="buy-button">Mua hàng</button>
+									</Link>
+								</div>
+							) : null}
 						</SwiperSlide>
 					))}
 				</Swiper>
@@ -394,11 +396,13 @@ export const HomePage = () => {
 									</div>
 								</div>
 							</Link>
-							<div style={{textAlign: 'center', marginTop: '25px'}}>
-								<Link to={`/orderproduct/${list.id}`}>
-									<button className="buy-button">Mua hàng</button>
-								</Link>
-							</div>
+							{list.createdBy !== userInfoData.id ? (
+								<div style={{textAlign: 'center', marginTop: '25px'}}>
+									<Link to={`/orderproduct/${list.id}`}>
+										<button className="buy-button">Mua hàng</button>
+									</Link>
+								</div>
+							) : null}
 						</SwiperSlide>
 					))}
 				</Swiper>
