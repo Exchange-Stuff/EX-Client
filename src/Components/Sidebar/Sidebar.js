@@ -9,9 +9,11 @@ import {
 	ProductOutlined,
 	MoneyCollectOutlined,
 	LogoutOutlined,
+	ExclamationOutlined,
 } from '@ant-design/icons';
 
 const {Content, Sider} = Layout;
+const {SubMenu} = Menu;
 
 const SideBar = ({children}) => {
 	const [collapsed, setCollapsed] = React.useState(false);
@@ -33,7 +35,15 @@ const SideBar = ({children}) => {
 	return (
 		<Layout style={{minHeight: '100vh'}}>
 			<Sider collapsed={collapsed} width={200} className="site-layout-sidebar">
-				<Button onClick={toggleCollapsed}>
+				<Button
+					onClick={toggleCollapsed}
+					style={{
+						marginTop: 50,
+						backgroundColor: '#1890ff',
+						color: 'white',
+						border: 'none',
+					}}
+				>
 					{collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
 				</Button>
 
@@ -53,6 +63,16 @@ const SideBar = ({children}) => {
 					<Menu.Item key="4" icon={<MoneyCollectOutlined />}>
 						<Link to="/financial">Quản lý tài chính</Link>
 					</Menu.Item>
+
+					<SubMenu key="sub1" icon={<ExclamationOutlined />} title="Quản lý tố cáo">
+						<Menu.Item key="sub1-1" icon={<UserOutlined />}>
+							<Link to="/userBan">Người dùng</Link>
+						</Menu.Item>
+
+						<Menu.Item key="sub1-2" icon={<ProductOutlined />}>
+							<Link to="/productBan">Product</Link>
+						</Menu.Item>
+					</SubMenu>
 
 					<Menu.Item
 						key="5"

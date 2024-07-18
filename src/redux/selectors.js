@@ -15,3 +15,13 @@ export const getTotalPageFinancialSelector = (state) => state.financialSlice.tot
 
 // products admin
 export const getAllProductSelector = (state) => state.productSlice.productList;
+
+// User bane
+export const getListUserBanSelector = (state) => state.userSlice.listUserBan;
+export const getLoadingUserBanSelector = (state) => state.userSlice.loading;
+export const getTotalPageUserBanSelector = (state) => state.userSlice.total_page_user_ban;
+
+// Product ban
+export const getProductBanListSelector = (state) => state.productSlice.productBanList;
+export const getLoadingProductBanSelector = (state) => state.productSlice.productBanLoading;
+export const getTotalPageProductBanSelector = (state) => state.productSlice.totalPageBan;
