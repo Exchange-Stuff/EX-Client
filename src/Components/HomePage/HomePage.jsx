@@ -83,6 +83,7 @@ export const HomePage = () => {
 					setUserInfoData(result.data.value);
 				}
 				const result = await axios.get('/Product');
+				console.log(result.data);
 				setData(result.data);
 			} catch (error) {
 				console.error('Error fetching data:', error);

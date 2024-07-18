@@ -58,16 +58,15 @@ instance.interceptors.response.use(
 	},
 	async (error) => {
 		const originalRequest = error.config;
-		console.log('error.response.status', JSON.stringify(error.response.status));
-		console.log('error.message', JSON.stringify(error.message));
-		console.log('error.status', JSON.stringify(error.status));
-		console.log('error.response', JSON.stringify(error.response));
 		console.log(
 			'error.response.headers',
 			JSON.stringify(error.response.headers.get('is-exchangestuff-token-expired'))
 		);
 
-		if (error.response.status === 401 || error.response.status === 400) {
+		if (
+			error.response.status === 401 &&
+			error.response.headers.get('is-exchangestuff-token-expired') === 'true'
+		) {
 			originalRequest._retry = true;
 			const oldAccessToken = getAccessToken();
 			try {

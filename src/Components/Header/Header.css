@@ -22,20 +22,24 @@
   }
 
   .trangchu img{
-    width: 74px;
-    height: 57px;
+    width: 80px;
+    height: 60px;
+    align-items: center;
+    padding: 3px;
+    margin-left: 10px;
+    margin-right: 10px;
   }
   
-  .category{
-      font-size: 20px;
-      margin-right: 45px;
-      font-weight: bold;
-      font-family: monospace;
-      align-items: center;
-      cursor: pointer;
-      text-decoration: none;
-      color: black;
-  }
+  .category {
+    font-size: 18px;
+    margin-right: 25px;
+    font-weight: bold;
+    font-family: system-ui;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+}
 
   .category:hover{
     color: #ffba00;
@@ -83,7 +87,6 @@
 
 .header-img-user{
  margin: auto;
- margin-left: 50px;
   width: 50px;
   border-radius: 30px;
   cursor: pointer;
@@ -131,7 +134,7 @@
 }
 
 .search-input-header{
-  margin-right: 45px;
+  margin-right: 25px;
 }
 
 .post-button {
@@ -143,20 +146,23 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 18px;
-  width: 128px;
+  font-size: 16px;
+  width: 115px;
+  height: 17px;
 }
 
-.chat-notification {
-  flex: 1;
-  display: flex;
-  justify-content: space-evenly;
-
-}
 
 .notification {
   position: relative;
   display: inline-block;
+  margin-right: 25px;
+}
+.notification-icon, .message-icon {
+  width: 42px;
+  height: 26px;
+  border-radius: 50%;
+  margin-left: 18px;
+  color: #000000;
 }
 .notification-dropdown {
   display: none;
@@ -192,7 +198,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
-  padding: 5px 5px 5px 5px;
 }
 
 .chat-notification,
@@ -205,12 +210,15 @@
   color: black;
 }
 
-
-.chat-notification .chat {
-  margin-right: 15px;
-}
-
 .chat-notification .notification .notification-icon:hover,
 .chat-notification .chat:hover{
   color: #ffba00;
+}
+
+.message-item{
+  width: 42px;
+  height: 26px;
+  border-radius: 50%;
+  margin-left: 55px;
+  color: #000000;
 }

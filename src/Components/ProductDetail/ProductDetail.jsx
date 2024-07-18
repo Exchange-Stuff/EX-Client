@@ -19,7 +19,7 @@ export const ProductDetail = () => {
 	const {id} = useParams(); // Lấy id từ URL
 	const [data, setData] = useState({});
 	const [userData, setUserData] = useState({});
-	const [ratingData, setRatingData] = useState({});
+	const [ratingData, setRatingData] = useState(0);
 	const [comments, setComments] = useState([]);
 	const [countComments, setCountComments] = useState([]);
 	const [newComment, setNewComment] = useState('');
@@ -101,8 +101,10 @@ export const ProductDetail = () => {
 						console.error('Error in response:', ratingResult.data.error);
 					}
 
-					const commentsResult = await axios.get(`Comment/product/${productData.id}`);
+					const commentsResult = await axios.get(`Comment/product/${id}`);
+					console.log(commentsResult.data);
 					if (commentsResult.data.isSuccess) {
+						console.log(commentsResult.data);
 						setComments(commentsResult.data.value);
 					} else {
 						console.error('Error in response:', commentsResult.data.error);
@@ -168,6 +170,7 @@ export const ProductDetail = () => {
 		try {
 			const commentsResult = await axios.get(`Comment/product/${data.id}`);
 			if (commentsResult.data.isSuccess) {
+				console.log(commentsResult.data);
 				setComments(commentsResult.data.value);
 			} else {
 				console.error('Error fetching comments:', commentsResult.data.error);
