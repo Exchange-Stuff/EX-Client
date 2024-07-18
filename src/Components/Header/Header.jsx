@@ -6,6 +6,8 @@ import {jwtDecode} from 'jwt-decode';
 import axios from '../../utils/axios.js';
 import {Input, Space} from 'antd';
 import {FaSearch} from 'react-icons/fa';
+import {FaBell, FaFacebookMessenger} from 'react-icons/fa';
+import {HubConnectionBuilder, HubConnectionState} from '@microsoft/signalr';
 
 const Header = ({handleLoginClick}) => {
 	const [userInfo, setUserInfo] = useState([]);
@@ -14,6 +16,24 @@ const Header = ({handleLoginClick}) => {
 	const dropdownRef = useRef(null);
 	const [searchKeyword, setSearchKeyword] = useState('');
 	const navigate = useNavigate();
+	const [listNotification, setListNotification] = useState(['123',"adsgufkao ieof fhaiwoe hfasdlfhw"]);
+	const [notificationConnection, setNotificationConnection] = useState();
+
+	const connectNotification = async () => {
+		try {
+			const conn = new HubConnectionBuilder()
+				.withUrl('http://localhost:5059/esnotification')
+				.build();
+			conn.on('ReceiveNotification', (msg) => {
+				setListNotification((listNotification) => [...listNotification, msg]);
+			});
+			await conn.start();
+
+			setNotificationConnection(conn);
+		} catch (error) {
+			console.log('try catch', error);
+		}
+	};
 
 	const handleSearch = () => {
 		navigate(`/search/${encodeURIComponent(searchKeyword)}`);
@@ -165,6 +185,28 @@ const Header = ({handleLoginClick}) => {
 					)}
 				</div>
 			)}
+
+			<div className="chat-notification">
+				<div className="notification">
+					<FaBell className="notification-icon" />
+					<div className="notification-dropdown">
+						{listNotification.length == 0 ? (
+							<div className="notification-item">No notification</div>
+						) : (
+							listNotification.map((item, index) => {
+								return (
+									<div className="notification-item" key={index}>
+										{item}
+									</div>
+								);
+							})
+						)}
+					</div>
+				</div>
+				<Link to={'/chatpage'} className="chat">
+					<FaFacebookMessenger />
+				</Link>
+			</div>
 		</div>
 	);
 };

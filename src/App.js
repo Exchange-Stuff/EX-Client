@@ -20,6 +20,7 @@ import {ToastContainer} from 'react-toastify';
 import {FinancicalTicket} from './Components/FinancialTicket/FinancicalTicket.jsx';
 import {ProductByCategory} from './Components/ProductByCategory/ProductByCategory.jsx';
 import {TransactionHistory} from './Components/TransactionHistory/TransactionHistory.jsx';
+import ChatPage, {Chat} from './Components/ChatPage/ChatPage.jsx';
 
 function App() {
 	const role = localStorage.getItem('role');
@@ -65,6 +66,7 @@ function App() {
 						<Route path="/productByCategory/:id" element={<ProductByCategory />} />
 						<Route path="/transactionHistory" element={<TransactionHistory />} />
 						<Route path="/profile/:id" element={<Profile />} />
+						<Route path="/chatpage" element={<ChatPage />} />
 					</Routes>
 				)}
 				<ToastContainer limit={3} />
