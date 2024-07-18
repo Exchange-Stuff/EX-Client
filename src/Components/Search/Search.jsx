@@ -89,69 +89,57 @@ export const Search = () => {
 	}
 
 	return (
-		<div>
-			<Header />
-			<div className="search-results">
-				<h2>Kết quả tìm kiếm cho: "{keyword}"</h2>
-				{searchResults.length === 0 ? (
-					<p className="title-not-found-product">
-						Không tìm thấy sản phẩm nào khớp với lựa chọn của bạn.
-					</p>
-				) : (
-					<div className="data-list">
-						<ul className="list-container">
-							{searchResults.map((list) => (
-								<li key={list.id} className="list-item">
-									<div className="img-container">
-										<img src={list.thumbnail} alt={list.name} />
-									</div>
-									<Link
-										to={`/productdetail/${list.id}`}
-										style={{textDecoration: 'none'}}
-									>
-										<div className="detail-container">
-											<div className="left-column">
-												<h3>{list.name}</h3>
-												<p style={{width: '200px'}}>{list.description}</p>
-											</div>
-											<div className="right-column">
-												<p
-													style={{
-														display: 'flex',
-														justifyContent: 'flex-end',
-														alignItems: 'center',
-													}}
-												>
-													<img
-														src={coin}
-														alt=""
-														style={{
-															width: '38px',
-															height: '35px',
-															transform: 'none',
-															marginRight: '3px',
-														}}
-													/>
-													<p>{list.price}</p>
-												</p>
-											</div>
-										</div>
-									</Link>
-									{list.createdBy !== userInfoData.id ? (
-										<div style={{textAlign: 'center'}}>
-											<Link to={`/orderproduct/${list.id}`}>
-												<button className="buy-button">Mua hàng</button>
-											</Link>
-										</div>
-									) : null}
-								</li>
-							))}
-						</ul>
-					</div>
-				)}
-			</div>
-			<Footer />
-		</div>
+        <div>
+            <Header />
+            <div className="search-results">
+                {searchResults.length === 0 ? (
+                    <p className="title-not-found-product">
+                        Không tìm thấy sản phẩm nào khớp với lựa chọn của bạn.
+                    </p>
+                ) : (
+                    <>
+                        <h2>Kết quả tìm kiếm cho: "{keyword}"</h2>
+                        <div className="data-list">
+                            <ul className="list-container">
+                                {searchResults.map((list) => (
+                                    <li key={list.id} className="list-item">
+                                        <div className="img-container">
+                                            <img src={list.thumbnail} alt={list.name} />
+                                        </div>
+                                        <Link to={`/productdetail/${list.id}`} style={{ textDecoration: 'none' }}>
+                                            <div className="detail-container">
+                                                <div className="left-column">
+                                                    <h3>{list.name}</h3>
+                                                    <p style={{ width: '200px' }}>{list.description}</p>
+                                                </div>
+                                                <div className="right-column">
+                                                    <p style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                                                        <img
+                                                            src={coin}
+                                                            alt=""
+                                                            style={{ width: '38px', height: '35px', transform: 'none', marginRight: '3px' }}
+                                                        />
+                                                        <span>{list.price}</span> {/* Changed <p> to <span> */}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                        {list.createdBy !== userInfoData.id && (
+                                            <div style={{ textAlign: 'center' }}>
+                                                <Link to={`/orderproduct/${list.id}`}>
+                                                    <button className="buy-button">Mua hàng</button>
+                                                </Link>
+                                            </div>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </>
+                )}
+            </div>
+            <Footer />
+        </div>
 	);
 };
 

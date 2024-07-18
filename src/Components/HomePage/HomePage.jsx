@@ -190,6 +190,7 @@ export const HomePage = () => {
 												display: 'flex',
 												justifyContent: 'flex-end',
 												alignItems: 'center',
+												marginTop: '0px',
 											}}
 										>
 											<img
@@ -246,9 +247,10 @@ export const HomePage = () => {
 							key={list.id}
 							className="list-item-swiper box-shadow"
 							style={{
-								Height: '470px',
+								maxHeight: '460px',
+								minHeight: '460px',
 								cursor: 'pointer',
-								width: '310px',
+								width: '300px',
 								padding: '10px',
 							}}
 						>
@@ -265,7 +267,7 @@ export const HomePage = () => {
 							<Link to={`/productdetail/${list.id}`} style={{textDecoration: 'none'}}>
 								<div className="detail-container">
 									<div className="left-column">
-										<h3 style={{color: 'black'}}>{list.name}</h3>
+										<h3 style={{color: 'black', margin: '0px', width: '200px', fontSize: '20px', color: '#333',margin: '8px 0 0 0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{list.name}</h3>
 										<p
 											style={{
 												width: '200px',
@@ -284,6 +286,7 @@ export const HomePage = () => {
 												display: 'flex',
 												justifyContent: 'flex-end',
 												alignItems: 'center',
+												marginTop: '0px',
 											}}
 										>
 											<img
@@ -302,7 +305,7 @@ export const HomePage = () => {
 								</div>
 							</Link>
 							{list.createdBy !== userInfoData.id ? (
-								<div style={{textAlign: 'center', marginTop: '25px'}}>
+								<div style={{textAlign: 'center'}}>
 									<Link to={`/orderproduct/${list.id}`}>
 										<button className="buy-button">Mua hàng</button>
 									</Link>
@@ -326,7 +329,7 @@ export const HomePage = () => {
 				<Swiper
 					className="list-swiper-container "
 					spaceBetween={20}
-					slidesPerView={4.5}
+					slidesPerView={4}
 					navigation={true}
 					loop={true}
 					pagination={{
@@ -340,11 +343,11 @@ export const HomePage = () => {
 							key={list.id}
 							className="list-item-swiper box-shadow"
 							style={{
-								Height: '470px',
+								maxHeight: '460px',
+								minHeight: '460px',
 								cursor: 'pointer',
-								width: '310px',
+								width: '300px',
 								padding: '10px',
-								boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
 							}}
 						>
 							<p
@@ -360,7 +363,7 @@ export const HomePage = () => {
 							<Link to={`/productdetail/${list.id}`} style={{textDecoration: 'none'}}>
 								<div className="detail-container">
 									<div className="left-column">
-										<h3 style={{color: 'black'}}>{list.name}</h3>
+										<h3 style={{color: 'black', margin: '0px', width: '200px', fontSize: '20px', color: '#333',margin: '8px 0 0 0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{list.name}</h3>
 										<p
 											style={{
 												width: '200px',
@@ -379,6 +382,7 @@ export const HomePage = () => {
 												display: 'flex',
 												justifyContent: 'flex-end',
 												alignItems: 'center',
+												marginTop: '0px',
 											}}
 										>
 											<img
@@ -397,7 +401,7 @@ export const HomePage = () => {
 								</div>
 							</Link>
 							{list.createdBy !== userInfoData.id ? (
-								<div style={{textAlign: 'center', marginTop: '25px'}}>
+								<div style={{textAlign: 'center'}}>
 									<Link to={`/orderproduct/${list.id}`}>
 										<button className="buy-button">Mua hàng</button>
 									</Link>
