@@ -28,13 +28,6 @@
     display: flex;
   }
   
-  .notification-icon, .message-icon {
-    width: 20px;
-    height: 20px;
-    background-color: gray;
-    border-radius: 50%;
-    margin-left: 15px;
-  }
   
   .profile-content {
     padding: 20px;

@@ -88,7 +88,13 @@ export const Profile = () => {
 	}
 
 	if (!isAuthorized) {
-		return null;
+		return (
+			<div>
+				<div className="loading-container">
+					<div className="loading-spinner"></div>
+				</div>
+			</div>
+		);
 	}
 
 	return (
