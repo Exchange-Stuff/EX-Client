@@ -92,11 +92,13 @@ export const OrderPage = () => {
 
   const handleStatusProductChange = async (id, value) => {
     try {
+      console.log("Product ID" + value);
       await axios.put(`PurchaseTicket/UpdatePurchaseTicket`, { id: id, status: value,});
       fetchData(currentPage, status);
       toast.success('Status updated successfully');
     } catch (error) {
       console.error('Error updating status:', error);
+      console.log(error);
       toast.error('Failed to update status');
     }
   };
@@ -188,7 +190,6 @@ export const OrderPage = () => {
           </div>
         </div>
         <Footer />
-        <ToastContainer />
       </div>
     );
   }
