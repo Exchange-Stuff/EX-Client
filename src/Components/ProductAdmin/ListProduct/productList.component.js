@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './productList.component.css';
 import {useSelector, useDispatch} from 'react-redux';
 import {getAllProductByAdmin, getAllProductByModerator} from '../../../redux/slices/productSlice';
@@ -10,9 +10,11 @@ export const ProductList = () => {
 
 	const productList = useSelector(getAllProductSelector);
 
-	React.useEffect(() => {
-		dispatch(getAllProductByAdmin());
+	useEffect(() => {
+		dispatch(getAllProductByAdmin()).then((res) => {
+			console.log(`res`, res);
+		});
 	}, [dispatch]);
 
-	return <Table></Table>;
+	return <div></div>;
 };

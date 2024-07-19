@@ -33,7 +33,7 @@ export const LoginSignup = ({handleCloseModal}) => {
 					// save token to local storage
 					localStorage.setItem('accessToken', res.payload.value.accessToken);
 					localStorage.setItem('refreshToken', res.payload.value.refreshToken);
-					localStorage.setItem('role', 'moderator');
+					localStorage.setItem('role', 'admin');
 					toast.success('Đăng nhập thành công');
 					window.location.href = '/product';
 				}

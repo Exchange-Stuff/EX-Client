@@ -33,31 +33,31 @@ export const FinancialList = () => {
 		});
 	}, [pageIndex, pageSize, status, dispatch]);
 
-	const handleUpdate = async (id, status) => {
-		// confirm
-		const confirm = window.confirm('Are you sure?');
-		if (!confirm) return;
-		try {
-			try {
-				const data = await axios.put(
-					`http://localhost:5059/api/FinancialTicket/UpdateFinancialTicket`,
-					{
-						id,
-						status,
-					}
-				);
-				if (data) {
-					alert('Update success');
-					window.location.reload();
-				}
-			} catch (error) {
-				console.error('Error updating data:', error);
-			}
-		} catch (error) {
-			console.error('Error updating data:', error);
-			alert('Update failed');
-		}
-	};
+	// const handleUpdate = async (id, status) => {
+	// 	// confirm
+	// 	const confirm = window.confirm('Are you sure?');
+	// 	if (!confirm) return;
+	// 	try {
+	// 		try {
+	// 			const data = await axios.put(
+	// 				`http://localhost:5059/api/FinancialTicket/UpdateFinancialTicket`,
+	// 				{
+	// 					id,
+	// 					status,
+	// 				}
+	// 			);
+	// 			if (data) {
+	// 				alert('Update success');
+	// 				window.location.reload();
+	// 			}
+	// 		} catch (error) {
+	// 			console.error('Error updating data:', error);
+	// 		}
+	// 	} catch (error) {
+	// 		console.error('Error updating data:', error);
+	// 		alert('Update failed');
+	// 	}
+	// };
 
 	return (
 		<div className="financial-list">
@@ -73,10 +73,8 @@ export const FinancialList = () => {
 					<option value={2}>Reject</option>
 				</select>
 			</div>
-			<Table dataSource={listFinancial} loading={loading}>
-				<Table.Column title="Số tiền" dataIndex="amount" key="amount">
-					
-				</Table.Column>
+			{/* <Table dataSource={listFinancial} loading={loading}>
+				<Table.Column title="Số tiền" dataIndex="amount" key="amount"></Table.Column>
 				<Table.Column
 					title="Name"
 					dataIndex="user"
@@ -109,17 +107,12 @@ export const FinancialList = () => {
 						/>
 					)}
 				/>
+
 				<Table.Column
 					title="Thời gian tạo"
 					dataIndex="createdOn"
 					key="createdOn"
-					render={(data) =>
-						new Date(data).toLocaleDateString('en-GB', {
-							day: 'numeric',
-							month: 'numeric',
-							year: 'numeric',
-						})
-					}
+					render={(data) => (data ? new Date(data).toLocaleString() : 'Chưa cập nhật')}
 				/>
 
 				<Table.Column
@@ -136,7 +129,7 @@ export const FinancialList = () => {
 						}
 					}}
 				/>
-			</Table>
+			</Table> */}
 			<Pagination defaultCurrent={1} total={totalPage} />
 		</div>
 	);

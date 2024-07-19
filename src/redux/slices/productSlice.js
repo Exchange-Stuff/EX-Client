@@ -3,11 +3,11 @@ import api from '../../utils/axios';
 
 export const getAllProductByAdmin = createAsyncThunk(
 	'product/getAllProductByAdmin',
-	async ({rejectWithValue}) => {
+	async (_, {rejectWithValue}) => {
 		try {
 			const url = `/Product/getForAdmin`;
 			const response = await api.get(url);
-			console.log('response', response.data);
+			console.log('response', response);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(error.response.data);
@@ -17,11 +17,11 @@ export const getAllProductByAdmin = createAsyncThunk(
 
 export const getAllProductByModerator = createAsyncThunk(
 	'product/getAllProductByModerator',
-	async ({rejectWithValue}) => {
+	async (_, {rejectWithValue}) => {
 		try {
 			const url = `/Product/getForModerator`;
 			const response = await api.get(url);
-			console.log('response', response.data);
+			console.log('response', response);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(error.response.data);

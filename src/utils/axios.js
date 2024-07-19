@@ -9,11 +9,12 @@ export const setNavigateCallback = (callback) => {
 };
 
 // https://haddock-wise-mallard.ngrok-free.app/api
+// https://alpaca-blessed-endlessly.ngrok-free.app/api
 // http://localhost:5059/api
 // 'ngrok-skip-browser-warning': 'true',
 
 export const instance = axios.create({
-	baseURL: 'https://haddock-wise-mallard.ngrok-free.app/api',
+	baseURL: 'https://alpaca-blessed-endlessly.ngrok-free.app/api',
 	headers: {
 		'ngrok-skip-browser-warning': 'true',
 	},
