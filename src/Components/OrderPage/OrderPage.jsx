@@ -67,7 +67,7 @@ export const OrderPage = () => {
 
 	useEffect(() => {
 		if (isAuthorized === false) {
-			navigate('/login');
+			navigate('/homepage');
 		}
 	}, [isAuthorized, navigate]);
 

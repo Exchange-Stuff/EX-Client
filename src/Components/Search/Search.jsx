@@ -38,7 +38,7 @@ export const Search = () => {
 
 	useEffect(() => {
 		if (isAuthorized === false) {
-			navigate('/login');
+			navigate('/homepage');
 		}
 	}, [isAuthorized, navigate]);
 
