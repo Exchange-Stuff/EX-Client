@@ -38,11 +38,11 @@ export const OrderProduct = () => {
     checkUserScreenAccess();
   }, []);
 
-  useEffect(() => {
-    if (isAuthorized === false) {
-      navigate('/login');
-    }
-  }, [isAuthorized, navigate]);
+	useEffect(() => {
+		if (isAuthorized === false) {
+			navigate('/homepage');
+		}
+	}, [isAuthorized, navigate]);
 
   useEffect(() => {
     const fetchData = async () => {

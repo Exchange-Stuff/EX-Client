@@ -56,7 +56,7 @@ function App() {
 					</SideBar>
 				) : (
 					<Routes>
-						<Route path="/*" element={<LoginSignup />} />
+						<Route path="/*" element={<HomePage />} />
 						<Route path="/homepage" element={<HomePage />} />
 						<Route path="/login" element={<LoginSignup />} />
 						<Route path="/postproduct" element={<PostProduct />} />

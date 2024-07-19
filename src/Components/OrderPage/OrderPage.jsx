@@ -39,11 +39,11 @@ export const OrderPage = () => {
     checkUserScreenAccess();
   }, []);
 
-  useEffect(() => {
-    if (isAuthorized === false) {
-      navigate('/login');
-    }
-  }, [isAuthorized, navigate]);
+	useEffect(() => {
+		if (isAuthorized === false) {
+			navigate('/homepage');
+		}
+	}, [isAuthorized, navigate]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

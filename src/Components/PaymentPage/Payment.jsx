@@ -9,11 +9,10 @@ import Footer from '../Footer/Footer.jsx';
 import Coin from '../Assets/coin.jpg';
 
 export const Payment = () => {
-	const [amount, setSelectedAmount] = useState(null);
-	const [isAuthorized, setIsAuthorized] = useState(null);
+	const [amount, setSelectedAmount] = useState('');
+	const [isAuthorized, setIsAuthorized] = useState('');
 	const navigate = useNavigate();
 	const location = useLocation();
-	const [enableButton, setButton] = useState(null);
 
 	const handleSelect = (amount) => {
 		setSelectedAmount(amount);
@@ -28,15 +27,6 @@ export const Payment = () => {
 				});
 				if (response.data.isSuccess) {
 					setIsAuthorized(true);
-					const responseButton = await axios.post('Auth/screen', {
-						resource: 'ButtonPayment',
-					});
-					if (responseButton.data.isSuccess) {
-						setButton(true);
-					} else {
-						setButton(false);
-					}
-					
 				} else {
 					setIsAuthorized(false);
 				}
@@ -51,20 +41,23 @@ export const Payment = () => {
 
 	useEffect(() => {
 		if (isAuthorized === false) {
-			navigate('/login');
+			navigate('/homepage');
 		}
 	}, [isAuthorized, navigate]);
 
 	useEffect(() => {
 		const status = new URLSearchParams(location.search).get('status');
-		if (status === 'success') {
-			toast.success('Giao dịch thành công!');
-		} else if (status === 'fail') {
-			toast.error('Giao dịch thất bại');
-		} else if (status === 'error') {
-			toast.error('Có lỗi xảy ra khi thanh toán.');
+		if (status) {
+			if (status === 'success') {
+				toast.success('Giao dịch thành công!');
+			} else if (status === 'fail') {
+				toast.error('Giao dịch thất bại');
+			} else if (status === 'error') {
+				toast.error('Có lỗi xảy ra khi thanh toán.');
+			}
+			navigate(location.pathname, { replace: true });
 		}
-	}, [location.search]);
+	}, [location.search, navigate]);
 
 	const handlePayment = async () => {
 		if (!amount) {
@@ -96,13 +89,12 @@ export const Payment = () => {
 
 	if (isAuthorized === null) {
 		return (
-			<div>
-				<div className="loading-container">
-					<div className="loading-spinner"></div>
-				</div>
+			<div className="loading-container">
+				<div className="loading-spinner"></div>
 			</div>
 		);
 	}
+
 	return (
 		<div className="payment-container">
 			<Header />
@@ -137,15 +129,13 @@ export const Payment = () => {
 							className={amount === 400 ? 'selected' : ''}
 						/>
 					</div>
-					{enableButton && (
-						<button className="button-payment" type="button" onClick={handlePayment}>
-							Thanh toán
-						</button>
-					)}
+
+					<button className="button-payment" type="button" onClick={handlePayment}>
+						Thanh toán
+					</button>
 				</form>
 			</div>
 			<Footer />
-			<ToastContainer />
 		</div>
 	);
 };
