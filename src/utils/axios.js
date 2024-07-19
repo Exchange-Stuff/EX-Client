@@ -13,7 +13,7 @@ export const setNavigateCallback = (callback) => {
 // 'ngrok-skip-browser-warning': 'true',
 
 export const instance = axios.create({
-	baseURL: 'https://haddock-wise-mallard.ngrok-free.app/api',
+	baseURL: 'http://localhost:5059/api',
 	headers: {
 		'ngrok-skip-browser-warning': 'true',
 	},

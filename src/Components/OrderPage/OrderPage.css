@@ -23,6 +23,8 @@
 }
 
 .orderpage-form {
+  max-height: 400px;
+  min-height: 400px;
   border-radius: 10px;
   padding: 20px;
   background-color: #fffaf0;
