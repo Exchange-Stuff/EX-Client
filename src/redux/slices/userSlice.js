@@ -85,7 +85,7 @@ export const userSlice = createSlice({
 			})
 			.addCase(getListusersBan.fulfilled, (state, action) => {
 				state.loading = false;
-				state.listUserBan = action.payload;
+				state.listUserBan = action.payload.listItem;
 				state.total_page_user_ban = action.payload.totalPage;
 			})
 			.addCase(getListusersBan.rejected, (state, action) => {

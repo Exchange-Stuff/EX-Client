@@ -27,7 +27,11 @@ export const LoginSignup = ({handleCloseModal}) => {
 			).then((res) => {
 				console.log(`res`, res);
 				if (res.error) {
-					toast.error(`${res.payload.error.message}`);
+					if (res.payload) {
+						toast.error(`${res.payload.error.message}`);
+					} else {
+						toast.error('Lỗi hệ thống');
+					}
 				} else {
 					console.log(res.payload.value);
 					// save token to local storage

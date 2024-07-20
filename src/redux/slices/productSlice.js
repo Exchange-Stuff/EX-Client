@@ -36,7 +36,7 @@ export const getProductBanList = createAsyncThunk(
 			const url = `/ProductBanReport/productBanReports?productId=${productId}&reasonId=${reasonId}&reason=${reason}&pageIndex=${pageIndex}&pageSize=${pageSize}`;
 			const response = await api.get(url);
 			console.log('response', response.data);
-			return response.data;
+			return response.data.value;
 		} catch (error) {
 			return rejectWithValue(error.response.data);
 		}
@@ -107,7 +107,7 @@ export const productSlice = createSlice({
 			})
 			.addCase(getProductBanList.fulfilled, (state, action) => {
 				state.productBanLoading = false;
-				state.productBanList = action.payload;
+				state.productBanList = action.payload.listItem;
 				state.totalPageBan = action.payload.totalPage;
 			})
 			.addCase(getProductBanList.rejected, (state, action) => {

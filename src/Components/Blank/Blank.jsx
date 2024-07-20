@@ -8,7 +8,7 @@ export const Blank = () => {
 		const fetchData = async () => {
 			try {
 				const queryString = window.location.search;
-				const url = `http://localhost:5059/api/Auth/signin${queryString}`;
+				const url = `https://alpaca-blessed-endlessly.ngrok-free.app/api/Auth/signin${queryString}`;
 				const response = await fetch(url, {
 					method: 'GET',
 				});

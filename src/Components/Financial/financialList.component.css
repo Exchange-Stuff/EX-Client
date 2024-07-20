@@ -55,3 +55,15 @@
 .antd_table_financial{
     background: #f7ce2b;
 }
+
+.status-pending {
+    color: orange;
+}
+
+.status-approve {
+    color: green;
+}
+
+.status-reject {
+    color: red;
+}

@@ -23,6 +23,7 @@ import {TransactionHistory} from './Components/TransactionHistory/TransactionHis
 import UserBanPage from './Pages/Admin/UserBanPage/UserBanPage.jsx';
 import ChatPage, {Chat} from './Components/ChatPage/ChatPage.jsx';
 import ProductBanPage from './Pages/Admin/ProductBanPage/ProductBanPage.jsx';
+import Dashboard from './Pages/Admin/DashBoardPage/Dashboard.jsx';
 
 function App() {
 	const role = localStorage.getItem('role');
@@ -42,6 +43,7 @@ function App() {
 							<Route path="/product" element={<ProductPage />} />
 							<Route path="/userBan" element={<UserBanPage />} />
 							<Route path="/productBan" element={<ProductBanPage />} />
+							<Route path="/dashboard" element={<Dashboard />} />
 						</Routes>
 					</SideBar>
 				) : role === 'moderator' ? (

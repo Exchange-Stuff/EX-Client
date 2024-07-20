@@ -23,6 +23,7 @@ export const loginByModerator = createAsyncThunk(
 		try {
 			const url = `/Auth/signin`;
 			const response = await api.post(url, {username, password});
+			console.log(`response`, response);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(error.response.data);

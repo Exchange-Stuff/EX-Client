@@ -73,10 +73,9 @@ export const FinancialList = () => {
 					<option value={2}>Reject</option>
 				</select>
 			</div>
-			{/* <Table dataSource={listFinancial} loading={loading}>
-				<Table.Column title="Số tiền" dataIndex="amount" key="amount"></Table.Column>
+			<Table dataSource={listFinancial} loading={loading}>
 				<Table.Column
-					title="Name"
+					title="Tên"
 					dataIndex="user"
 					key="name"
 					render={(user) => user.name}
@@ -93,6 +92,7 @@ export const FinancialList = () => {
 					key="email"
 					render={(user) => user.email}
 				/>
+				<Table.Column title="Số tiền" dataIndex="amount" key="amount"></Table.Column>
 
 				<Table.Column
 					align="center"
@@ -116,12 +116,12 @@ export const FinancialList = () => {
 				/>
 
 				<Table.Column
-					title="Status"
+					title="Trạng thái"
 					dataIndex="status"
 					key="status"
 					render={(status) => {
 						if (status === 0) {
-							return <span className="status-pending">Pending</span>;
+							return <span className="status-pending">Đang chờ duyệt</span>;
 						} else if (status === 1) {
 							return <span className="status-success">Success</span>;
 						} else {
@@ -129,8 +129,17 @@ export const FinancialList = () => {
 						}
 					}}
 				/>
-			</Table> */}
-			<Pagination defaultCurrent={1} total={totalPage} />
+			</Table>
+
+			<Pagination
+				className="pagination-page"
+				defaultCurrent={1}
+				total={totalPage}
+				onChange={(page, pageSize) => {
+					setPageIndex(page);
+					setPageSize(pageSize);
+				}}
+			/>
 		</div>
 	);
 };

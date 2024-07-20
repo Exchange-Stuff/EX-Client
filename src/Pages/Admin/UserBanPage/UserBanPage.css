@@ -1,0 +1,14 @@
+.UserBan-Page {
+    width: 90%;
+    margin: 0 0 0 5%;
+}
+
+.btn-accept{
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    margin: auto
+}
