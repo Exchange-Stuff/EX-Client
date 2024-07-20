@@ -15,6 +15,7 @@ export const getTotalPageFinancialSelector = (state) => state.financialSlice.tot
 
 // products admin
 export const getAllProductSelector = (state) => state.productSlice.productList;
+export const getLoadingProductSelector = (state) => state.productSlice.loading;
 
 // User bane
 export const getListUserBanSelector = (state) => state.userSlice.listUserBan;

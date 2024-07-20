@@ -61,7 +61,7 @@ export const UserList = () => {
 
 			<Table dataSource={listUser} loading={loading} pagination={false}>
 				<Table.Column title="Username" dataIndex="username" key="username" />
-				<Table.Column title="Name" dataIndex="name" key="name" />
+				<Table.Column title="Tên" dataIndex="name" key="name" />
 				<Table.Column title="Email" dataIndex="email" key="email" />
 				<Table.Column
 					align="center"
@@ -79,40 +79,11 @@ export const UserList = () => {
 				<Table.Column title="Student ID" dataIndex="studentId" key="studentId" />
 				<Table.Column title="Địa chỉ" dataIndex="address" key="address" />
 				<Table.Column title="Giới tính" dataIndex="gender" key="gender" />
-				<Table.Column
-					title="Hành động"
-					key="action"
-					render={() => (
-						<div className="user-table-action">
-							<Button
-								type="primary"
-								icon={
-									<DeleteOutlined
-										style={{
-											color: 'red',
-										}}
-									/>
-								}
-							></Button>
-
-							<Button
-								type="primary"
-								danger
-								icon={
-									<DeleteOutlined
-										style={{
-											color: 'red',
-										}}
-									/>
-								}
-							></Button>
-						</div>
-					)}
-				/>
+				<Table.Column title="Hành động" key="action" />
 			</Table>
 
 			<Pagination
-				className="user-list-pagination"
+				className="pagination-page"
 				current={pageIndex}
 				pageSize={pageSize}
 				total={totalPage}
