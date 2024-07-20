@@ -64,7 +64,7 @@ export const TransactionHistory = () => {
 
 	useEffect(() => {
 		if (isAuthorized === false) {
-			navigate('/login');
+			navigate('/homepage');
 		}
 	}, [isAuthorized, navigate]);
 

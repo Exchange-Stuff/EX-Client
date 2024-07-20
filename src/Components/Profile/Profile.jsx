@@ -39,7 +39,7 @@ export const Profile = () => {
 
 	useEffect(() => {
 		if (isAuthorized === false) {
-			navigate('/login');
+			navigate('/homepage');
 		}
 	}, [isAuthorized, navigate]);
 

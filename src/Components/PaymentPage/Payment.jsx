@@ -7,13 +7,15 @@ import './Payment.css';
 import Header from '../Header/Header.jsx';
 import Footer from '../Footer/Footer.jsx';
 import Coin from '../Assets/coin.jpg';
+import Coin100 from '../Assets/coin100.png';
+import Coin50 from '../Assets/coin50.png';
+import Coin200 from '../Assets/coin200.png';
 
 export const Payment = () => {
-	const [amount, setSelectedAmount] = useState(null);
-	const [isAuthorized, setIsAuthorized] = useState(null);
+	const [amount, setSelectedAmount] = useState('');
+	const [isAuthorized, setIsAuthorized] = useState('');
 	const navigate = useNavigate();
 	const location = useLocation();
-	const [enableButton, setButton] = useState(null);
 
 	const handleSelect = (amount) => {
 		setSelectedAmount(amount);
@@ -28,15 +30,6 @@ export const Payment = () => {
 				});
 				if (response.data.isSuccess) {
 					setIsAuthorized(true);
-					const responseButton = await axios.post('Auth/screen', {
-						resource: 'ButtonPayment',
-					});
-					if (responseButton.data.isSuccess) {
-						setButton(true);
-					} else {
-						setButton(false);
-					}
-					
 				} else {
 					setIsAuthorized(false);
 				}
@@ -51,20 +44,23 @@ export const Payment = () => {
 
 	useEffect(() => {
 		if (isAuthorized === false) {
-			navigate('/login');
+			navigate('/homepage');
 		}
 	}, [isAuthorized, navigate]);
 
 	useEffect(() => {
 		const status = new URLSearchParams(location.search).get('status');
-		if (status === 'success') {
-			toast.success('Giao dịch thành công!');
-		} else if (status === 'fail') {
-			toast.error('Giao dịch thất bại');
-		} else if (status === 'error') {
-			toast.error('Có lỗi xảy ra khi thanh toán.');
+		if (status) {
+			if (status === 'success') {
+				toast.success('Giao dịch thành công!', {autoClose: 1500});
+			} else if (status === 'fail') {
+				toast.error('Giao dịch thất bại', {autoClose: 1500});
+			} else if (status === 'error') {
+				toast.error('Có lỗi xảy ra khi thanh toán.');
+			}
+			navigate(location.pathname, {replace: true});
 		}
-	}, [location.search]);
+	}, [location.search, navigate]);
 
 	const handlePayment = async () => {
 		if (!amount) {
@@ -96,13 +92,12 @@ export const Payment = () => {
 
 	if (isAuthorized === null) {
 		return (
-			<div>
-				<div className="loading-container">
-					<div className="loading-spinner"></div>
-				</div>
+			<div className="loading-container">
+				<div className="loading-spinner"></div>
 			</div>
 		);
 	}
+
 	return (
 		<div className="payment-container">
 			<Header />
@@ -113,39 +108,37 @@ export const Payment = () => {
 					</div>
 					<div className="select-payment">
 						<img
-							src={Coin}
+							src={Coin50}
+							alt="Gói 50k"
+							onClick={() => handleSelect(50)}
+							className={amount === 50 ? 'selected' : ''}
+						/>
+						<img
+							src={Coin100}
 							alt="Gói 100k"
 							onClick={() => handleSelect(100)}
 							className={amount === 100 ? 'selected' : ''}
 						/>
 						<img
-							src={Coin}
-							alt="Gói 200k"
+							src={Coin200}
+							alt="Gói 200"
 							onClick={() => handleSelect(200)}
 							className={amount === 200 ? 'selected' : ''}
 						/>
 						<img
 							src={Coin}
-							alt="Gói 300k"
-							onClick={() => handleSelect(300)}
-							className={amount === 300 ? 'selected' : ''}
-						/>
-						<img
-							src={Coin}
-							alt="Gói 400k"
-							onClick={() => handleSelect(400)}
-							className={amount === 400 ? 'selected' : ''}
+							alt="Gói 500k"
+							onClick={() => handleSelect(500)}
+							className={amount === 500 ? 'selected' : ''}
 						/>
 					</div>
-					{enableButton && (
-						<button className="button-payment" type="button" onClick={handlePayment}>
-							Thanh toán
-						</button>
-					)}
+
+					<button className="button-payment" type="button" onClick={handlePayment}>
+						Thanh toán
+					</button>
 				</form>
 			</div>
 			<Footer />
-			<ToastContainer />
 		</div>
 	);
 };

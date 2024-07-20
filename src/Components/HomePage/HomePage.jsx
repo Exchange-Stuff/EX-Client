@@ -30,6 +30,12 @@ export const HomePage = () => {
 	const [isAuthorized, setIsAuthorized] = useState(null);
 	const navigate = useNavigate();
 
+	const logout = () => {
+		localStorage.removeItem('accessToken');
+		localStorage.removeItem('refreshToken');
+		localStorage.removeItem('role');
+	};
+
 	useEffect(() => {
 		const checkUserScreenAccess = async () => {
 			try {
@@ -52,6 +58,7 @@ export const HomePage = () => {
 
 	useEffect(() => {
 		if (isAuthorized === false) {
+			logout();
 			navigate('/login');
 		}
 	}, [isAuthorized, navigate]);

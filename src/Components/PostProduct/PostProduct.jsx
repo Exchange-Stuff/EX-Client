@@ -8,8 +8,8 @@ import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import {storage} from '../Firebase/firebase.js';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {Flex, Input} from 'antd';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {Input} from 'antd';
+import {useNavigate} from 'react-router-dom';
 
 export const PostProduct = () => {
 	const [categoryData, setCategoryData] = useState([]);
@@ -32,9 +32,7 @@ export const PostProduct = () => {
 	useEffect(() => {
 		const checkUserScreenAccess = async () => {
 			try {
-				const response = await axios.post('Auth/screen', {
-					resource: 'UserScreen',
-				});
+				const response = await axios.post('Auth/screen', {resource: 'UserScreen'});
 				if (response.data.isSuccess) {
 					setIsAuthorized(true);
 				} else {
@@ -51,7 +49,7 @@ export const PostProduct = () => {
 
 	useEffect(() => {
 		if (isAuthorized === false) {
-			navigate('/login');
+			navigate('/homepage');
 		}
 	}, [isAuthorized, navigate]);
 
@@ -109,61 +107,59 @@ export const PostProduct = () => {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
+		if (!imageFiles.length) {
+			toast.error('Vui lòng chọn ít nhất một hình ảnh');
+			return;
+		}
+
+		setLoading(true);
+
 		try {
-			if (imageFiles.length > 0) {
-				const imageUrlsPromises = imageFiles.map(async (file) => {
-					const storageRef = ref(storage, `images/${file.name}`);
-					await uploadBytes(storageRef, file);
-					const downloadURL = await getDownloadURL(storageRef);
-					return downloadURL;
-				});
+			const imageUrlsPromises = imageFiles.map(async (file) => {
+				const storageRef = ref(storage, `images/${file.name}`);
+				await uploadBytes(storageRef, file);
+				const downloadURL = await getDownloadURL(storageRef);
+				return downloadURL;
+			});
 
-				const urls = await Promise.all(imageUrlsPromises);
-				setImageUrls(urls);
+			const urls = await Promise.all(imageUrlsPromises);
+			setImageUrls(urls);
 
-				const thumbnailUrl = urls[0];
-				setThumbnail(thumbnailUrl);
+			const thumbnailUrl = urls[0];
+			setThumbnail(thumbnailUrl);
 
-				const result = await axios.post('Product/createProduct', {
-					name: productName,
-					description: productDescription,
-					price: parseFloat(productPrice),
-					thumbnail: thumbnailUrl,
-					imageUrls: urls,
-					categoryId: [selectedCategory],
-				});
+			const result = await axios.post('Product/createProduct', {
+				name: productName,
+				description: productDescription,
+				price: parseFloat(productPrice),
+				thumbnail: thumbnailUrl,
+				imageUrls: urls,
+				categoryId: [selectedCategory],
+			});
 
-				if (result.data) {
-					toast.success('Tạo sản phẩm thành công');
-					localStorage.removeItem('productName');
-					localStorage.removeItem('productDescription');
-					localStorage.removeItem('productPrice');
-					localStorage.removeItem('selectedCategory');
-					localStorage.removeItem('selectedImages');
-					setTimeout(() => {
-						window.location.href = 'http://localhost:3000/postproduct';
-					}, 3000);
-				}
-
-				console.log('Product created:', result.data);
-			} else {
-				toast.error('Vui lòng chọn ít nhất một hình ảnh');
+			if (result.data) {
+				toast.success('Tạo sản phẩm thành công', {autoClose: 1500});
+				localStorage.removeItem('productName');
+				localStorage.removeItem('productDescription');
+				localStorage.removeItem('productPrice');
+				localStorage.removeItem('selectedCategory');
+				localStorage.removeItem('selectedImages');
+				setProductName('');
+				setProductDescription('');
+				setProductPrice('');
+				setSelectedCategory('');
+				setImageFiles([]);
+				setImageUrls([]);
 			}
+
+			console.log('Product created:', result.data);
 		} catch (error) {
 			console.error('Error creating product:', error);
 			toast.error(error.message || 'Có lỗi xảy ra khi tạo sản phẩm');
+		} finally {
+			setLoading(false); // Dừng hiển thị loading
 		}
 	};
-
-	if (!isAuthorized) {
-		return (
-			<div>
-				<div className="loading-container">
-					<div className="loading-spinner"></div>
-				</div>
-			</div>
-		);
-	}
 
 	if (isAuthorized === null) {
 		return (
@@ -175,7 +171,7 @@ export const PostProduct = () => {
 		);
 	}
 
-	if (loading)
+	if (!isAuthorized) {
 		return (
 			<div>
 				<div className="loading-container">
@@ -183,7 +179,21 @@ export const PostProduct = () => {
 				</div>
 			</div>
 		);
-	if (error) return <p>Error: {error.message}</p>;
+	}
+
+	if (loading) {
+		return (
+			<div>
+				<div className="loading-container">
+					<div className="loading-spinner"></div>
+				</div>
+			</div>
+		);
+	}
+
+	if (error) {
+		return <p>Error: {error.message}</p>;
+	}
 
 	return (
 		<div className="post-product-container">
@@ -198,9 +208,7 @@ export const PostProduct = () => {
 						value={productName}
 						onChange={handleProductNameChange}
 						placeholder="Tên sản phẩm"
-						style={{
-							marginTop: '5px',
-						}}
+						style={{marginTop: '5px'}}
 						required
 						maxLength={30}
 						showCount
