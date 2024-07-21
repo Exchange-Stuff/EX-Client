@@ -33,15 +33,15 @@ export const updateProductStatus = createAsyncThunk(
 	'product/updateProductStatus',
 	async ({id, status}, {rejectWithValue}) => {
 		try {
-			const url = `/Product/updateStatus`;
+			const url = `/Product/updateStatusProduct`;
 			const response = await api.put(url, {
 				id: id,
-				status: status,
+				productStatus: status,
 			});
 			console.log('response', response.data);
 			return response.data;
 		} catch (error) {
-			console.log('error', error.response.data);
+			console.log('error', error);
 			return rejectWithValue(error.response.data);
 		}
 	}
