@@ -61,14 +61,14 @@
   background-color: #f5f5f5;
 }
 
-.ant-btn {
+/* .ant-btn {
   background-color: #e0e0e0 !important;
   color: #000 !important;
   border: 1px solid #d0d0d0 !important;
   padding: 4px 12px;
   border-radius: 4px;
   text-align: center;
-}
+} */
 
 .ant-select-selector {
   background-color: #ff8c00 !important; 
@@ -85,11 +85,11 @@
   color: #000000 !important; 
 }
 
-.ant-btn {
+/* .ant-btn {
   background-color: #ff8c00 !important; 
   color: #fff !important; 
   border: none !important;
-}
+} */
 
 .orderpage-content h2 {
   text-align: center;

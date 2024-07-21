@@ -23,7 +23,23 @@ export const loginByModerator = createAsyncThunk(
 		try {
 			const url = `/Auth/signin`;
 			const response = await api.post(url, {username, password});
+			console.log(`response`, response);
 			return response.data;
+		} catch (error) {
+			return rejectWithValue(error.response.data);
+		}
+	}
+);
+
+export const getResourceAuthor = createAsyncThunk(
+	'Get resource author',
+	async ({resource}, {rejectWithValue}) => {
+		try {
+			const url = `/Auth/screen`;
+			const response = await api.post(url, {
+				resource: resource,
+			});
+			return response.data.isSuccess;
 		} catch (error) {
 			return rejectWithValue(error.response.data);
 		}
@@ -36,6 +52,7 @@ export const authenSlice = createSlice({
 		user: {},
 		loading: true,
 		error: null,
+		isAuthor: false,
 	},
 	reducers: {
 		setUser: (state, action) => {
@@ -67,6 +84,11 @@ export const authenSlice = createSlice({
 			.addCase(loginByModerator.rejected, (state, action) => {
 				state.loading = true;
 				state.error = action.payload;
+			})
+			// case author screen
+			.addCase(getResourceAuthor.fulfilled, (state, action) => {
+				state.loading = false;
+				state.isAuthor = action.payload;
 			});
 	},
 });
