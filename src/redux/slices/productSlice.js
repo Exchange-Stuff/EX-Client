@@ -3,11 +3,11 @@ import api from '../../utils/axios';
 
 export const getAllProductByAdmin = createAsyncThunk(
 	'product/getAllProductByAdmin',
-	async ({rejectWithValue}) => {
+	async (_, {rejectWithValue}) => {
 		try {
 			const url = `/Product/getForAdmin`;
 			const response = await api.get(url);
-			console.log('response', response.data);
+			console.log('response', response);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(error.response.data);
@@ -17,11 +17,11 @@ export const getAllProductByAdmin = createAsyncThunk(
 
 export const getAllProductByModerator = createAsyncThunk(
 	'product/getAllProductByModerator',
-	async ({rejectWithValue}) => {
+	async (_, {rejectWithValue}) => {
 		try {
 			const url = `/Product/getForModerator`;
 			const response = await api.get(url);
-			console.log('response', response.data);
+			console.log('response', response);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(error.response.data);
@@ -36,7 +36,7 @@ export const getProductBanList = createAsyncThunk(
 			const url = `/ProductBanReport/productBanReports?productId=${productId}&reasonId=${reasonId}&reason=${reason}&pageIndex=${pageIndex}&pageSize=${pageSize}`;
 			const response = await api.get(url);
 			console.log('response', response.data);
-			return response.data;
+			return response.data.value;
 		} catch (error) {
 			return rejectWithValue(error.response.data);
 		}
@@ -107,7 +107,7 @@ export const productSlice = createSlice({
 			})
 			.addCase(getProductBanList.fulfilled, (state, action) => {
 				state.productBanLoading = false;
-				state.productBanList = action.payload;
+				state.productBanList = action.payload.listItem;
 				state.totalPageBan = action.payload.totalPage;
 			})
 			.addCase(getProductBanList.rejected, (state, action) => {

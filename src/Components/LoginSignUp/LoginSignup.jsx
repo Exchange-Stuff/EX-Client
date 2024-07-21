@@ -27,13 +27,17 @@ export const LoginSignup = ({handleCloseModal}) => {
 			).then((res) => {
 				console.log(`res`, res);
 				if (res.error) {
-					toast.error(`${res.payload.error.message}`);
+					if (res.payload) {
+						toast.error(`${res.payload.error.message}`);
+					} else {
+						toast.error('Lỗi hệ thống');
+					}
 				} else {
 					console.log(res.payload.value);
 					// save token to local storage
 					localStorage.setItem('accessToken', res.payload.value.accessToken);
 					localStorage.setItem('refreshToken', res.payload.value.refreshToken);
-					localStorage.setItem('role', 'moderator');
+					localStorage.setItem('role', 'admin');
 					toast.success('Đăng nhập thành công');
 					window.location.href = '/product';
 				}

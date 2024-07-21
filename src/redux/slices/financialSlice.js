@@ -9,7 +9,7 @@ export const fetchFinancial = createAsyncThunk(
 			const url = `/FinancialTicket/getAllFinancialTicket?pageIndex=${pageIndex}&pageSize=${pageSize}&status=${status}`;
 			const response = await api.get(url);
 			console.log('response', response);
-			return response.data;
+			return response.data.value;
 		} catch (error) {
 			console.log('error', error);
 			return rejectWithValue(error.response.data);
@@ -38,7 +38,8 @@ export const financialSlice = createSlice({
 			})
 			.addCase(fetchFinancial.fulfilled, (state, action) => {
 				state.loading = false;
-				state.financialList = action.payload.value;
+				state.financialList = action.payload.listItem;
+				state.totalPage = action.payload.totalPage;
 			})
 			.addCase(fetchFinancial.rejected, (state, action) => {
 				state.loading = true;

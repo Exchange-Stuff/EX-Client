@@ -33,31 +33,31 @@ export const FinancialList = () => {
 		});
 	}, [pageIndex, pageSize, status, dispatch]);
 
-	const handleUpdate = async (id, status) => {
-		// confirm
-		const confirm = window.confirm('Are you sure?');
-		if (!confirm) return;
-		try {
-			try {
-				const data = await axios.put(
-					`http://localhost:5059/api/FinancialTicket/UpdateFinancialTicket`,
-					{
-						id,
-						status,
-					}
-				);
-				if (data) {
-					alert('Update success');
-					window.location.reload();
-				}
-			} catch (error) {
-				console.error('Error updating data:', error);
-			}
-		} catch (error) {
-			console.error('Error updating data:', error);
-			alert('Update failed');
-		}
-	};
+	// const handleUpdate = async (id, status) => {
+	// 	// confirm
+	// 	const confirm = window.confirm('Are you sure?');
+	// 	if (!confirm) return;
+	// 	try {
+	// 		try {
+	// 			const data = await axios.put(
+	// 				`http://localhost:5059/api/FinancialTicket/UpdateFinancialTicket`,
+	// 				{
+	// 					id,
+	// 					status,
+	// 				}
+	// 			);
+	// 			if (data) {
+	// 				alert('Update success');
+	// 				window.location.reload();
+	// 			}
+	// 		} catch (error) {
+	// 			console.error('Error updating data:', error);
+	// 		}
+	// 	} catch (error) {
+	// 		console.error('Error updating data:', error);
+	// 		alert('Update failed');
+	// 	}
+	// };
 
 	return (
 		<div className="financial-list">
@@ -74,11 +74,8 @@ export const FinancialList = () => {
 				</select>
 			</div>
 			<Table dataSource={listFinancial} loading={loading}>
-				<Table.Column title="Số tiền" dataIndex="amount" key="amount">
-					
-				</Table.Column>
 				<Table.Column
-					title="Name"
+					title="Tên"
 					dataIndex="user"
 					key="name"
 					render={(user) => user.name}
@@ -95,6 +92,7 @@ export const FinancialList = () => {
 					key="email"
 					render={(user) => user.email}
 				/>
+				<Table.Column title="Số tiền" dataIndex="amount" key="amount"></Table.Column>
 
 				<Table.Column
 					align="center"
@@ -109,26 +107,21 @@ export const FinancialList = () => {
 						/>
 					)}
 				/>
+
 				<Table.Column
 					title="Thời gian tạo"
 					dataIndex="createdOn"
 					key="createdOn"
-					render={(data) =>
-						new Date(data).toLocaleDateString('en-GB', {
-							day: 'numeric',
-							month: 'numeric',
-							year: 'numeric',
-						})
-					}
+					render={(data) => (data ? new Date(data).toLocaleString() : 'Chưa cập nhật')}
 				/>
 
 				<Table.Column
-					title="Status"
+					title="Trạng thái"
 					dataIndex="status"
 					key="status"
 					render={(status) => {
 						if (status === 0) {
-							return <span className="status-pending">Pending</span>;
+							return <span className="status-pending">Đang chờ duyệt</span>;
 						} else if (status === 1) {
 							return <span className="status-success">Success</span>;
 						} else {
@@ -137,7 +130,16 @@ export const FinancialList = () => {
 					}}
 				/>
 			</Table>
-			<Pagination defaultCurrent={1} total={totalPage} />
+
+			<Pagination
+				className="pagination-page"
+				defaultCurrent={1}
+				total={totalPage}
+				onChange={(page, pageSize) => {
+					setPageIndex(page);
+					setPageSize(pageSize);
+				}}
+			/>
 		</div>
 	);
 };
