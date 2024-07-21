@@ -39,11 +39,11 @@ export const OrderPage = () => {
     checkUserScreenAccess();
   }, []);
 
-	useEffect(() => {
-		if (isAuthorized === false) {
-			navigate('/homepage');
-		}
-	}, [isAuthorized, navigate]);
+  useEffect(() => {
+    if (isAuthorized === false) {
+      navigate('/homepage');
+    }
+  }, [isAuthorized, navigate]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -63,13 +63,16 @@ export const OrderPage = () => {
         );
         const purchaseTicket = response.data.value.listItem;
         const formattedData = purchaseTicket.map((ticket) => {
-          const date = new Date(ticket.createdOn);
+          const createDate = new Date(ticket.createdOn);
+          const updateDate = new Date(ticket.modifiedOn);
           return {
             key: ticket.id,
             productName: ticket.product.name,
             amount: ticket.amount,
-            date: date.toLocaleDateString(),
-            time: date.toLocaleTimeString(),
+            dateCreate: createDate.toLocaleDateString(),
+            timeCreate: createDate.toLocaleTimeString(),
+            dateUpdate: updateDate.toLocaleDateString(),
+            timeUpdate: updateDate.toLocaleTimeString(),
             status: ticket.status,
           };
         });
@@ -105,44 +108,62 @@ export const OrderPage = () => {
 
   const columns = [
     {
-      title: 'Product Name',
+      title: 'Tên sản phẩm',
       dataIndex: 'productName',
       key: 'productName',
-      width: 150,
+      width: 300,
+      fontSize: 30,
+      fontWeight: 'bold',
     },
     {
-      title: 'Amount',
+      title: 'Tổng tiền',
       dataIndex: 'amount',
       key: 'amount',
       width: 150,
     },
     {
-      title: 'Date',
-      dataIndex: 'date',
-      key: 'date',
+      title: 'Ngày đặt hàng',
+      dataIndex: 'dateCreate',
+      key: 'dateCreate',
       width: 150,
     },
     {
-      title: 'Time',
-      dataIndex: 'time',
-      key: 'time',
+      title: 'Thời gian đặt hàng',
+      dataIndex: 'timeCreate',
+      key: 'timeCreate',
       width: 150,
     },
     {
-      title: 'Action',
+      title: 'Ngày xác nhận',
+      dataIndex: 'dateUpdate',
+      key: 'dateUpdate',
+      width: 150,
+    },
+    {
+      title: 'Thời gian xác nhận',
+      dataIndex: 'timeUpdate',
+      key: 'timeUpdate',
+      width: 150,
+    },
+    {
+      title: 'Trạng thái',
       key: 'operation',
       fixed: 'right',
       width: 200,
       render: (text, record) => (
-        <Select
-          defaultValue="0"
-          onChange={(value) => handleStatusProductChange(record.key, value)}
-          style={{ width: 120, marginLeft: 10 }}
-        >
-          <Option value="0">Pending</Option>
-          <Option value="1">Cancelled</Option>
-          <Option value="2">Confirmed</Option>
-        </Select>
+        record.status === 0 ? (
+          <Select
+            defaultValue={record.status.toString()}
+            onChange={(value) => handleStatusProductChange(record.key, value)}
+            style={{ width: 120, marginLeft: 10 }}
+          >
+            <Option value="0">Pending</Option>
+            <Option value="1">Cancelled</Option>
+            <Option value="2">Confirmed</Option>
+          </Select>
+        ) : (
+          <span>{record.status === 1 ? 'Cancelled' : 'Confirmed'}</span>
+        )
       ),
     },
   ];
@@ -159,8 +180,7 @@ export const OrderPage = () => {
     return (
       <div className="orderpage">
         <Header />
-        <div className="orderpage-content">
-          <h2 style={{ color: '#ff8c00', fontSize: '30px', marginTop: '0px' }}>Lịch sử mua hàng</h2>
+        <h2 style={{ color: '#ff8c00', fontSize: '30px', margin: '110px auto 20px auto' }}>Lịch sử mua hàng</h2>
           <div className="status-filter">
             <span>Status</span>
             <Select
@@ -177,7 +197,6 @@ export const OrderPage = () => {
             <Table
               columns={columns}
               dataSource={data}
-              scroll={{ x: 1000, y: 300 }}
               className="order-table"
               pagination={false}
             />
@@ -185,11 +204,11 @@ export const OrderPage = () => {
               current={currentPage}
               total={totalPages * 10}
               onChange={handlePageChange}
-              style={{ marginTop: 20, textAlign: 'center' }}
+              style={{ marginTop: 20, textAlign: 'right', marginRight: '50px'}}
             />
           </div>
-        </div>
         <Footer />
+        <ToastContainer />
       </div>
     );
   }

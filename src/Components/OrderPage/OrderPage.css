@@ -15,6 +15,7 @@
 .status-filter {
   display: flex;
   align-items: center;
+  margin-left: 40px;
   margin-bottom: 20px;
 }
 
@@ -23,15 +24,15 @@
 }
 
 .orderpage-form {
-  max-height: 400px;
-  min-height: 400px;
+  max-height: 415px;
+  min-height: 415px;
   border-radius: 10px;
   padding: 20px;
-  background-color: #fffaf0;
   border: 1px solid #ff8c00;
+  margin: 0px 20px 20px 20px;
 }
 
-.order-table .ant-table {
+.order-table .ant-table table{
   border: none !important;
 }
 
