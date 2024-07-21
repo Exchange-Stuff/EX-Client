@@ -18,8 +18,10 @@ export const FinancicalTicket = () => {
 	const [amount, setAmount] = useState(localStorage.getItem('amount') || 0);
 	const [userBl, setUserBl] = useState(0);
 	const [userId, setUserId] = useState('');
+	const [loading, setLoading] = useState(false);
 	const [isAuthorized, setIsAuthorized] = useState(null); // null for loading state
 	const navigate = useNavigate();
+	
 
 	useEffect(() => {
 		const checkUserScreenAccess = async () => {
@@ -43,7 +45,7 @@ export const FinancicalTicket = () => {
 
 	useEffect(() => {
 		if (isAuthorized === false) {
-			navigate('/login');
+			navigate('/homepage');
 		}
 	}, [isAuthorized, navigate]);
 
@@ -84,6 +86,8 @@ export const FinancicalTicket = () => {
 	const handleSubmits = async (event) => {
 		event.preventDefault();
 
+		setLoading(true);
+
 		try {
 			if (imageFiles.length > 0) {
 				const imageUrlsPromises = imageFiles.map(async (file) => {
@@ -107,9 +111,7 @@ export const FinancicalTicket = () => {
 					toast.success('Gửi đơn rút tiền thành công');
 					localStorage.removeItem('amount');
 					localStorage.removeItem('selectedImages');
-					setTimeout(() => {
-						window.location.href = 'http://localhost:3000/financicalTicket';
-					}, 3000);
+					setAmount(0);
 				} else if (result.data.error && result.data.error.code === 400) {
 					toast.error('Không đủ tiền trong ví');
 				} else {
@@ -135,8 +137,20 @@ export const FinancicalTicket = () => {
 				// Lỗi khi thiết lập yêu cầu
 				toast.error(`Có lỗi xảy ra: ${error.message}`);
 			}
+		} finally {
+			setLoading(false);
 		}
 	};
+
+	if (loading) {
+		return (
+			<div>
+				<div className="loading-container">
+					<div className="loading-spinner"></div>
+				</div>
+			</div>
+		);
+	}
 
 	if (!isAuthorized) {
 		return (

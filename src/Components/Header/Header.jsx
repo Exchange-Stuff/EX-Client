@@ -16,13 +16,19 @@ const Header = ({handleLoginClick}) => {
 	const dropdownRef = useRef(null);
 	const [searchKeyword, setSearchKeyword] = useState('');
 	const navigate = useNavigate();
-	const [listNotification, setListNotification] = useState(['123',"adsgufkao ieof fhaiwoe hfasdlfhw"]);
+	const [listNotification, setListNotification] = useState([
+		'123',
+		'adsgufkao ieof fhaiwoe hfasdlfhw',
+	]);
 	const [notificationConnection, setNotificationConnection] = useState();
 
 	const connectNotification = async () => {
 		try {
+			const accessToken = localStorage.getItem('accessToken');
 			const conn = new HubConnectionBuilder()
-				.withUrl('http://localhost:5059/esnotification')
+				.withUrl('http://localhost:5059/esnotification', {
+					accessTokenFactory: () => accessToken,
+				})
 				.build();
 			conn.on('ReceiveNotification', (msg) => {
 				setListNotification((listNotification) => [...listNotification, msg]);
@@ -99,6 +105,8 @@ const Header = ({handleLoginClick}) => {
 	}, []);
 
 	const handleLogout = () => {
+		
+		axios.post('/Admin/logout');
 		localStorage.removeItem('accessToken');
 		localStorage.removeItem('refreshToken');
 		localStorage.removeItem('productDescription');
@@ -107,6 +115,7 @@ const Header = ({handleLoginClick}) => {
 		localStorage.removeItem('productPrice');
 		localStorage.removeItem('productName');
 		localStorage.removeItem('persist:root');
+
 		navigate('/login');
 	};
 
@@ -130,7 +139,7 @@ const Header = ({handleLoginClick}) => {
 			<Link to="/productByCategory/9a41c85b-57f5-4d8c-92b6-8b16e55fb1dc" className="category">
 				Khác
 			</Link>
-			
+
 			<div className="search-input-header">
 				<input
 					type="text"
@@ -142,7 +151,7 @@ const Header = ({handleLoginClick}) => {
 						fontSize: 14,
 						border: '1px solid #ccc',
 						borderRadius: 20,
-						marginLeft: 16
+						marginLeft: 16,
 					}}
 					value={searchKeyword}
 					onChange={(e) => setSearchKeyword(e.target.value)}
@@ -156,8 +165,8 @@ const Header = ({handleLoginClick}) => {
 				Đăng sản phẩm
 			</Link>
 			<Link to={'/chatpage'} className="chat">
-					<FaFacebookMessenger className='message-item'/>
-				</Link>
+				<FaFacebookMessenger className="message-item" />
+			</Link>
 			<div className="chat-notification">
 				<div className="notification">
 					<FaBell className="notification-icon" />
@@ -175,7 +184,6 @@ const Header = ({handleLoginClick}) => {
 						)}
 					</div>
 				</div>
-				
 			</div>
 			{isLogin && (
 				<div className="dropdown-user" ref={dropdownRef}>
@@ -209,8 +217,6 @@ const Header = ({handleLoginClick}) => {
 					)}
 				</div>
 			)}
-
-			
 		</div>
 	);
 };

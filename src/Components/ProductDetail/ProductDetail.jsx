@@ -190,7 +190,7 @@ export const ProductDetail = () => {
 
 	const handleDeletePost = async () => {
 		try {
-			const result = await axios.delete(`Product/delete/${id}`);
+			const result = await axios.put(`Product/cancelProduct/${id}`);
 			if (result.data.isSuccess) {
 				toast.success('Xóa bài đăng thành công');
 				window.location.href = 'http://localhost:3000/homepage';

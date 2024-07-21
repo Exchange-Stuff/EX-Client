@@ -55,7 +55,10 @@ export const Payment = () => {
 				toast.success('Giao dịch thành công!', {autoClose: 1500});
 			} else if (status === 'fail') {
 				toast.error('Giao dịch thất bại', {autoClose: 1500});
-			} else if (status === 'error') {
+			} else if (status === 'none') {
+				toast.error('Bạn không đủ xu', {autoClose: 1500});
+			}
+			else if (status === 'error') {
 				toast.error('Có lỗi xảy ra khi thanh toán.');
 			}
 			navigate(location.pathname, {replace: true});
