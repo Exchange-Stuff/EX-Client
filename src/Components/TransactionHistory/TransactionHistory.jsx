@@ -122,7 +122,6 @@ export const TransactionHistory = () => {
 					</div>
 				</div>
 				<Footer />
-				<ToastContainer />
 			</div>
 		);
 	}

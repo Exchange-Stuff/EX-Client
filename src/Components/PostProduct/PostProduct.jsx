@@ -12,6 +12,7 @@ import {Input, message} from 'antd';
 import {useNavigate} from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
 
+
 export const PostProduct = () => {
 	const [categoryData, setCategoryData] = useState([]);
 	const [isAuthorized, setIsAuthorized] = useState(null);
@@ -29,6 +30,7 @@ export const PostProduct = () => {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
+
 
 	useEffect(() => {
 		const checkUserScreenAccess = async () => {
@@ -140,6 +142,7 @@ export const PostProduct = () => {
 
 			if (result.data) {
 				const accId = localStorage.getItem('userId');
+				
 				toast.success('Tạo sản phẩm thành công', {autoClose: 1500});
 				localStorage.removeItem('productName');
 				localStorage.removeItem('productDescription');
@@ -252,7 +255,6 @@ export const PostProduct = () => {
 				</form>
 			</div>
 			<Footer />
-			<ToastContainer />
 		</div>
 	);
 };

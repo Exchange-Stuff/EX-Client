@@ -112,7 +112,7 @@ export const OrderProduct = () => {
 		}
 	};
 
-	if (isAuthorized === null || totalPrice === -1) {
+	if (isAuthorized === null || totalPrice < 0) {
 		return (
 			<div className="loading-container">
 				<div className="loading-spinner"></div>

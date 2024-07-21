@@ -198,7 +198,6 @@ export const FinancicalTicket = () => {
 					</form>
 				</div>
 				<Footer />
-				<ToastContainer />
 			</div>
 		);
 	}

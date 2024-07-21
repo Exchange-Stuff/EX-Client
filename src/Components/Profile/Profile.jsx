@@ -159,7 +159,6 @@ export const Profile = () => {
 				))}
 			</ul>
 
-			<ToastContainer />
 		</div>
 	);
 };

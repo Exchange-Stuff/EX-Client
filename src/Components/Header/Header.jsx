@@ -16,10 +16,7 @@ const Header = ({handleLoginClick}) => {
 	const dropdownRef = useRef(null);
 	const [searchKeyword, setSearchKeyword] = useState('');
 	const navigate = useNavigate();
-	const [listNotification, setListNotification] = useState([
-		'123',
-		'adsgufkao ieof fhaiwoe hfasdlfhw',
-	]);
+	const [listNotification, setListNotification] = useState([]);
 	const [notificationConnection, setNotificationConnection] = useState();
 
 	const connectNotification = async () => {
@@ -30,16 +27,25 @@ const Header = ({handleLoginClick}) => {
 					accessTokenFactory: () => accessToken,
 				})
 				.build();
-			conn.on('ReceiveNotification', (msg) => {
-				setListNotification((listNotification) => [...listNotification, msg]);
-			});
-			await conn.start();
 
+			const receiveNoti = async () => {
+				await conn.on('ReceiveNotification', (message) => {
+					console.log('message: ' + message);
+					// appendMessage(message, "cus");
+				});
+			};
+			await conn.start();
+			console.log('message');
 			setNotificationConnection(conn);
 		} catch (error) {
+			console.log('dang gap loi');
 			console.log('try catch', error);
 		}
 	};
+
+	useEffect(() => {
+		connectNotification();
+	}, []);
 
 	const handleSearch = () => {
 		navigate(`/search/${encodeURIComponent(searchKeyword)}`);
@@ -105,7 +111,6 @@ const Header = ({handleLoginClick}) => {
 	}, []);
 
 	const handleLogout = () => {
-		
 		axios.post('/Admin/logout');
 		localStorage.removeItem('accessToken');
 		localStorage.removeItem('refreshToken');
