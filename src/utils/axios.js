@@ -14,7 +14,7 @@ export const setNavigateCallback = (callback) => {
 // 'ngrok-skip-browser-warning': 'true',
 
 export const instance = axios.create({
-	baseURL: 'http://localhost:5059/api',
+	baseURL: 'https://alpaca-blessed-endlessly.ngrok-free.app/api',
 	headers: {
 		'ngrok-skip-browser-warning': 'true',
 	},

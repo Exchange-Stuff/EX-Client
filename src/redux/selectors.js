@@ -26,3 +26,6 @@ export const getTotalPageUserBanSelector = (state) => state.userSlice.total_page
 export const getProductBanListSelector = (state) => state.productSlice.productBanList;
 export const getLoadingProductBanSelector = (state) => state.productSlice.productBanLoading;
 export const getTotalPageProductBanSelector = (state) => state.productSlice.totalPageBan;
+
+// Author resource
+export const getResourceLoading = (state) => state.authenSlice.resourceLoading;

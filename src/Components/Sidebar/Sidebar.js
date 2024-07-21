@@ -10,6 +10,7 @@ import {
 	MoneyCollectOutlined,
 	LogoutOutlined,
 	ExclamationOutlined,
+	SettingOutlined,
 } from '@ant-design/icons';
 
 const {Content, Sider} = Layout;
@@ -49,7 +50,7 @@ const SideBar = ({children}) => {
 
 				<Menu mode="inline" className="menu" inlineCollapsed={collapsed}>
 					<Menu.Item key="1" icon={<ProductOutlined />}>
-						<Link to="/homepage">Dashboard</Link>
+						<Link to="/dashboard">Dashboard</Link>
 					</Menu.Item>
 
 					<Menu.Item key="2" icon={<ProductOutlined />}>
@@ -73,6 +74,10 @@ const SideBar = ({children}) => {
 							<Link to="/productBan">Product</Link>
 						</Menu.Item>
 					</SubMenu>
+
+					<Menu.Item key="5" icon={<SettingOutlined />}>
+						<Link to="/financial">Quản lý quyền</Link>
+					</Menu.Item>
 
 					<Menu.Item
 						key="5"
