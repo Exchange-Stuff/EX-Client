@@ -37,7 +37,7 @@ export const LoginSignup = ({handleCloseModal}) => {
 				localStorage.setItem('refreshToken', res.payload.value.refreshToken);
 				localStorage.setItem('role', 'admin');
 				toast.success('Đăng nhập thành công');
-				window.location.href = '/product';
+				window.location.reload();
 			}
 		});
 	};
@@ -69,7 +69,7 @@ export const LoginSignup = ({handleCloseModal}) => {
 							remember: true,
 						}}
 						onFinish={onFinish}
-						autoComplete="off"
+						autoComplete="on"
 					>
 						<Form.Item
 							label="Username"

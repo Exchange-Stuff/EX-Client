@@ -19,7 +19,7 @@ export const getLoadingProductSelector = (state) => state.productSlice.loading;
 
 // User bane
 export const getListUserBanSelector = (state) => state.userSlice.listUserBan;
-export const getLoadingUserBanSelector = (state) => state.userSlice.loading;
+export const getLoadingUserBanSelector = (state) => state.userSlice.loadingUserBan;
 export const getTotalPageUserBanSelector = (state) => state.userSlice.total_page_user_ban;
 
 // Product ban

@@ -1,7 +1,7 @@
 import React from 'react';
 import './Sidebar.css';
 import {Link} from 'react-router-dom';
-import {Menu, Button, Layout} from 'antd';
+import {Menu, Button, Layout, message} from 'antd';
 import {
 	UserOutlined,
 	MenuUnfoldOutlined,
@@ -10,19 +10,21 @@ import {
 	MoneyCollectOutlined,
 	LogoutOutlined,
 	ExclamationOutlined,
-	SettingOutlined,
+	HomeOutlined,
 } from '@ant-design/icons';
 import {useDispatch} from 'react-redux';
 import {getResourceAuthor} from '../../redux/slices/authenSlice';
+import {toast, ToastContainer} from 'react-toastify';
 
 const {Content, Sider} = Layout;
 const {SubMenu} = Menu;
 
 const SideBar = ({children}) => {
 	const dispatch = useDispatch();
+	const [messageApi, contextHolder] = message.useMessage();
 
 	const [collapsed, setCollapsed] = React.useState(false);
-	const [role, setRole] = React.useState('moderate');
+	const [role, setRole] = React.useState('moderator');
 
 	React.useEffect(() => {
 		dispatch(
@@ -30,21 +32,13 @@ const SideBar = ({children}) => {
 				resource: 'AdminSidebar',
 			})
 		).then((result) => {
-			if (result.payload) {
-				setRole('admin');
-			} else {
-				dispatch(
-					getResourceAuthor({
-						resource: 'ModeratorSidebar',
-					})
-				).then((result) => {
-					if (result.payload) {
-						setRole('moderator');
-					}
-				});
+			if (!result.error) {
+				if (result.payload === true) {
+					setRole('admin');
+				}
 			}
 		});
-	}, []);
+	}, [dispatch]);
 
 	// toggle sidebar
 	const toggleCollapsed = () => {
@@ -56,6 +50,7 @@ const SideBar = ({children}) => {
 			localStorage.removeItem('accessToken');
 			localStorage.removeItem('refreshToken');
 			localStorage.removeItem('role');
+			toast.success('Đăng xuất thành công');
 			window.location.href = '/login';
 		}
 	};
@@ -63,7 +58,7 @@ const SideBar = ({children}) => {
 	const menuAdmin = () => {
 		return (
 			<>
-				<Menu.Item key="1" icon={<ProductOutlined />}>
+				<Menu.Item key="1" icon={<HomeOutlined />}>
 					<Link to="/dashboard">Dashboard</Link>
 				</Menu.Item>
 
@@ -83,10 +78,10 @@ const SideBar = ({children}) => {
 					<Menu.Item key="sub1-1" icon={<UserOutlined />}>
 						<Link to="/userBan">Người dùng</Link>
 					</Menu.Item>
-
+					{/* 
 					<Menu.Item key="sub1-2" icon={<ProductOutlined />}>
 						<Link to="/productBan">Product</Link>
-					</Menu.Item>
+					</Menu.Item> */}
 				</SubMenu>
 
 				<Menu.Item
@@ -109,8 +104,8 @@ const SideBar = ({children}) => {
 	const menuModerate = () => {
 		return (
 			<>
-				<Menu.Item key="3" icon={<UserOutlined />}>
-					<Link to="/user">Tài khoản</Link>
+				<Menu.Item key="2" icon={<ProductOutlined />}>
+					<Link to="/product">Sản phẩm</Link>
 				</Menu.Item>
 
 				<Menu.Item key="4" icon={<MoneyCollectOutlined />}>
@@ -172,6 +167,7 @@ const SideBar = ({children}) => {
 					{children}
 				</Content>
 			</Layout>
+			<ToastContainer />
 		</Layout>
 	);
 };

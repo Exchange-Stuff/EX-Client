@@ -42,7 +42,7 @@ export const UserList = () => {
 			<h2>Quản lí tài khoản</h2>
 
 			<div className="user-list-filter">
-				<Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+				{/* <Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} /> */}
 				<Input
 					placeholder="Username"
 					value={username}

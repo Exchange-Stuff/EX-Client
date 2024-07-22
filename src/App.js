@@ -24,9 +24,8 @@ import UserBanPage from './Pages/Admin/UserBanPage/UserBanPage.jsx';
 import ChatPage, {Chat} from './Components/ChatPage/ChatPage.jsx';
 import ProductBanPage from './Pages/Admin/ProductBanPage/ProductBanPage.jsx';
 import Dashboard from './Pages/Admin/DashBoardPage/Dashboard.jsx';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {getResourceAuthor} from './redux/slices/authenSlice.js';
-import {getResourceLoading} from './redux/selectors.js';
 
 function App() {
 	const dispatch = useDispatch();
@@ -39,30 +38,27 @@ function App() {
 				resource: 'AdminSidebar',
 			})
 		).then((result) => {
-			if (result.payload) {
-				setRole('admin');
+			if (!result.payload) {
+				setRole('');
 			} else {
-				dispatch(
-					getResourceAuthor({
-						resource: 'ModeratorSidebar',
-					})
-				).then((result) => {
-					if (result.payload) {
-						setRole('moderator');
-					} else {
-						dispatch(
-							getResourceAuthor({
-								resource: 'UserHeader',
-							})
-						).then((result) => {
-							if (result.payload) {
-								setRole('user');
-							}
-						});
-					}
-				});
+				if (result.payload === true) {
+					setRole('admin');
+				} else {
+					dispatch(
+						getResourceAuthor({
+							resource: 'ModerateSidbar',
+						})
+					).then((result) => {
+						if (result.payload === true) {
+							setRole('moderator');
+						} else {
+							setRole('user');
+						}
+					});
+				}
 			}
 		});
+		console.log(`role`, role);
 	}, [dispatch]);
 
 	return (
@@ -77,7 +73,7 @@ function App() {
 							<Route path="/profile" element={<Profile />} />
 							<Route path="/product" element={<ProductPage />} />
 							<Route path="/userBan" element={<UserBanPage />} />
-							<Route path="/productBan" element={<ProductBanPage />} />
+							{/* <Route path="/productBan" element={<ProductBanPage />} /> */}
 							<Route path="/dashboard" element={<Dashboard />} />
 						</Routes>
 					</SideBar>
