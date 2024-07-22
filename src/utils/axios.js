@@ -13,8 +13,10 @@ export const setNavigateCallback = (callback) => {
 // http://localhost:5059/api
 // 'ngrok-skip-browser-warning': 'true',
 
+const url = 'https://alpaca-blessed-endlessly.ngrok-free.app/api';
+
 export const instance = axios.create({
-	baseURL: 'https://alpaca-blessed-endlessly.ngrok-free.app/api',
+	baseURL: url,
 	headers: {
 		'ngrok-skip-browser-warning': 'true',
 	},
@@ -45,7 +47,7 @@ instance.interceptors.request.use(
 			// 		navigateCallback('/login');
 			// 	}
 			// 	console.log('Error refreshing token:', error);
-				
+
 			// }
 			navigateCallback('/login');
 		}
@@ -85,7 +87,7 @@ instance.interceptors.response.use(
 					window.location.href = 'http://localhost:3000/login';
 				}
 				const res = await axios.post(
-					'https://alpaca-blessed-endlessly.ngrok-free.app/api/Auth/renew',
+					`${url}/Auth/renew`,
 					{
 						refreshToken,
 					},

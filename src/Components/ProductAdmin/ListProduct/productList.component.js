@@ -26,15 +26,30 @@ export const ProductList = () => {
 				resource: 'GetProductForAdmin',
 			})
 		).then((res) => {
-			if (!res.payload) {
+			console.log(`res`, res);
+			if (res.error) {
 				toast.error('Lỗi hệ thống');
 			} else {
 				if (res.payload === true) {
 					setRole('admin');
 					getListProduct();
 				} else {
-					setRole('moderate');
-					getListProduct();
+					dispatch
+						.getResourceAuthor({
+							resource: 'GetProductForModerator',
+						})
+						.then((res) => {
+							if (res.error) {
+								toast.error('Lỗi hệ thống');
+							} else {
+								if (res.payload === true) {
+									setRole('moderate');
+									getListProduct();
+								} else {
+									setRole('');
+								}
+							}
+						});
 				}
 			}
 		});
@@ -91,6 +106,7 @@ export const ProductList = () => {
 				dataSource={productList}
 				loading={loading}
 				className="table-product"
+				pagination={{pageSize: 5}}
 				// rowClassName={(record) => {
 				// 	if (record.productStatus === 0) {
 				// 		return 'table-pending';
