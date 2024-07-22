@@ -55,7 +55,7 @@ export const LoginSignup = ({handleCloseModal}) => {
 				/>
 
 				<div className="header">
-					<div className="text">Đăng nhập</div>
+					<div className="text">Đăng Nhập</div>
 					<div className="underline"></div>
 				</div>
 
