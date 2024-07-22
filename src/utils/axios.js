@@ -72,7 +72,7 @@ instance.interceptors.response.use(
 			const oldAccessToken = getAccessToken();
 			try {
 				const res = await axios.post(
-					'http://localhost:5059/api/Auth/renew',
+					'https://alpaca-blessed-endlessly.ngrok-free.app/api/Auth/renew',
 					{
 						refreshToken: getRefreshToken(),
 					},

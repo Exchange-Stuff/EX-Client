@@ -33,6 +33,8 @@ export const updateProductStatus = createAsyncThunk(
 	'product/updateProductStatus',
 	async ({id, status}, {rejectWithValue}) => {
 		try {
+			console.log('id', id);
+			console.log('status', status);
 			const url = `/Product/updateStatusProduct`;
 			const response = await api.put(url, {
 				id: id,
@@ -65,10 +67,8 @@ export const updateProductBan = createAsyncThunk(
 	'product/updateProductBan',
 	async ({id}, {rejectWithValue}) => {
 		try {
-			const url = `/ProductBanReport`;
-			const response = await api.put(url, {
-				id: id,
-			});
+			const url = `/ProductBanReport/${id}`;
+			const response = await api.put(url);
 			console.log('response', response.data);
 			return response.data;
 		} catch (error) {

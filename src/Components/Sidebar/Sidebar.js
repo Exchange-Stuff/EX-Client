@@ -12,12 +12,39 @@ import {
 	ExclamationOutlined,
 	SettingOutlined,
 } from '@ant-design/icons';
+import {useDispatch} from 'react-redux';
+import {getResourceAuthor} from '../../redux/slices/authenSlice';
 
 const {Content, Sider} = Layout;
 const {SubMenu} = Menu;
 
 const SideBar = ({children}) => {
+	const dispatch = useDispatch();
+
 	const [collapsed, setCollapsed] = React.useState(false);
+	const [role, setRole] = React.useState('moderate');
+
+	React.useEffect(() => {
+		dispatch(
+			getResourceAuthor({
+				resource: 'AdminSidebar',
+			})
+		).then((result) => {
+			if (result.payload) {
+				setRole('admin');
+			} else {
+				dispatch(
+					getResourceAuthor({
+						resource: 'ModeratorSidebar',
+					})
+				).then((result) => {
+					if (result.payload) {
+						setRole('moderator');
+					}
+				});
+			}
+		});
+	}, []);
 
 	// toggle sidebar
 	const toggleCollapsed = () => {
@@ -31,6 +58,86 @@ const SideBar = ({children}) => {
 			localStorage.removeItem('role');
 			window.location.href = '/login';
 		}
+	};
+
+	const menuAdmin = () => {
+		return (
+			<>
+				<Menu.Item key="1" icon={<ProductOutlined />}>
+					<Link to="/dashboard">Dashboard</Link>
+				</Menu.Item>
+
+				<Menu.Item key="2" icon={<ProductOutlined />}>
+					<Link to="/product">Sản phẩm</Link>
+				</Menu.Item>
+
+				<Menu.Item key="3" icon={<UserOutlined />}>
+					<Link to="/user">Tài khoản</Link>
+				</Menu.Item>
+
+				<Menu.Item key="4" icon={<MoneyCollectOutlined />}>
+					<Link to="/financial">Quản lý tài chính</Link>
+				</Menu.Item>
+
+				<SubMenu key="sub1" icon={<ExclamationOutlined />} title="Quản lý tố cáo">
+					<Menu.Item key="sub1-1" icon={<UserOutlined />}>
+						<Link to="/userBan">Người dùng</Link>
+					</Menu.Item>
+
+					<Menu.Item key="sub1-2" icon={<ProductOutlined />}>
+						<Link to="/productBan">Product</Link>
+					</Menu.Item>
+				</SubMenu>
+
+				<Menu.Item
+					key="5"
+					icon={
+						<LogoutOutlined
+							style={{
+								color: 'red',
+							}}
+						/>
+					}
+					onClick={handleLogout}
+				>
+					Đăng xuất
+				</Menu.Item>
+			</>
+		);
+	};
+
+	const menuModerate = () => {
+		return (
+			<>
+				<Menu.Item key="3" icon={<UserOutlined />}>
+					<Link to="/user">Tài khoản</Link>
+				</Menu.Item>
+
+				<Menu.Item key="4" icon={<MoneyCollectOutlined />}>
+					<Link to="/financial">Quản lý tài chính</Link>
+				</Menu.Item>
+
+				<SubMenu key="sub1" icon={<ExclamationOutlined />} title="Quản lý tố cáo">
+					<Menu.Item key="sub1-1" icon={<UserOutlined />}>
+						<Link to="/userBan">Người dùng</Link>
+					</Menu.Item>
+				</SubMenu>
+
+				<Menu.Item
+					key="5"
+					icon={
+						<LogoutOutlined
+							style={{
+								color: 'red',
+							}}
+						/>
+					}
+					onClick={handleLogout}
+				>
+					Đăng xuất
+				</Menu.Item>
+			</>
+		);
 	};
 
 	return (
@@ -49,49 +156,7 @@ const SideBar = ({children}) => {
 				</Button>
 
 				<Menu mode="inline" className="menu" inlineCollapsed={collapsed}>
-					<Menu.Item key="1" icon={<ProductOutlined />}>
-						<Link to="/dashboard">Dashboard</Link>
-					</Menu.Item>
-
-					<Menu.Item key="2" icon={<ProductOutlined />}>
-						<Link to="/product">Sản phẩm</Link>
-					</Menu.Item>
-
-					<Menu.Item key="3" icon={<UserOutlined />}>
-						<Link to="/user">Tài khoản</Link>
-					</Menu.Item>
-
-					<Menu.Item key="4" icon={<MoneyCollectOutlined />}>
-						<Link to="/financial">Quản lý tài chính</Link>
-					</Menu.Item>
-
-					<SubMenu key="sub1" icon={<ExclamationOutlined />} title="Quản lý tố cáo">
-						<Menu.Item key="sub1-1" icon={<UserOutlined />}>
-							<Link to="/userBan">Người dùng</Link>
-						</Menu.Item>
-
-						<Menu.Item key="sub1-2" icon={<ProductOutlined />}>
-							<Link to="/productBan">Product</Link>
-						</Menu.Item>
-					</SubMenu>
-
-					<Menu.Item key="5" icon={<SettingOutlined />}>
-						<Link to="/financial">Quản lý quyền</Link>
-					</Menu.Item>
-
-					<Menu.Item
-						key="5"
-						icon={
-							<LogoutOutlined
-								style={{
-									color: 'red',
-								}}
-							/>
-						}
-						onClick={handleLogout}
-					>
-						Đăng xuất
-					</Menu.Item>
+					{role === 'admin' ? menuAdmin() : role === 'moderator' ? menuModerate() : null}
 				</Menu>
 			</Sider>
 

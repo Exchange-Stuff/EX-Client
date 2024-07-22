@@ -17,6 +17,25 @@ export const fetchFinancial = createAsyncThunk(
 	}
 );
 
+export const updateFinancial = createAsyncThunk(
+	'Update Financial Ticket',
+	async ({id}, {rejectWithValue}) => {
+		try {
+			console.log('id', id);
+			const url = `/FinancialTicket/UpdateFinancialTicket`;
+			const response = await api.put(url, {
+				id: id,
+				status: 1,
+			});
+			console.log('response', response.data);
+			return response.data;
+		} catch (error) {
+			console.log('error', error);
+			return rejectWithValue(error.response.data);
+		}
+	}
+);
+
 export const financialSlice = createSlice({
 	name: 'financialSlice',
 	initialState: {
@@ -42,6 +61,17 @@ export const financialSlice = createSlice({
 				state.totalPage = action.payload.totalPage;
 			})
 			.addCase(fetchFinancial.rejected, (state, action) => {
+				state.loading = true;
+				state.error = action.payload;
+			})
+			//update financial
+			.addCase(updateFinancial.pending, (state) => {
+				state.loading = true;
+			})
+			.addCase(updateFinancial.fulfilled, (state, action) => {
+				state.loading = false;
+			})
+			.addCase(updateFinancial.rejected, (state, action) => {
 				state.loading = true;
 				state.error = action.payload;
 			});

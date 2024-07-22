@@ -36,10 +36,8 @@ export const updateUserBan = createAsyncThunk(
 	'Update User Ban',
 	async ({id}, {rejectWithValue}) => {
 		try {
-			const url = `/UserBan`;
-			const response = await api.put(url, {
-				id: id,
-			});
+			const url = `/UserBan/${id}`;
+			const response = await api.put(url);
 			console.log('response', response);
 			return response.data.value;
 		} catch (error) {

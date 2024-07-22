@@ -42,7 +42,7 @@ export const ProductList = () => {
 	};
 
 	const updateProduct = (id, status) => {
-		dispatch(updateProductStatus(id, status)).then((res) => {
+		dispatch(updateProductStatus({id: id, status: status})).then((res) => {
 			if (res.error) {
 				if (res.payload) {
 					toast.error(res.payload.error.message);

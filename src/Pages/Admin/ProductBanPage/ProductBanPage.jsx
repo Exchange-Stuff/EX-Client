@@ -46,7 +46,7 @@ export default function ProductBanPage() {
 					}
 				} else {
 					toast.success('Cập nhật thành công');
-					window.location.reload();
+					dispatch(getProductBanList({productId, reasonId, reason, pageIndex, pageSize}));
 				}
 			});
 		} else {

@@ -7,8 +7,10 @@ import {
 	getLoadingFinancialSelector,
 	getTotalPageFinancialSelector,
 } from '../../redux/selectors';
-import {fetchFinancial} from '../../redux/slices/financialSlice';
-import {Pagination, Table} from 'antd';
+import {fetchFinancial, updateFinancial} from '../../redux/slices/financialSlice';
+import {Button, Pagination, Table} from 'antd';
+import {CheckOutlined} from '@ant-design/icons';
+import {toast} from 'react-toastify';
 
 export const FinancialList = () => {
 	const dispatch = useDispatch();
@@ -33,31 +35,29 @@ export const FinancialList = () => {
 		});
 	}, [pageIndex, pageSize, status, dispatch]);
 
-	// const handleUpdate = async (id, status) => {
-	// 	// confirm
-	// 	const confirm = window.confirm('Are you sure?');
-	// 	if (!confirm) return;
-	// 	try {
-	// 		try {
-	// 			const data = await axios.put(
-	// 				`http://localhost:5059/api/FinancialTicket/UpdateFinancialTicket`,
-	// 				{
-	// 					id,
-	// 					status,
-	// 				}
-	// 			);
-	// 			if (data) {
-	// 				alert('Update success');
-	// 				window.location.reload();
-	// 			}
-	// 		} catch (error) {
-	// 			console.error('Error updating data:', error);
-	// 		}
-	// 	} catch (error) {
-	// 		console.error('Error updating data:', error);
-	// 		alert('Update failed');
-	// 	}
-	// };
+	const handleUpdate = async (id) => {
+		// confirm
+		if (window.confirm('Bạn muốn chấp nhận?')) {
+			dispatch(updateFinancial({id: id})).then((res) => {
+				if (res.error) {
+					if (res.payload) {
+						toast.error(res.payload.error.message);
+					}
+				} else {
+					toast.success('Cập nhật thành công');
+					dispatch(
+						fetchFinancial({
+							pageIndex: pageIndex,
+							pageSize: pageSize,
+							status: status,
+						})
+					);
+				}
+			});
+		} else {
+			return;
+		}
+	};
 
 	return (
 		<div className="financial-list">
@@ -127,6 +127,22 @@ export const FinancialList = () => {
 						} else {
 							return <span className="status-reject">Reject</span>;
 						}
+					}}
+				/>
+
+				<Table.Column
+					title="Hành động"
+					key="action"
+					render={(index, record) => {
+						return (
+							<Button
+								type="primary"
+								icon={<CheckOutlined />}
+								onClick={() => handleUpdate(record.id)}
+							>
+								Chấp nhận
+							</Button>
+						);
 					}}
 				/>
 			</Table>

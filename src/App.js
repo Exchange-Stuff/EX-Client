@@ -85,7 +85,7 @@ function App() {
 					<SideBar>
 						<Routes>
 							<Route path="/*" element={<ProductPage />} />
-							<Route path="/user" element={<UserPage />} />
+							<Route path="/userBan" element={<UserBanPage />} />
 							<Route path="/product" element={<ProductPage />} />
 							<Route path="/financial" element={<FinancialPage />} />
 						</Routes>
