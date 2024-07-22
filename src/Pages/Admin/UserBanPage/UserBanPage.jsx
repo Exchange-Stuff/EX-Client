@@ -14,7 +14,7 @@ import {CheckOutlined} from '@ant-design/icons';
 export default function UserBanPage() {
 	const dispatch = useDispatch();
 
-	const listUserBan = useSelector(getListUserBanSelector);
+	const listUserBan = useSelector(getListUserBanSelector) || [];
 	const totalPageUserBan = useSelector(getTotalPageUserBanSelector);
 	const loading = useSelector(getLoadingUserBanSelector);
 

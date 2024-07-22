@@ -99,6 +99,7 @@ export const userSlice = createSlice({
 			})
 			.addCase(getListusersBan.fulfilled, (state, action) => {
 				state.loadingUserBan = false;
+				console.log('action.payload', action.payload);
 				state.listUserBan = action.payload.listItem;
 				state.total_page_user_ban = action.payload.totalPage;
 			})
