@@ -120,8 +120,8 @@ const Header = ({handleLoginClick}) => {
 		localStorage.removeItem('productPrice');
 		localStorage.removeItem('productName');
 		localStorage.removeItem('persist:root');
-
 		navigate('/login');
+
 	};
 
 	return (

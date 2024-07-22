@@ -14,7 +14,7 @@ export const setNavigateCallback = (callback) => {
 // 'ngrok-skip-browser-warning': 'true',
 
 export const instance = axios.create({
-	baseURL: 'http://localhost:5059/api',
+	baseURL: 'https://alpaca-blessed-endlessly.ngrok-free.app/api',
 	headers: {
 		'ngrok-skip-browser-warning': 'true',
 	},
@@ -84,7 +84,7 @@ instance.interceptors.response.use(
 					throw new Error('No refresh token available');
 				}
 				const res = await axios.post(
-					'http://localhost:5059/api/Auth/renew',
+					'https://alpaca-blessed-endlessly.ngrok-free.app/api/Auth/renew',
 					{
 						refreshToken,
 					},
