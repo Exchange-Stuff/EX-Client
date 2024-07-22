@@ -75,7 +75,7 @@ const Dashboard = () => {
 
 			<Row gutter={16}>
 				<Col span={8}>
-					<Card>
+					<Card className="dashboard-cart">
 						<Statistic
 							title="Đơn hàng đang duyệt"
 							value={report.totalTicket}
@@ -85,7 +85,7 @@ const Dashboard = () => {
 					</Card>
 				</Col>
 				<Col span={8}>
-					<Card>
+					<Card className="dashboard-cart">
 						<Statistic
 							title="Đơn hàng được chấp nhận"
 							value={report.totalConfirmed}
@@ -95,7 +95,7 @@ const Dashboard = () => {
 					</Card>
 				</Col>
 				<Col span={8}>
-					<Card>
+					<Card className="dashboard-cart">
 						<Statistic
 							title="Đơn hàng bị hủy"
 							value={report.totalCancelled}
@@ -122,9 +122,39 @@ const Dashboard = () => {
 				// 	}
 				// }}
 			>
-				<Table.Column title="Product ID" dataIndex="productId" key="productId" />
+				<Table.Column
+					title="Tên sản phẩm"
+					dataIndex="product"
+					key="productId"
+					render={(product) => {
+						return product.name;
+					}}
+				/>
 
-				<Table.Column title="User ID" dataIndex="userId" key="userId" />
+				<Table.Column
+					title="Ảnh sản phẩm"
+					dataIndex="product"
+					key="productId"
+					align="center"
+					render={(product) => {
+						return (
+							<img
+								src={product.thumbnail}
+								alt="thumbnail"
+								style={{width: '60px', height: '60px'}}
+							/>
+						);
+					}}
+				/>
+
+				<Table.Column
+					title="Tên người dùng"
+					dataIndex="user"
+					key="user"
+					render={(user) => {
+						return user.name;
+					}}
+				/>
 
 				<Table.Column title="Số tiền" dataIndex="amount" key="amount" />
 

@@ -6,7 +6,7 @@ import {
 	getLoadingUserSelector,
 	getTotalPageSelector,
 } from '../../redux/selectors';
-import {fetchUsers} from '../../redux/slices/userSlice';
+import {fetchUsers, deleteAccount} from '../../redux/slices/userSlice';
 import {Pagination, Input, Table, Button} from 'antd';
 import {toast} from 'react-toastify';
 import {DeleteOutlined} from '@ant-design/icons';
@@ -32,6 +32,32 @@ export const UserList = () => {
 			}
 		});
 	}, [dispatch, name, username, pageIndex, pageSize, includeBan]);
+
+	const handleUpdate = async (id) => {
+		console.log('id', id);
+		// confirm
+		if (window.confirm('Bạn muốn xóa tài khoản này?')) {
+			dispatch(deleteAccount({id: id})).then((res) => {
+				if (res.error) {
+					if (res.payload) {
+						toast.error(res.payload.error.message);
+					}
+				} else {
+					toast.success('Xóa tài khoản thành công');
+					dispatch(
+						fetchUsers({
+							name,
+							username,
+							pageIndex,
+							pageSize,
+							includeBan,
+						})
+					);
+				}});
+		} else {
+			return;
+		}
+	};
 
 	return (
 		<div>
@@ -75,7 +101,22 @@ export const UserList = () => {
 				<Table.Column title="Student ID" dataIndex="studentId" key="studentId" />
 				<Table.Column title="Địa chỉ" dataIndex="address" key="address" />
 				<Table.Column title="Giới tính" dataIndex="gender" key="gender" />
-				<Table.Column title="Hành động" key="action" />
+				<Table.Column
+					title="Hành động"
+					key="action"
+					dataIndex="status"
+					render={(status, record) => {
+						return (
+							<Button
+								type="primary"
+								icon={<DeleteOutlined />}
+								onClick={() => handleUpdate(record.id)}
+							>
+								Xóa tài khoản
+							</Button>
+						);
+					}}
+				/>
 			</Table>
 
 			<Pagination

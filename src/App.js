@@ -26,7 +26,7 @@ import ProductBanPage from './Pages/Admin/ProductBanPage/ProductBanPage.jsx';
 import Dashboard from './Pages/Admin/DashBoardPage/Dashboard.jsx';
 import {useDispatch} from 'react-redux';
 import {getResourceAuthor} from './redux/slices/authenSlice.js';
-import OrderDetail from './Components/OrderDetail/OrderDetail.jsx';
+import {set} from 'date-fns';
 
 function App() {
 	const dispatch = useDispatch();
@@ -34,37 +34,40 @@ function App() {
 	const [role, setRole] = React.useState('');
 
 	useEffect(() => {
-		dispatch(
-			getResourceAuthor({
-				resource: 'AdminSidebar',
-			})
-		).then((result) => {
-			if (!result.payload) {
-				setRole('');
-			} else {
-				if (result.payload === true) {
-					setRole('admin');
+		if (!localStorage.getItem('refreshToken')) {
+			setRole('');
+		} else {
+			dispatch(
+				getResourceAuthor({
+					resource: 'AdminSidebar',
+				})
+			).then((result) => {
+				if (!result.payload) {
+					setRole('');
 				} else {
-					dispatch(
-						getResourceAuthor({
-							resource: 'ModerateSidbar',
-						})
-					).then((result) => {
-						if (result.payload === true) {
-							setRole('moderator');
-						} else {
-							setRole('user');
-						}
-					});
+					if (result.payload === true) {
+						setRole('admin');
+					} else {
+						dispatch(
+							getResourceAuthor({
+								resource: 'ModerateSidbar',
+							})
+						).then((result) => {
+							if (result.payload === true) {
+								setRole('moderator');
+							} else {
+								setRole('user');
+							}
+						});
+					}
 				}
-			}
-		});
+			});
+		}
 	}, [dispatch]);
 
 	return (
 		<div className="App">
 			<BrowserRouter>
-				<Header />
 				{role === 'admin' ? (
 					<SideBar>
 						<Routes>
@@ -88,27 +91,30 @@ function App() {
 						</Routes>
 					</SideBar>
 				) : role === 'user' ? (
-					<Routes>
-						<Route path="/*" element={<HomePage />} />
-						<Route path="/homepage" element={<HomePage />} />
-						<Route path="/postproduct" element={<PostProduct />} />
-						<Route path="/productdetail/:id" element={<ProductDetail />} />
-						<Route path="/payment" element={<Payment />} />
-						<Route path="/blank" element={<Blank />} />
-						<Route path="/orderproduct/:id" element={<OrderProduct />} />
-						<Route path="/orderpage" element={<OrderPage />} />
-						<Route path="/search/:keyword" element={<Search />} />
-						<Route path="/financicalTicket" element={<FinancicalTicket />} />
-						<Route path="/productByCategory/:id" element={<ProductByCategory />} />
-						<Route path="/transactionHistory" element={<TransactionHistory />} />
-						<Route path="/profile/:id" element={<Profile />} />
-						<Route path="/chatpage" element={<ChatPage />} />
-						<Route path="/orderdetail/:id" element={<OrderDetail />} />
-					</Routes>
+					<>
+						<Header />
+						<Routes>
+							<Route path="/*" element={<HomePage />} />
+							<Route path="/homepage" element={<HomePage />} />
+							<Route path="/postproduct" element={<PostProduct />} />
+							<Route path="/productdetail/:id" element={<ProductDetail />} />
+							<Route path="/payment" element={<Payment />} />
+							<Route path="/blank" element={<Blank />} />
+							<Route path="/orderproduct/:id" element={<OrderProduct />} />
+							<Route path="/orderpage" element={<OrderPage />} />
+							<Route path="/search/:keyword" element={<Search />} />
+							<Route path="/financicalTicket" element={<FinancicalTicket />} />
+							<Route path="/productByCategory/:id" element={<ProductByCategory />} />
+							<Route path="/transactionHistory" element={<TransactionHistory />} />
+							<Route path="/profile/:id" element={<Profile />} />
+							<Route path="/chatpage" element={<ChatPage />} />
+						</Routes>
+					</>
 				) : (
 					<Routes>
 						<Route path="/*" element={<LoginSignup />} />
 						<Route path="/login" element={<LoginSignup />} />
+						<Route path="/blank" element={<Blank />} />
 					</Routes>
 				)}
 				<ToastContainer limit={3} />
