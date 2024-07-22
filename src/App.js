@@ -26,6 +26,7 @@ import ProductBanPage from './Pages/Admin/ProductBanPage/ProductBanPage.jsx';
 import Dashboard from './Pages/Admin/DashBoardPage/Dashboard.jsx';
 import {useDispatch} from 'react-redux';
 import {getResourceAuthor} from './redux/slices/authenSlice.js';
+import {set} from 'date-fns';
 
 function App() {
 	const dispatch = useDispatch();
@@ -33,31 +34,35 @@ function App() {
 	const [role, setRole] = React.useState('');
 
 	useEffect(() => {
-		dispatch(
-			getResourceAuthor({
-				resource: 'AdminSidebar',
-			})
-		).then((result) => {
-			if (!result.payload) {
-				setRole('');
-			} else {
-				if (result.payload === true) {
-					setRole('admin');
+		if (!localStorage.getItem('refreshToken')) {
+			setRole('');
+		} else {
+			dispatch(
+				getResourceAuthor({
+					resource: 'AdminSidebar',
+				})
+			).then((result) => {
+				if (!result.payload) {
+					setRole('');
 				} else {
-					dispatch(
-						getResourceAuthor({
-							resource: 'ModerateSidbar',
-						})
-					).then((result) => {
-						if (result.payload === true) {
-							setRole('moderator');
-						} else {
-							setRole('user');
-						}
-					});
+					if (result.payload === true) {
+						setRole('admin');
+					} else {
+						dispatch(
+							getResourceAuthor({
+								resource: 'ModerateSidbar',
+							})
+						).then((result) => {
+							if (result.payload === true) {
+								setRole('moderator');
+							} else {
+								setRole('user');
+							}
+						});
+					}
 				}
-			}
-		});
+			});
+		}
 	}, [dispatch]);
 
 	return (
