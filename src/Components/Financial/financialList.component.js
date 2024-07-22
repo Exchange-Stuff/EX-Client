@@ -15,7 +15,7 @@ import {toast, ToastContainer} from 'react-toastify';
 export const FinancialList = () => {
 	const dispatch = useDispatch();
 
-	const [pageSize, setPageSize] = useState(3);
+	const [pageSize, setPageSize] = useState(10);
 	const [pageIndex, setPageIndex] = useState(1);
 	const [status, setStatus] = useState(0);
 
