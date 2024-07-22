@@ -24,6 +24,7 @@ import UserBanPage from './Pages/Admin/UserBanPage/UserBanPage.jsx';
 import ChatPage, {Chat} from './Components/ChatPage/ChatPage.jsx';
 import ProductBanPage from './Pages/Admin/ProductBanPage/ProductBanPage.jsx';
 import Dashboard from './Pages/Admin/DashBoardPage/Dashboard.jsx';
+import OrderDetail from './Components/OrderDetail/OrderDetail.jsx';
 
 function App() {
 	const role = localStorage.getItem('role');
@@ -73,6 +74,7 @@ function App() {
 						<Route path="/transactionHistory" element={<TransactionHistory />} />
 						<Route path="/profile/:id" element={<Profile />} />
 						<Route path="/chatpage" element={<ChatPage />} />
+						<Route path="/orderDetail/:id" element={<OrderDetail />} />
 					</Routes>
 				)}
 				<ToastContainer limit={3} />
