@@ -29,3 +29,10 @@ export const getTotalPageProductBanSelector = (state) => state.productSlice.tota
 
 // Author resource
 export const getResourceLoading = (state) => state.authenSlice.resourceLoading;
+
+// Dashboard
+export const getReportDashboardSelector = (state) => state.dashboardSlice.reportDashboard;
+export const getLoadingDashboardSelector = (state) => state.dashboardSlice.loading;
+
+export const getListDashboardSelector = (state) => state.dashboardSlice.listDashboard;
+export const getLoadingListDashboardSelector = (state) => state.dashboardSlice.loadingList;

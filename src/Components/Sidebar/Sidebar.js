@@ -142,7 +142,7 @@ const SideBar = ({children}) => {
 					onClick={toggleCollapsed}
 					style={{
 						marginTop: 50,
-						backgroundColor: '#1890ff',
+						backgroundColor: 'black',
 						color: 'white',
 						border: 'none',
 					}}

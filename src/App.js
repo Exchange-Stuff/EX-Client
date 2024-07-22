@@ -58,7 +58,6 @@ function App() {
 				}
 			}
 		});
-		console.log(`role`, role);
 	}, [dispatch]);
 
 	return (
@@ -67,7 +66,7 @@ function App() {
 				{role === 'admin' ? (
 					<SideBar>
 						<Routes>
-							<Route path="/*" element={<UserPage />} />
+							<Route path="/*" element={<Dashboard />} />
 							<Route path="/user" element={<UserPage />} />
 							<Route path="/financial" element={<FinancialPage />} />
 							<Route path="/profile" element={<Profile />} />

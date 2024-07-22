@@ -5,6 +5,7 @@ import {userSlice} from './slices/userSlice';
 import {financialSlice} from './slices/financialSlice';
 import {productSlice} from './slices/productSlice';
 import {authenSlice} from './slices/authenSlice';
+import {dashboardSlice} from './slices/dashboardSlice';
 
 const rootPersistConfig = {
 	key: 'root',
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
 	financialSlice: financialSlice.reducer,
 	productSlice: productSlice.reducer,
 	authenSlice: authenSlice.reducer,
+	dashboardSlice: dashboardSlice.reducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);

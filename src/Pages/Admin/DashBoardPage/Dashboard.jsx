@@ -1,40 +1,29 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Card, Col, Row, Statistic, Table} from 'antd';
 import './Dashboard.css';
+import {useSelector, useDispatch} from 'react-redux';
+import {getDashboardListPurchase, getReportPurchase} from '../../../redux/slices/dashboardSlice';
+import {
+	getReportDashboardSelector,
+	getListDashboardSelector,
+	getLoadingDashboardSelector,
+	getLoadingListDashboardSelector,
+} from '../../../redux/selectors';
 
 const Dashboard = () => {
-	const data = {
-		value: {
-			totalCancelled: 0,
-			percentCancelledWithLastWeek: 0,
-			totalConfirmed: 0,
-			percentConfirmedWithLastWeek: 0,
-			totalTicket: 1,
-			percentTotalWithLastWeek: -75,
-		},
-		list_purchase: [
-			{
-				amount: 321,
-				productId: '555c87b2-d06f-4034-8fdf-906b6acbf015',
-				userId: '180547f5-9586-4fcb-a9d8-75cc9fcf8cf6',
-				quantity: 1,
-				product: null,
-				status: 0,
-				createdOn: '2024-07-22T20:11:30.7780531',
-				modifiedOn: '2024-07-22T20:11:30.7780891',
-				id: '0b0635fa-4020-4201-d5f2-08dcaa4fcd89',
-			},
-		],
-	};
-	// Destructure the relevant data
-	const {
-		totalCancelled,
-		percentCancelledWithLastWeek,
-		totalConfirmed,
-		percentConfirmedWithLastWeek,
-		totalTicket,
-		percentTotalWithLastWeek,
-	} = data.value;
+	const dispatch = useDispatch();
+
+	const report = useSelector(getReportDashboardSelector);
+	const listDashboard = useSelector(getListDashboardSelector);
+	const loading = useSelector(getLoadingDashboardSelector);
+	const loadingList = useSelector(getLoadingListDashboardSelector);
+
+	useEffect(() => {
+		dispatch(getDashboardListPurchase()).then((res) => {
+			console.log('res', res);
+		});
+		dispatch(getReportPurchase());
+	}, [dispatch]);
 
 	function getCurrentWeek(date) {
 		// Lấy ngày hiện tại hoặc ngày truyền vào
@@ -56,6 +45,10 @@ const Dashboard = () => {
 		let endDate = endOfWeek.toLocaleDateString('en-GB', options);
 
 		return `${startDate} - ${endDate}`;
+	}
+
+	if (loading) {
+		return <div>Loading...</div>;
 	}
 
 	return (
@@ -84,66 +77,92 @@ const Dashboard = () => {
 				<Col span={8}>
 					<Card>
 						<Statistic
-							title="Total Tickets"
-							value={totalTicket}
+							title="Đơn hàng đang duyệt"
+							value={report.totalTicket}
 							valueStyle={{color: '#3f8600'}}
-							suffix={`(${percentTotalWithLastWeek}% from last week)`}
+							suffix={`(${report.percentTotalWithLastWeek}%)`}
 						/>
 					</Card>
 				</Col>
 				<Col span={8}>
 					<Card>
 						<Statistic
-							title="Total Confirmed"
-							value={totalConfirmed}
+							title="Đơn hàng được chấp nhận"
+							value={report.totalConfirmed}
 							valueStyle={{color: '#3f8600'}}
-							suffix={`(${percentConfirmedWithLastWeek}% from last week)`}
+							suffix={`(${report.percentConfirmedWithLastWeek}% )`}
 						/>
 					</Card>
 				</Col>
 				<Col span={8}>
 					<Card>
 						<Statistic
-							title="Total Cancelled"
-							value={totalCancelled}
+							title="Đơn hàng bị hủy"
+							value={report.totalCancelled}
 							valueStyle={{color: '#cf1322'}}
-							suffix={`(${percentCancelledWithLastWeek}% from last week)`}
+							suffix={`(${report.percentCancelledWithLastWeek}%)`}
 						/>
 					</Card>
 				</Col>
 			</Row>
+
 			<Table
-				dataSource={data.list_purchase}
+				dataSource={listDashboard}
 				rowKey="id"
-				rowClassName={(record) => {
-					if (record.status === 0) {
-						return 'table-pending';
-					} else if (record.status === 1) {
-						return 'table-succes';
-					} else if (record.status === 2) {
-						return 'table-cancel';
-					} else if (record.status === 3) {
-						return 'table-reject';
-					}
-				}}
+				loading={loadingList}
+				// rowClassName={(record) => {
+				// 	if (record.status === 0) {
+				// 		return 'table-pending';
+				// 	} else if (record.status === 1) {
+				// 		return 'table-succes';
+				// 	} else if (record.status === 2) {
+				// 		return 'table-cancel';
+				// 	} else if (record.status === 3) {
+				// 		return 'table-reject';
+				// 	}
+				// }}
 			>
 				<Table.Column title="Product ID" dataIndex="productId" key="productId" />
 
 				<Table.Column title="User ID" dataIndex="userId" key="userId" />
 
-				<Table.Column title="Amount" dataIndex="amount" key="amount" />
+				<Table.Column title="Số tiền" dataIndex="amount" key="amount" />
 
-				<Table.Column title="Quantity" dataIndex="quantity" key="quantity" />
+				<Table.Column title="Số lượng" dataIndex="quantity" key="quantity" />
 
 				<Table.Column
-					title="Status"
+					title="Trạng thái"
 					dataIndex="status"
 					key="status"
 					render={(status) => (status === 0 ? 'Đang chờ duyệt' : 'Thành công')}
 				/>
 
-				<Table.Column title="Created On" dataIndex="createdOn" key="createdOn" />
-				<Table.Column title="Modified On" dataIndex="modifiedOn" key="modifiedOn" />
+				<Table.Column
+					title="Ngày tạo"
+					dataIndex="createdOn"
+					key="createdOn"
+					render={(item) => {
+						// mm/dd/yyyy
+						return new Date(item).toLocaleDateString('en-GB', {
+							year: 'numeric',
+							month: '2-digit',
+							day: '2-digit',
+						});
+					}}
+				/>
+
+				<Table.Column
+					title="Ngày cập nhật"
+					dataIndex="modifiedOn"
+					key="modifiedOn"
+					render={(item) => {
+						return new Date(item).toLocaleDateString('en-GB', {
+							year: 'numeric',
+							month: '2-digit',
+							day: '2-digit',
+						});
+					}}
+				/>
 			</Table>
 		</div>
 	);
