@@ -189,3 +189,17 @@
   text-align: center;
 }
 
+.custom-select .ant-select-selector {
+  background-color: white !important;
+  border: 1px solid #000000 !important;
+}
+
+.custom-select .ant-select-selection-item {
+  color: black;
+}
+
+.custom-select .ant-select-arrow {
+  color: black;
+}
+
+
