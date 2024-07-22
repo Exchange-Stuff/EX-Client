@@ -103,6 +103,7 @@ function App() {
 						<Route path="/transactionHistory" element={<TransactionHistory />} />
 						<Route path="/profile/:id" element={<Profile />} />
 						<Route path="/chatpage" element={<ChatPage />} />
+						<Route path="/orderdetail/:id" element={<OrderDetail />} />
 					</Routes>
 				) : (
 					<Routes>
