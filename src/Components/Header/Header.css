@@ -159,35 +159,53 @@
   display: inline-block;
   margin-right: 25px;
 }
-.notification-icon, .message-icon {
+
+.notification-icon {
   width: 42px;
   height: 26px;
   border-radius: 50%;
   margin-left: 18px;
   color: #000000;
 }
+
 .notification-dropdown {
-  display: none;
+  display: none; /* Đặt trạng thái mặc định là ẩn */
   position: absolute;
   left: -100px;
   background-color: #f9f9f9;
-  text-wrap: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 200px;
+  width: 216px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
+
+
 .notification:hover .notification-dropdown {
   display: block;
 }
+
+.notification-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 12px;
+}
+
 .chat-notification .notification .notification-dropdown {
   border-radius: 10px;
 }
-.chat-notification .notification .notification-dropdown .notification-item:first-child  {
+
+.chat-notification .notification .notification-dropdown .notification-item:first-child {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
+
 .chat-notification .notification .notification-dropdown .notification-item:last-child {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -195,12 +213,24 @@
 
 .chat-notification .notification .notification-dropdown .notification-item {
   border: 1px solid gray;
-  width: 200px;
-  text-wrap: nowrap;
+  width: 100%;
+  padding: 10px;
+  white-space: normal;
   overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
+  text-align: left;
+  background-color: white;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: system-ui;
+  font-weight: 500;
 }
+
+
+
+.chat-notification .notification .notification-dropdown .notification-item:hover {
+  background-color: #f1f1f1;
+}
+
 
 .chat-notification,
 .chat-notification .chat{

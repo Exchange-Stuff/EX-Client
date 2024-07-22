@@ -8,7 +8,7 @@ import {ProductDetail} from './Components/ProductDetail/ProductDetail.jsx';
 import {Payment} from './Components/PaymentPage/Payment.jsx';
 import {Blank} from './Components/Blank/Blank.jsx';
 import {Profile} from './Components/Profile/Profile.jsx';
-//import Header from "./Components/Header/Header";
+import Header from './Components/Header/Header';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import FinancialPage from './Pages/Admin/FinancialPage/financial.page.js';
 import {OrderProduct} from './Components/OrderProduct/OrderProduct.jsx';
@@ -32,6 +32,7 @@ function App() {
 	return (
 		<div className="App">
 			<BrowserRouter>
+				<Header />
 				{role === 'admin' ? (
 					<SideBar>
 						<Routes>

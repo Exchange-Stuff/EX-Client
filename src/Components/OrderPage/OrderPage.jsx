@@ -244,7 +244,6 @@ export const OrderPage = () => {
       </div>
       <Footer />
 
-      {/* Popup đánh giá sao */}
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
