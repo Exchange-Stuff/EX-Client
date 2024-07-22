@@ -235,6 +235,9 @@ const Header = ({handleLoginClick}) => {
 							<Link to={`/profile/${userInfo.nameid}`} className="dropdown-item-1">
 								Trang cá nhân
 							</Link>
+							<Link to="/orderForSeller" className="dropdown-item-2">
+								Thông tin các đơn hàng
+							</Link>
 							<Link to="/orderpage" className="dropdown-item-2">
 								Lịch sử mua hàng
 							</Link>

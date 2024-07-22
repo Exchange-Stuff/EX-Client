@@ -112,6 +112,13 @@ export const OrderProduct = () => {
 		}
 	};
 
+	const handleChat = () => {
+		const userId = userData.id;
+		localStorage.setItem('receiverId', userId);
+		navigate('/chatpage');
+		console.log(userId);
+	};
+
 	if (isAuthorized === null || totalPrice < 0) {
 		return (
 			<div className="loading-container">
@@ -187,7 +194,7 @@ export const OrderProduct = () => {
 								<button className="order-button" onClick={handleSubmit}>
 									Tiến hành đặt hàng
 								</button>
-								<button className="inbox-order">Nhắn tin với người bán</button>
+								<button className="inbox-order" onClick={handleChat}>Nhắn tin với người bán</button>
 								<div className="notify-order">
 									<span>
 										Sau khi tiến hành đặt hàng số đồng trong ví sẽ bị trừ

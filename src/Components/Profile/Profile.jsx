@@ -7,6 +7,10 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import coin from '../Assets/coin.png';
 import Header from '../Header/Header';
 import {Link, useParams} from 'react-router-dom';
+import Modal from 'react-modal';
+import {Table, Select, Pagination, Rate} from 'antd';
+
+Modal.setAppElement('#root');
 
 export const Profile = () => {
 	const {id} = useParams();
@@ -15,6 +19,8 @@ export const Profile = () => {
 	const [userName, setUsername] = useState('');
 	const [userCurrentData, setUserCurrentData] = useState('');
 	const [isAuthorized, setIsAuthorized] = useState(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [rating, setRating] = useState(0);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -79,6 +85,28 @@ export const Profile = () => {
 			fetchData();
 		}
 	}, [isAuthorized, id]);
+
+	const closeModal = () => setIsModalOpen(false);
+
+	const handleRatingChange = (value) => {
+		setRating(value);
+		console.log(`Rating: ${value}`);
+	};
+
+	const submitRating = async () => {
+		try {
+			// await axios.post('/Rating/create-rating', {
+			// 	purchaseTicketId: selectedPurchaseTicketId,
+			// 	content: content,
+			// 	evaluateType: rating,
+			// });
+			toast.success('Đánh giá thành công', {autoClose: 1500});
+			closeModal();
+		} catch (error) {
+			console.error('Error submitting rating:', error);
+			toast.error('Đánh giá thất bại', {autoClose: 1500});
+		}
+	};
 
 	if (isAuthorized === null) {
 		return (
@@ -158,6 +186,31 @@ export const Profile = () => {
 					</li>
 				))}
 			</ul>
+
+			<Modal
+				isOpen={isModalOpen}
+				onRequestClose={closeModal}
+				contentLabel="Rate Product"
+				className="modal-orderpage"
+				overlayClassName="overlay"
+			>
+				<h2>Đánh giá sản phẩm</h2>
+				<Rate onChange={handleRatingChange} value={rating} />
+				<input
+					type="text"
+					value={""}
+					placeholder="Nhập nội dung đánh giá"
+					style={{margin: '10px 0', width: '100%'}}
+				/>
+				<div>
+					<button className="sent-rating-order" onClick={submitRating}>
+						Gửi đánh giá
+					</button>
+					<button className="sent-rating-order" onClick={closeModal}>
+						Đóng
+					</button>
+				</div>
+			</Modal>
 
 		</div>
 	);

@@ -121,6 +121,13 @@ export const OrderDetail = () => {
     }
   };
 
+  const handleChat = () => {
+		const userId = userData.id;
+		localStorage.setItem('receiverId', userId);
+		navigate('/chatpage');
+		console.log(userId);
+	};
+
   if (isAuthorized === null) {
     return (
       <div className="loading-container">
@@ -193,7 +200,7 @@ export const OrderDetail = () => {
                     <p>{rating ? rating.evaluateType : 'N/A'}<span className="star-order"> ★ </span></p>
                   </>
                 )}
-                <button className="inbox-orderdetail">Nhắn tin với người bán</button>
+                <button className="inbox-orderdetail" onClick={handleChat}>Nhắn tin với người bán</button>
               </div>
             </div>
           </div>

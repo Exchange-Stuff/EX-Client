@@ -3,34 +3,57 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import axios from '../../utils/axios.js';
 import { jwtDecode } from 'jwt-decode';
-import { toast, ToastContainer } from 'react-toastify';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Table, Pagination } from 'antd';
 import './TransactionHistory.css';
 
 const columns = [
   {
-    title: 'Transaction Type',
+    title: 'Loại giao dịch',
     dataIndex: 'transactionType',
     key: 'transactionType',
-    width: 150,
+    width: 200,
+    fontSize: 26,
+    render: (text) => {
+      switch (text) {
+        case 0:
+          return 'Đăng sản phẩm';
+        case 1:
+          return 'Mua bán sản phẩm';
+        case 2:
+          return 'Rút tiền';
+        case 3:
+          return 'Mua xu';
+        default:
+          return 'Unknown';
+      }
+    },
   },
   {
-    title: 'Date',
+    title: 'Số xu giao dịch',
+    dataIndex: 'amount',
+    key: 'amount',
+    width: 150,
+    render: (amount, record) => {
+      const textColor = record.action ? 'green' : 'red';
+      const fontWeight = 'bold';
+      return (
+        <span style={{ color: textColor, fontWeight: fontWeight }}>
+          {amount}
+        </span>
+      );
+    },
+  },
+  {
+    title: 'Ngày giao dịch',
     dataIndex: 'date',
     key: 'date',
     width: 150,
   },
   {
-    title: 'Time',
+    title: 'Thời gian giao dịch',
     dataIndex: 'time',
     key: 'time',
-    width: 150,
-  },
-  {
-    title: 'Amount',
-    dataIndex: 'amount',
-    key: 'amount',
     width: 150,
   },
 ];
@@ -93,6 +116,7 @@ export const TransactionHistory = () => {
             date: date.toLocaleDateString(),
             time: date.toLocaleTimeString(),
             amount: transaction.amount,
+            action: transaction.isCredit,
           };
         });
         setData(formattedData);
@@ -127,7 +151,7 @@ export const TransactionHistory = () => {
         <Table
           columns={columns}
           dataSource={data}
-          className="transaction-table"
+          className="transactionHistorypage-table"
           pagination={false}
         />
         <Pagination

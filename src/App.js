@@ -27,6 +27,8 @@ import Dashboard from './Pages/Admin/DashBoardPage/Dashboard.jsx';
 import {useDispatch} from 'react-redux';
 import {getResourceAuthor} from './redux/slices/authenSlice.js';
 import {set} from 'date-fns';
+import {OrderDetail} from './Components/OrderDetail/OrderDetail.jsx';
+import {OrderForSeller} from './Components/OrderForSeller/OrderForSeller.jsx';
 
 function App() {
 	const dispatch = useDispatch();
@@ -108,11 +110,13 @@ function App() {
 							<Route path="/transactionHistory" element={<TransactionHistory />} />
 							<Route path="/profile/:id" element={<Profile />} />
 							<Route path="/chatpage" element={<ChatPage />} />
+							<Route path="/orderdetail/:id" element={<OrderDetail />} />
+							<Route path="/orderForSeller" element={<OrderForSeller />} />
 						</Routes>
 					</>
 				) : (
 					<Routes>
-						<Route path="/*" element={<LoginSignup />} />
+						<Route path="/*" element={<HomePage />} />
 						<Route path="/login" element={<LoginSignup />} />
 						<Route path="/blank" element={<Blank />} />
 					</Routes>

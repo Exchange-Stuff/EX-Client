@@ -24,10 +24,10 @@
 }
 
 .transactionHistorypage-form {
-  max-height: 415px;
-  min-height: 415px;
+  max-height: 490px;
+  min-height: 490px;
   border-radius: 10px;
-  padding: 20px;
+  padding: 0px 20px 20px 20px;
   border: 1px solid #ff8c00;
   margin: 0px 20px 20px 20px;
 }

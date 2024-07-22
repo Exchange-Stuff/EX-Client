@@ -122,5 +122,15 @@
 .sent-rating-order:hover{
   background-color: #ecae63;
 }
+.status-cancelled {
+  color: red;
+  font-weight: bold;
+}
+
+.status-confirmed {
+  color: green;
+  font-weight: bold;
+}
+
 
 
