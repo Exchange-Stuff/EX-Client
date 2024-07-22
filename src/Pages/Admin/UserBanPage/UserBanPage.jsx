@@ -26,6 +26,7 @@ export default function UserBanPage() {
 
 	React.useEffect(() => {
 		dispatch(getListusersBan({userId, reasonId, reason, pageIndex, pageSize})).then((res) => {
+			console.log(`res`, res);
 			if (res.error) {
 				if (res.payload) {
 					toast.error(res.payload.message);
@@ -43,13 +44,17 @@ export default function UserBanPage() {
 					}
 				} else {
 					toast.success('Cập nhật thành công');
-					window.location.reload();
+					dispatch(getListusersBan({userId, reasonId, reason, pageIndex, pageSize}));
 				}
 			});
 		} else {
 			return;
 		}
 	};
+
+	if (listUserBan.length === 0) {
+		return <h1>Loading</h1>;
+	}
 
 	return (
 		<div className="UserBan-Page">

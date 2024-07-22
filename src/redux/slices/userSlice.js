@@ -36,10 +36,8 @@ export const updateUserBan = createAsyncThunk(
 	'Update User Ban',
 	async ({id}, {rejectWithValue}) => {
 		try {
-			const url = `/UserBan`;
-			const response = await api.put(url, {
-				id: id,
-			});
+			const url = `/UserBan/${id}`;
+			const response = await api.put(url);
 			console.log('response', response);
 			return response.data.value;
 		} catch (error) {
@@ -58,6 +56,7 @@ export const userSlice = createSlice({
 		total_page_user: 0,
 		listUserBan: [],
 		total_page_user_ban: 0,
+		loadingUserBan: false,
 	},
 	reducers: {
 		setUser: (state, action) => {
@@ -81,15 +80,15 @@ export const userSlice = createSlice({
 			})
 			// get list user ban
 			.addCase(getListusersBan.pending, (state) => {
-				state.loading = true;
+				state.loadingUserBan = true;
 			})
 			.addCase(getListusersBan.fulfilled, (state, action) => {
-				state.loading = false;
+				state.loadingUserBan = false;
 				state.listUserBan = action.payload.listItem;
 				state.total_page_user_ban = action.payload.totalPage;
 			})
 			.addCase(getListusersBan.rejected, (state, action) => {
-				state.loading = false;
+				state.loadingUserBan = false;
 				state.error = action.payload;
 			});
 	},

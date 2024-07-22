@@ -29,6 +29,26 @@ export const getAllProductByModerator = createAsyncThunk(
 	}
 );
 
+export const updateProductStatus = createAsyncThunk(
+	'product/updateProductStatus',
+	async ({id, status}, {rejectWithValue}) => {
+		try {
+			console.log('id', id);
+			console.log('status', status);
+			const url = `/Product/updateStatusProduct`;
+			const response = await api.put(url, {
+				id: id,
+				productStatus: status,
+			});
+			console.log('response', response.data);
+			return response.data;
+		} catch (error) {
+			console.log('error', error);
+			return rejectWithValue(error.response.data);
+		}
+	}
+);
+
 export const getProductBanList = createAsyncThunk(
 	'product/getProductBanList',
 	async ({productId, reasonId, reason, pageIndex, pageSize}, {rejectWithValue}) => {
@@ -47,10 +67,8 @@ export const updateProductBan = createAsyncThunk(
 	'product/updateProductBan',
 	async ({id}, {rejectWithValue}) => {
 		try {
-			const url = `/ProductBanReport`;
-			const response = await api.put(url, {
-				id: id,
-			});
+			const url = `/ProductBanReport/${id}`;
+			const response = await api.put(url);
 			console.log('response', response.data);
 			return response.data;
 		} catch (error) {
@@ -122,6 +140,17 @@ export const productSlice = createSlice({
 				state.loading = false;
 			})
 			.addCase(updateProductBan.rejected, (state, action) => {
+				state.loading = true;
+				state.error = action.payload;
+			})
+			// update Product Status
+			.addCase(updateProductStatus.pending, (state) => {
+				state.loading = true;
+			})
+			.addCase(updateProductStatus.fulfilled, (state, action) => {
+				state.loading = false;
+			})
+			.addCase(updateProductStatus.rejected, (state, action) => {
 				state.loading = true;
 				state.error = action.payload;
 			});

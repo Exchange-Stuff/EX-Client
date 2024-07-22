@@ -1,7 +1,7 @@
 import React from 'react';
 import './Sidebar.css';
 import {Link} from 'react-router-dom';
-import {Menu, Button, Layout} from 'antd';
+import {Menu, Button, Layout, message} from 'antd';
 import {
 	UserOutlined,
 	MenuUnfoldOutlined,
@@ -10,13 +10,35 @@ import {
 	MoneyCollectOutlined,
 	LogoutOutlined,
 	ExclamationOutlined,
+	HomeOutlined,
 } from '@ant-design/icons';
+import {useDispatch} from 'react-redux';
+import {getResourceAuthor} from '../../redux/slices/authenSlice';
+import {toast, ToastContainer} from 'react-toastify';
 
 const {Content, Sider} = Layout;
 const {SubMenu} = Menu;
 
 const SideBar = ({children}) => {
+	const dispatch = useDispatch();
+	const [messageApi, contextHolder] = message.useMessage();
+
 	const [collapsed, setCollapsed] = React.useState(false);
+	const [role, setRole] = React.useState('moderator');
+
+	React.useEffect(() => {
+		dispatch(
+			getResourceAuthor({
+				resource: 'AdminSidebar',
+			})
+		).then((result) => {
+			if (!result.error) {
+				if (result.payload === true) {
+					setRole('admin');
+				}
+			}
+		});
+	}, [dispatch]);
 
 	// toggle sidebar
 	const toggleCollapsed = () => {
@@ -28,8 +50,89 @@ const SideBar = ({children}) => {
 			localStorage.removeItem('accessToken');
 			localStorage.removeItem('refreshToken');
 			localStorage.removeItem('role');
+			toast.success('Đăng xuất thành công');
 			window.location.href = '/login';
 		}
+	};
+
+	const menuAdmin = () => {
+		return (
+			<>
+				<Menu.Item key="1" icon={<HomeOutlined />}>
+					<Link to="/dashboard">Dashboard</Link>
+				</Menu.Item>
+
+				<Menu.Item key="2" icon={<ProductOutlined />}>
+					<Link to="/product">Sản phẩm</Link>
+				</Menu.Item>
+
+				<Menu.Item key="3" icon={<UserOutlined />}>
+					<Link to="/user">Tài khoản</Link>
+				</Menu.Item>
+
+				<Menu.Item key="4" icon={<MoneyCollectOutlined />}>
+					<Link to="/financial">Quản lý tài chính</Link>
+				</Menu.Item>
+
+				<SubMenu key="sub1" icon={<ExclamationOutlined />} title="Quản lý tố cáo">
+					<Menu.Item key="sub1-1" icon={<UserOutlined />}>
+						<Link to="/userBan">Người dùng</Link>
+					</Menu.Item>
+					{/* 
+					<Menu.Item key="sub1-2" icon={<ProductOutlined />}>
+						<Link to="/productBan">Product</Link>
+					</Menu.Item> */}
+				</SubMenu>
+
+				<Menu.Item
+					key="5"
+					icon={
+						<LogoutOutlined
+							style={{
+								color: 'red',
+							}}
+						/>
+					}
+					onClick={handleLogout}
+				>
+					Đăng xuất
+				</Menu.Item>
+			</>
+		);
+	};
+
+	const menuModerate = () => {
+		return (
+			<>
+				<Menu.Item key="2" icon={<ProductOutlined />}>
+					<Link to="/product">Sản phẩm</Link>
+				</Menu.Item>
+
+				<Menu.Item key="4" icon={<MoneyCollectOutlined />}>
+					<Link to="/financial">Quản lý tài chính</Link>
+				</Menu.Item>
+
+				<SubMenu key="sub1" icon={<ExclamationOutlined />} title="Quản lý tố cáo">
+					<Menu.Item key="sub1-1" icon={<UserOutlined />}>
+						<Link to="/userBan">Người dùng</Link>
+					</Menu.Item>
+				</SubMenu>
+
+				<Menu.Item
+					key="5"
+					icon={
+						<LogoutOutlined
+							style={{
+								color: 'red',
+							}}
+						/>
+					}
+					onClick={handleLogout}
+				>
+					Đăng xuất
+				</Menu.Item>
+			</>
+		);
 	};
 
 	return (
@@ -39,7 +142,7 @@ const SideBar = ({children}) => {
 					onClick={toggleCollapsed}
 					style={{
 						marginTop: 50,
-						backgroundColor: '#1890ff',
+						backgroundColor: 'black',
 						color: 'white',
 						border: 'none',
 					}}
@@ -48,45 +151,7 @@ const SideBar = ({children}) => {
 				</Button>
 
 				<Menu mode="inline" className="menu" inlineCollapsed={collapsed}>
-					<Menu.Item key="1" icon={<ProductOutlined />}>
-						<Link to="/homepage">Dashboard</Link>
-					</Menu.Item>
-
-					<Menu.Item key="2" icon={<ProductOutlined />}>
-						<Link to="/product">Sản phẩm</Link>
-					</Menu.Item>
-
-					<Menu.Item key="3" icon={<UserOutlined />}>
-						<Link to="/user">Tài khoản</Link>
-					</Menu.Item>
-
-					<Menu.Item key="4" icon={<MoneyCollectOutlined />}>
-						<Link to="/financial">Quản lý tài chính</Link>
-					</Menu.Item>
-
-					<SubMenu key="sub1" icon={<ExclamationOutlined />} title="Quản lý tố cáo">
-						<Menu.Item key="sub1-1" icon={<UserOutlined />}>
-							<Link to="/userBan">Người dùng</Link>
-						</Menu.Item>
-
-						<Menu.Item key="sub1-2" icon={<ProductOutlined />}>
-							<Link to="/productBan">Product</Link>
-						</Menu.Item>
-					</SubMenu>
-
-					<Menu.Item
-						key="5"
-						icon={
-							<LogoutOutlined
-								style={{
-									color: 'red',
-								}}
-							/>
-						}
-						onClick={handleLogout}
-					>
-						Đăng xuất
-					</Menu.Item>
+					{role === 'admin' ? menuAdmin() : role === 'moderator' ? menuModerate() : null}
 				</Menu>
 			</Sider>
 
@@ -102,6 +167,7 @@ const SideBar = ({children}) => {
 					{children}
 				</Content>
 			</Layout>
+			<ToastContainer />
 		</Layout>
 	);
 };

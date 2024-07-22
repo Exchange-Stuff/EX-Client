@@ -25,16 +25,12 @@ export const UserList = () => {
 	const listUser = useSelector(getAllUserSelector);
 
 	useEffect(() => {
-		try {
-			dispatch(fetchUsers({name, username, pageIndex, pageSize, includeBan})).then((res) => {
-				if (res.error) {
-					toast.error('Lỗi khi lấy dữ liệu');
-				}
-				console.log('res', res);
-			});
-		} catch (error) {
-			console.log('error', error);
-		}
+		dispatch(fetchUsers({name, username, pageIndex, pageSize, includeBan})).then((res) => {
+			console.log('resUser', res);
+			if (res.error) {
+				toast.error('Lỗi khi lấy dữ liệu');
+			}
+		});
 	}, [dispatch, name, username, pageIndex, pageSize, includeBan]);
 
 	return (
@@ -42,7 +38,7 @@ export const UserList = () => {
 			<h2>Quản lí tài khoản</h2>
 
 			<div className="user-list-filter">
-				<Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+				{/* <Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} /> */}
 				<Input
 					placeholder="Username"
 					value={username}
