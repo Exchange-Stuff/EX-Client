@@ -56,7 +56,7 @@ export default function ProductBanPage() {
 
 	return (
 		<div className="productBan-page">
-			<h1>Đơn tố cáo sản phẩm</h1>
+			<h1 style={{color:'orange'}}>Đơn tố cáo sản phẩm</h1>
 
 			<div className="productBan-filter"></div>
 
