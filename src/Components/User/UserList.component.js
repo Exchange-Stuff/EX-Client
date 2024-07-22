@@ -53,7 +53,8 @@ export const UserList = () => {
 							includeBan,
 						})
 					);
-				}});
+				}
+			});
 		} else {
 			return;
 		}
@@ -61,7 +62,7 @@ export const UserList = () => {
 
 	return (
 		<div>
-			<h2>Quản lí tài khoản</h2>
+			<h2 style={{color: 'orange'}}>Quản lí tài khoản</h2>
 
 			<div className="user-list-filter">
 				{/* <Input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} /> */}

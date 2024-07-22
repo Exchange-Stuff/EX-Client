@@ -59,7 +59,7 @@ export const financialSlice = createSlice({
 			.addCase(fetchFinancial.fulfilled, (state, action) => {
 				state.loading = false;
 				state.financialList = action.payload.listItem;
-				state.totalPage = action.payload.totalPage;
+				state.totalPage = action.payload.totalPages;
 			})
 			.addCase(fetchFinancial.rejected, (state, action) => {
 				state.loading = true;

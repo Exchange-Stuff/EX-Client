@@ -15,7 +15,7 @@ import {toast, ToastContainer} from 'react-toastify';
 export const FinancialList = () => {
 	const dispatch = useDispatch();
 
-	const [pageSize, setPageSize] = useState(10);
+	const [pageSize, setPageSize] = useState(3);
 	const [pageIndex, setPageIndex] = useState(1);
 	const [status, setStatus] = useState(0);
 
@@ -73,7 +73,7 @@ export const FinancialList = () => {
 					<option value={2}>Reject</option>
 				</select>
 			</div>
-			<Table dataSource={listFinancial} loading={loading}>
+			<Table dataSource={listFinancial} loading={loading} pagination={false}>
 				<Table.Column
 					title="Tên"
 					dataIndex="user"
@@ -97,7 +97,7 @@ export const FinancialList = () => {
 				<Table.Column
 					align="center"
 					title="QR Code"
-					dataIndex="thumbnail"
+					dataIndex="imageQRCode"
 					key="imageQRCode"
 					render={(imageQRCode) => {
 						if (imageQRCode) {
