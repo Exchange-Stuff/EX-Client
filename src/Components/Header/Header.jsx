@@ -4,10 +4,8 @@ import {Link, useNavigate} from 'react-router-dom';
 import logo from '../Assets/logo.png';
 import {jwtDecode} from 'jwt-decode';
 import axios from '../../utils/axios.js';
-import {Input, Space} from 'antd';
-import {FaSearch} from 'react-icons/fa';
-import {FaBell, FaFacebookMessenger} from 'react-icons/fa';
-import {HubConnectionBuilder, HubConnectionState} from '@microsoft/signalr';
+import {FaSearch, FaBell, FaFacebookMessenger} from 'react-icons/fa';
+import {HubConnectionBuilder} from '@microsoft/signalr';
 
 const Header = ({handleLoginClick}) => {
 	const [userInfo, setUserInfo] = useState([]);
@@ -18,6 +16,8 @@ const Header = ({handleLoginClick}) => {
 	const navigate = useNavigate();
 	const [listNotification, setListNotification] = useState([]);
 	const [notificationConnection, setNotificationConnection] = useState();
+	const [unreadCount, setUnreadCount] = useState(0);
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 	const connectNotification = async () => {
 		try {
@@ -28,24 +28,55 @@ const Header = ({handleLoginClick}) => {
 				})
 				.build();
 
-			const receiveNoti = async () => {
-				await conn.on('ReceiveNotification', (message) => {
-					console.log('message: ' + message);
-					// appendMessage(message, "cus");
-				});
-			};
+			conn.on('ReceiveNotification', (message) => {
+				console.log('New notification received: ', message);
+				setListNotification((prevNotifications) => [...prevNotifications, message]);
+			});
+
 			await conn.start();
-			console.log('message');
+			console.log('Notification connection established');
 			setNotificationConnection(conn);
 		} catch (error) {
-			console.log('dang gap loi');
-			console.log('try catch', error);
+			console.log('Error establishing notification connection:', error);
+		}
+	};
+
+	const fetchNotifications = async () => {
+		try {
+			const response = await axios.get(`http://localhost:5059/api/Notification/userId`);
+			if (response.data.isSuccess) {
+				console.log('Notifications fetched: ', response.data.value.listItem);
+				setListNotification(response.data.value.listItem);
+			}
+		} catch (error) {
+			console.error('Error fetching notifications:', error);
 		}
 	};
 
 	useEffect(() => {
+		const countUnread = listNotification.filter((notification) => !notification.isRead).length;
+		setUnreadCount(countUnread);
+	}, [listNotification]);
+
+	useEffect(() => {
 		connectNotification();
+		fetchNotifications();
 	}, []);
+
+	const handleIconClick = () => {
+		setIsDropdownOpen(!isDropdownOpen);
+
+		// Nếu dropdown được mở, đánh dấu tất cả thông báo là đã đọc
+		if (!isDropdownOpen) {
+			setListNotification((prevNotifications) =>
+				prevNotifications.map((notification) => ({
+					...notification,
+					isRead: true,
+				}))
+			);
+			setUnreadCount(0);
+		}
+	};
 
 	const handleSearch = () => {
 		navigate(`/search/${encodeURIComponent(searchKeyword)}`);
@@ -64,7 +95,6 @@ const Header = ({handleLoginClick}) => {
 			const token = localStorage.getItem('accessToken');
 			if (token) {
 				const decoded = jwtDecode(token);
-				console.log(decoded);
 				setUserInfo(decoded);
 			}
 		} catch (err) {
@@ -76,9 +106,7 @@ const Header = ({handleLoginClick}) => {
 		const getUserBl = async () => {
 			try {
 				const userId = userInfo.nameid;
-				console.log(userId);
 				const result = await axios.get(`/Account/user/${userId}`);
-				console.log(result);
 				if (result.data.value === null) {
 					console.error('User not found');
 					return;
@@ -111,7 +139,7 @@ const Header = ({handleLoginClick}) => {
 	}, []);
 
 	const handleLogout = () => {
-		axios.post('/Admin/logout');
+		axios.post('/Admin/logout', {});
 		localStorage.removeItem('accessToken');
 		localStorage.removeItem('refreshToken');
 		localStorage.removeItem('productDescription');
@@ -120,8 +148,10 @@ const Header = ({handleLoginClick}) => {
 		localStorage.removeItem('productPrice');
 		localStorage.removeItem('productName');
 		localStorage.removeItem('persist:root');
-		navigate('/login');
+		localStorage.removeItem('userId');
+		localStorage.removeItem('amount');
 
+		window.location.href = 'http://localhost:3000/login';
 	};
 
 	return (
@@ -174,22 +204,24 @@ const Header = ({handleLoginClick}) => {
 			</Link>
 			<div className="chat-notification">
 				<div className="notification">
-					<FaBell className="notification-icon" />
-					<div className="notification-dropdown">
-						{listNotification.length == 0 ? (
-							<div className="notification-item">No notification</div>
-						) : (
-							listNotification.map((item, index) => {
-								return (
-									<div className="notification-item" key={index}>
-										{item}
+					<FaBell className="notification-icon" onClick={handleIconClick} />
+					{unreadCount > 0 && <span className="notification-count">{unreadCount}</span>}
+					{isDropdownOpen && (
+						<div className="notification-dropdown">
+							{listNotification.length === 0 ? (
+								<div className="notification-item">No notification</div>
+							) : (
+								listNotification.slice(0, 8).map((item) => (
+									<div className="notification-item" key={item.id}>
+										{item.message}
 									</div>
-								);
-							})
-						)}
-					</div>
+								))
+							)}
+						</div>
+					)}
 				</div>
 			</div>
+
 			{isLogin && (
 				<div className="dropdown-user" ref={dropdownRef}>
 					<img

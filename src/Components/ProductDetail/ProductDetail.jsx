@@ -25,7 +25,7 @@ export const ProductDetail = () => {
 	const [newComment, setNewComment] = useState('');
 	const [userInfoData, setUserInfoData] = useState({});
 	const [selectedImage, setSelectedImage] = useState(null);
-	const [isAuthorized, setIsAuthorized] = useState(null); // null for loading state
+	const [isAuthorized, setIsAuthorized] = useState(null);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -104,8 +104,9 @@ export const ProductDetail = () => {
 					const commentsResult = await axios.get(`Comment/product/${id}`);
 					console.log(commentsResult.data);
 					if (commentsResult.data.isSuccess) {
-						console.log(commentsResult.data);
-						setComments(commentsResult.data.value);
+						const comments = commentsResult.data.value.listItem.map(item => item.content);
+						console.log('Comment 1: ', comments);
+						setComments(commentsResult.data.value.listItem);
 					} else {
 						console.error('Error in response:', commentsResult.data.error);
 					}
@@ -170,8 +171,8 @@ export const ProductDetail = () => {
 		try {
 			const commentsResult = await axios.get(`Comment/product/${data.id}`);
 			if (commentsResult.data.isSuccess) {
-				console.log(commentsResult.data);
-				setComments(commentsResult.data.value);
+				console.log(commentsResult.data.value.listItem);
+				setComments(commentsResult.data.value.listItem);
 			} else {
 				console.error('Error fetching comments:', commentsResult.data.error);
 			}
@@ -193,7 +194,6 @@ export const ProductDetail = () => {
 			const result = await axios.put(`/Product/cancelProduct/${id}`);
 			if (result.data.isSuccess) {
 				toast.success('Xóa bài đăng thành công');
-				
 			} else {
 				console.error('Error in response:', result.data.error);
 				toast.error('Xóa bài đăng thất bại');

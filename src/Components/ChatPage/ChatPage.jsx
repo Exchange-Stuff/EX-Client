@@ -21,7 +21,7 @@ const ChatPage = () => {
 
 	const handleKeyDown = (event) => {
 		if (event.key === 'Enter' && !event.shiftKey) {
-			event.preventDefault(); // Ngăn chặn hành động mặc định của Enter
+			event.preventDefault();
 			sendMessage();
 		}
 	};
