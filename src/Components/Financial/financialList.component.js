@@ -73,7 +73,7 @@ export const FinancialList = () => {
 					<option value={2}>Reject</option>
 				</select>
 			</div>
-			<Table dataSource={listFinancial} loading={loading}>
+			<Table dataSource={listFinancial} loading={loading} pagination={false}>
 				<Table.Column
 					title="Tên"
 					dataIndex="user"
@@ -97,7 +97,7 @@ export const FinancialList = () => {
 				<Table.Column
 					align="center"
 					title="QR Code"
-					dataIndex="thumbnail"
+					dataIndex="imageQRCode"
 					key="imageQRCode"
 					render={(imageQRCode) => {
 						if (imageQRCode) {

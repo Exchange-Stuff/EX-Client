@@ -14,7 +14,7 @@ import {CheckOutlined} from '@ant-design/icons';
 export default function UserBanPage() {
 	const dispatch = useDispatch();
 
-	const listUserBan = useSelector(getListUserBanSelector);
+	const listUserBan = useSelector(getListUserBanSelector) || [];
 	const totalPageUserBan = useSelector(getTotalPageUserBanSelector);
 	const loading = useSelector(getLoadingUserBanSelector);
 
@@ -58,7 +58,7 @@ export default function UserBanPage() {
 
 	return (
 		<div className="UserBan-Page">
-			<h1>Đơn tố cáo người dùng</h1>
+			<h1 style={{color: 'orange'}}>Đơn tố cáo người dùng</h1>
 
 			<Table dataSource={listUserBan} loading={loading} pagination={false}>
 				<Table.Column title="ID" dataIndex="id" key="id" />
