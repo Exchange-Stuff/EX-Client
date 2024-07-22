@@ -46,6 +46,21 @@ export const updateUserBan = createAsyncThunk(
 		}
 	}
 );
+export const deleteAccount = createAsyncThunk(
+	'Update Account Status',
+	async ({id}, {rejectWithValue}) => {
+		try {
+			console.log('id', id);
+			const url = `/Auth/${id}`;
+			const response = await api.delete(url);
+			console.log('response', response.data);
+			return response.data;
+		} catch (error) {
+			console.log('error', error);
+			return rejectWithValue(error.response.data);
+		}
+	}
+);
 
 export const userSlice = createSlice({
 	name: 'userSlice',
@@ -90,6 +105,16 @@ export const userSlice = createSlice({
 			.addCase(getListusersBan.rejected, (state, action) => {
 				state.loadingUserBan = false;
 				state.error = action.payload;
+			})
+			//delete account
+			.addCase(deleteAccount.pending, (state) => {
+				state.loadingUserBan = true;
+			})
+			.addCase(deleteAccount.fulfilled, (state, action) => {
+				state.loading = false;
+			})
+			.addCase(deleteAccount.rejected, (state, action) => {
+				state.loading = false;
 			});
 	},
 });

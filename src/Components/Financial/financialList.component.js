@@ -10,7 +10,7 @@ import {
 import {fetchFinancial, updateFinancial} from '../../redux/slices/financialSlice';
 import {Button, Pagination, Table} from 'antd';
 import {CheckOutlined} from '@ant-design/icons';
-import {toast} from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
 
 export const FinancialList = () => {
 	const dispatch = useDispatch();
@@ -99,13 +99,19 @@ export const FinancialList = () => {
 					title="QR Code"
 					dataIndex="thumbnail"
 					key="imageQRCode"
-					render={(imageQRCode) => (
-						<img
-							src={imageQRCode}
-							alt="imageQRCode"
-							style={{width: '50px', height: '50px'}}
-						/>
-					)}
+					render={(imageQRCode) => {
+						if (imageQRCode) {
+							return (
+								<img
+									src={imageQRCode}
+									alt="imageQRCode"
+									style={{width: '50px', height: '50px'}}
+								/>
+							);
+						} else {
+							return <span>Chưa cập nhật</span>;
+						}
+					}}
 				/>
 
 				<Table.Column
@@ -133,16 +139,21 @@ export const FinancialList = () => {
 				<Table.Column
 					title="Hành động"
 					key="action"
-					render={(index, record) => {
-						return (
-							<Button
-								type="primary"
-								icon={<CheckOutlined />}
-								onClick={() => handleUpdate(record.id)}
-							>
-								Chấp nhận
-							</Button>
-						);
+					dataIndex="status"
+					render={(status, record) => {
+						if (status === 0) {
+							return (
+								<Button
+									type="primary"
+									icon={<CheckOutlined />}
+									onClick={() => handleUpdate(record.id)}
+								>
+									Chấp nhận
+								</Button>
+							);
+						} else {
+							return <span>Đã xử lý</span>;
+						}
 					}}
 				/>
 			</Table>
@@ -156,6 +167,8 @@ export const FinancialList = () => {
 					setPageSize(pageSize);
 				}}
 			/>
+
+			<ToastContainer />
 		</div>
 	);
 };
