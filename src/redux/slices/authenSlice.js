@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 // import api from '../../utils/axios';
 import {api} from '../../services/api';
+import axios from '../../utils/axios';
 
 export const loginByAdmin = createAsyncThunk(
 	'Login by admin',
@@ -26,6 +27,7 @@ export const loginByModerator = createAsyncThunk(
 			console.log(`response`, response);
 			return response.data;
 		} catch (error) {
+			console.log(`error`, error);
 			return rejectWithValue(error.response.data);
 		}
 	}
@@ -36,11 +38,13 @@ export const getResourceAuthor = createAsyncThunk(
 	async ({resource}, {rejectWithValue}) => {
 		try {
 			const url = `/Auth/screen`;
-			const response = await api.post(url, {
+			console.log(`resource`, resource);
+			const response = await axios.post(url, {
 				resource: resource,
 			});
 			return response.data.isSuccess;
 		} catch (error) {
+			console.log(`error`, error.response.data);
 			return rejectWithValue(error.response.data);
 		}
 	}
@@ -53,6 +57,7 @@ export const authenSlice = createSlice({
 		loading: true,
 		error: null,
 		isAuthor: false,
+		resourceLoading: true,
 	},
 	reducers: {
 		setUser: (state, action) => {
@@ -87,8 +92,10 @@ export const authenSlice = createSlice({
 			})
 			// case author screen
 			.addCase(getResourceAuthor.fulfilled, (state, action) => {
-				state.loading = false;
-				state.isAuthor = action.payload;
+				state.resourceLoading = false;
+			})
+			.addCase(getResourceAuthor.rejected, (state, action) => {
+				state.resourceLoading = true;
 			});
 	},
 });

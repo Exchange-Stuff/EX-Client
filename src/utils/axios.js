@@ -14,7 +14,7 @@ export const setNavigateCallback = (callback) => {
 // 'ngrok-skip-browser-warning': 'true',
 
 export const instance = axios.create({
-	baseURL: 'http://localhost:5059/api',
+	baseURL: 'https://alpaca-blessed-endlessly.ngrok-free.app/api',
 	headers: {
 		'ngrok-skip-browser-warning': 'true',
 	},
@@ -25,28 +25,29 @@ instance.interceptors.request.use(
 		let token = getAccessToken();
 
 		if (!token) {
-			try {
-				const refreshToken = getRefreshToken();
-				if (!refreshToken) {
-					if (navigateCallback) {
-						navigateCallback('/login');
-					}
-					window.location.href = 'http://localhost:3000/login';
-				}
-				token = await refreshAccessToken();
-				if (!token) {
-					if (navigateCallback) {
-						navigateCallback('/login');
-					}
-					throw new Error('No access token available');
-				}
-			} catch (error) {
-				if (navigateCallback) {
-					navigateCallback('/login');
-				}
-				console.log('Error refreshing token:', error);
-				throw error;
-			}
+			// try {
+			// 	const refreshToken = getRefreshToken();
+			// 	if (!refreshToken) {
+			// 		if (navigateCallback) {
+			// 			navigateCallback('/login');
+			// 		}
+			// 		navigateCallback('/login');
+			// 	}
+			// 	token = await refreshAccessToken();
+			// 	if (!token) {
+			// 		if (navigateCallback) {
+			// 			navigateCallback('/login');
+			// 		}
+			// 		navigateCallback('/login');
+			// 	}
+			// } catch (error) {
+			// 	if (navigateCallback) {
+			// 		navigateCallback('/login');
+			// 	}
+			// 	console.log('Error refreshing token:', error);
+				
+			// }
+			navigateCallback('/login');
 		}
 
 		if (token) {
@@ -81,10 +82,10 @@ instance.interceptors.response.use(
 					if (navigateCallback) {
 						navigateCallback('/login');
 					}
-					throw new Error('No refresh token available');
+					window.location.href = 'http://localhost:3000/login';
 				}
 				const res = await axios.post(
-					'http://localhost:5059/api/Auth/renew',
+					'https://alpaca-blessed-endlessly.ngrok-free.app/api/Auth/renew',
 					{
 						refreshToken,
 					},
@@ -105,7 +106,7 @@ instance.interceptors.response.use(
 					if (navigateCallback) {
 						navigateCallback('/login');
 					}
-					throw new Error('Token renewal failed');
+					window.location.href = 'http://localhost:3000/login';
 				}
 			} catch (err) {
 				console.log('Error renewing token:', err);

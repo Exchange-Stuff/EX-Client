@@ -21,7 +21,6 @@ export const FinancicalTicket = () => {
 	const [loading, setLoading] = useState(false);
 	const [isAuthorized, setIsAuthorized] = useState(null); // null for loading state
 	const navigate = useNavigate();
-	
 
 	useEffect(() => {
 		const checkUserScreenAccess = async () => {
@@ -108,7 +107,10 @@ export const FinancicalTicket = () => {
 				});
 
 				if (result.data.value === 'True') {
-					toast.success('Gửi đơn rút tiền thành công');
+					toast.success('Gửi đơn rút tiền thành công', {autoClose: 1500});
+					setTimeout(() => {
+						window.location.href = 'http://localhost:3000/financicalTicket';
+					}, 1500);
 					localStorage.removeItem('amount');
 					localStorage.removeItem('selectedImages');
 					setAmount(0);
@@ -124,17 +126,14 @@ export const FinancicalTicket = () => {
 			console.error('Error creating product:', error);
 
 			if (error.response) {
-				// Lỗi phản hồi từ máy chủ
 				if (error.response.status === 400) {
 					toast.error('Không đủ tiền trong ví');
 				} else {
 					toast.error(`Lỗi từ máy chủ: ${error.response.data.message || error.message}`);
 				}
 			} else if (error.request) {
-				// Lỗi yêu cầu mà không có phản hồi
 				toast.error('Không nhận được phản hồi từ máy chủ');
 			} else {
-				// Lỗi khi thiết lập yêu cầu
 				toast.error(`Có lỗi xảy ra: ${error.message}`);
 			}
 		} finally {

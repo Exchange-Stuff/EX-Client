@@ -8,7 +8,7 @@ import {ProductDetail} from './Components/ProductDetail/ProductDetail.jsx';
 import {Payment} from './Components/PaymentPage/Payment.jsx';
 import {Blank} from './Components/Blank/Blank.jsx';
 import {Profile} from './Components/Profile/Profile.jsx';
-//import Header from "./Components/Header/Header";
+import Header from './Components/Header/Header';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import FinancialPage from './Pages/Admin/FinancialPage/financial.page.js';
 import {OrderProduct} from './Components/OrderProduct/OrderProduct.jsx';
@@ -24,26 +24,57 @@ import UserBanPage from './Pages/Admin/UserBanPage/UserBanPage.jsx';
 import ChatPage, {Chat} from './Components/ChatPage/ChatPage.jsx';
 import ProductBanPage from './Pages/Admin/ProductBanPage/ProductBanPage.jsx';
 import Dashboard from './Pages/Admin/DashBoardPage/Dashboard.jsx';
+import {useDispatch} from 'react-redux';
+import {getResourceAuthor} from './redux/slices/authenSlice.js';
 import OrderDetail from './Components/OrderDetail/OrderDetail.jsx';
 
 function App() {
-	const role = localStorage.getItem('role');
-	const token = localStorage.getItem('accessToken');
+	const dispatch = useDispatch();
+
+	const [role, setRole] = React.useState('');
+
+	useEffect(() => {
+		dispatch(
+			getResourceAuthor({
+				resource: 'AdminSidebar',
+			})
+		).then((result) => {
+			if (!result.payload) {
+				setRole('');
+			} else {
+				if (result.payload === true) {
+					setRole('admin');
+				} else {
+					dispatch(
+						getResourceAuthor({
+							resource: 'ModerateSidbar',
+						})
+					).then((result) => {
+						if (result.payload === true) {
+							setRole('moderator');
+						} else {
+							setRole('user');
+						}
+					});
+				}
+			}
+		});
+	}, [dispatch]);
 
 	return (
 		<div className="App">
 			<BrowserRouter>
+				<Header />
 				{role === 'admin' ? (
 					<SideBar>
 						<Routes>
-							<Route path="/*" element={<UserPage />} />
-							<Route path="/login" element={<LoginSignup />} />
+							<Route path="/*" element={<Dashboard />} />
 							<Route path="/user" element={<UserPage />} />
 							<Route path="/financial" element={<FinancialPage />} />
 							<Route path="/profile" element={<Profile />} />
 							<Route path="/product" element={<ProductPage />} />
 							<Route path="/userBan" element={<UserBanPage />} />
-							<Route path="/productBan" element={<ProductBanPage />} />
+							{/* <Route path="/productBan" element={<ProductBanPage />} /> */}
 							<Route path="/dashboard" element={<Dashboard />} />
 						</Routes>
 					</SideBar>
@@ -51,17 +82,15 @@ function App() {
 					<SideBar>
 						<Routes>
 							<Route path="/*" element={<ProductPage />} />
-							<Route path="/login" element={<LoginSignup />} />
-							<Route path="/user" element={<UserPage />} />
+							<Route path="/userBan" element={<UserBanPage />} />
 							<Route path="/product" element={<ProductPage />} />
 							<Route path="/financial" element={<FinancialPage />} />
 						</Routes>
 					</SideBar>
-				) : (
+				) : role === 'user' ? (
 					<Routes>
 						<Route path="/*" element={<HomePage />} />
 						<Route path="/homepage" element={<HomePage />} />
-						<Route path="/login" element={<LoginSignup />} />
 						<Route path="/postproduct" element={<PostProduct />} />
 						<Route path="/productdetail/:id" element={<ProductDetail />} />
 						<Route path="/payment" element={<Payment />} />
@@ -74,7 +103,11 @@ function App() {
 						<Route path="/transactionHistory" element={<TransactionHistory />} />
 						<Route path="/profile/:id" element={<Profile />} />
 						<Route path="/chatpage" element={<ChatPage />} />
-						<Route path="/orderDetail/:id" element={<OrderDetail />} />
+					</Routes>
+				) : (
+					<Routes>
+						<Route path="/*" element={<LoginSignup />} />
+						<Route path="/login" element={<LoginSignup />} />
 					</Routes>
 				)}
 				<ToastContainer limit={3} />

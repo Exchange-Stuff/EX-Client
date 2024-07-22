@@ -19,10 +19,20 @@ export const getLoadingProductSelector = (state) => state.productSlice.loading;
 
 // User bane
 export const getListUserBanSelector = (state) => state.userSlice.listUserBan;
-export const getLoadingUserBanSelector = (state) => state.userSlice.loading;
+export const getLoadingUserBanSelector = (state) => state.userSlice.loadingUserBan;
 export const getTotalPageUserBanSelector = (state) => state.userSlice.total_page_user_ban;
 
 // Product ban
 export const getProductBanListSelector = (state) => state.productSlice.productBanList;
 export const getLoadingProductBanSelector = (state) => state.productSlice.productBanLoading;
 export const getTotalPageProductBanSelector = (state) => state.productSlice.totalPageBan;
+
+// Author resource
+export const getResourceLoading = (state) => state.authenSlice.resourceLoading;
+
+// Dashboard
+export const getReportDashboardSelector = (state) => state.dashboardSlice.reportDashboard;
+export const getLoadingDashboardSelector = (state) => state.dashboardSlice.loading;
+
+export const getListDashboardSelector = (state) => state.dashboardSlice.listDashboard;
+export const getLoadingListDashboardSelector = (state) => state.dashboardSlice.loadingList;
