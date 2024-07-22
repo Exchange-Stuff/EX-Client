@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './Blank.css';
+import {jwtDecode} from 'jwt-decode';
 
 export const Blank = () => {
 	const [isLoading, setLoading] = useState(true);
@@ -8,7 +9,7 @@ export const Blank = () => {
 		const fetchData = async () => {
 			try {
 				const queryString = window.location.search;
-				const url = `https://alpaca-blessed-endlessly.ngrok-free.app/api/Auth/signin${queryString}`;
+				const url = `http://localhost:5059/api/Auth/signin${queryString}`;
 				const response = await fetch(url, {
 					method: 'GET',
 				});
@@ -17,6 +18,8 @@ export const Blank = () => {
 					const result = await response.json();
 					localStorage.setItem('accessToken', result.value.accessToken);
 					localStorage.setItem('refreshToken', result.value.refreshToken);
+					const decodedToken = jwtDecode(result.value.accessToken);
+					localStorage.setItem('userId', JSON.stringify(decodedToken));
 				}
 
 				await new Promise((resolve) => setTimeout(resolve, 2000));

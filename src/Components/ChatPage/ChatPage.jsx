@@ -19,12 +19,12 @@ const ChatPage = () => {
 	const [groupId, setGroupId] = useState();
 	const ref = useRef(null);
 
-      const handleKeyDown = (event) => {
-        if (event.key === 'Enter' && !event.shiftKey) {
-          event.preventDefault(); // Ngăn chặn hành động mặc định của Enter
-          sendMessage();
-        }
-      };
+	const handleKeyDown = (event) => {
+		if (event.key === 'Enter' && !event.shiftKey) {
+			event.preventDefault(); // Ngăn chặn hành động mặc định của Enter
+			sendMessage();
+		}
+	};
 
 	const handleLoginClick = () => {
 		setIsShowLogin(true);
@@ -54,14 +54,13 @@ const ChatPage = () => {
 			await connectChat(senderId);
 			const listGroup = JSON.parse(JSON.stringify(result.data.value));
 			setListGroupChat(listGroup);
-            if(listGroup.length > 0) {
+			if (listGroup.length > 0) {
 				const groupIdData = listGroup[0].id;
 				setGroupId(groupIdData);
 				const resultMsg = await axios.get(`/Chat/get-list-messages/${groupIdData}`);
 				setListMsg(JSON.parse(JSON.stringify(resultMsg.data.value)));
 			}
-			
-		};
+		}
 		getGroupChat();
 		startChat();
 	}, []);
@@ -194,7 +193,7 @@ const ChatPage = () => {
 							type="text"
 							value={message}
 							onChange={(e) => setMessage(e.target.value)}
-                            onKeyDown={handleKeyDown}
+							onKeyDown={handleKeyDown}
 							disabled={!receiverId}
 						/>
 						{message.length !== 0 ? (

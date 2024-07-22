@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './Profile.css';
 import {jwtDecode} from 'jwt-decode';
-import { toast, ToastContainer } from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
 import axios from '../../utils/axios.js';
-import { useLocation, useNavigate } from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import coin from '../Assets/coin.png';
 import Header from '../Header/Header';
-import { Link, useParams } from "react-router-dom";
+import {Link, useParams} from 'react-router-dom';
 
 export const Profile = () => {
-	const { id } = useParams();
+	const {id} = useParams();
 	const [userBl, setUserBl] = useState(0);
 	const [data, setData] = useState([]);
 	const [userName, setUsername] = useState('');
@@ -61,8 +61,11 @@ export const Profile = () => {
 					if (userResult.data.value.id === result.data.value.id) {
 						const productResult = await axios.get('/Product/getProductByUserId');
 						setData(productResult.data.value);
+						console.log(productResult.data.value);
 					} else {
-						const productResult = await axios.get(`/Product/getOtherUserProducts/${id}`);
+						const productResult = await axios.get(
+							`/Product/getOtherUserProducts/${id}`
+						);
 						setData(productResult.data.value);
 					}
 				}
@@ -138,7 +141,7 @@ export const Profile = () => {
 			<ul className="list-container-profile">
 				{data.map((list) => (
 					<li key={list.id} className="list-item-profile">
-						<Link to={`/productdetail/${list.id}`} style={{ textDecoration: 'none' }}>
+						<Link to={`/productdetail/${list.id}`} style={{textDecoration: 'none'}}>
 							<div className="img-overflow">
 								<div className="img-container-profile">
 									<img src={list.thumbnail} alt={list.name} />
@@ -148,7 +151,7 @@ export const Profile = () => {
 							<div className="detail-container-profile">
 								<div className="left-column-profile">
 									<h3>{list.name}</h3>
-									<p style={{ width: '300px' }}></p>
+									<p style={{width: '300px'}}></p>
 								</div>
 							</div>
 						</Link>
@@ -156,7 +159,6 @@ export const Profile = () => {
 				))}
 			</ul>
 
-			<ToastContainer />
 		</div>
 	);
 };

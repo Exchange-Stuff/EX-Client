@@ -224,3 +224,12 @@
   margin-left: 55px;
   color: #000000;
 }
+
+.notification-item.unread {
+  font-weight: bold;
+}
+
+.notification-item.read {
+  font-weight: normal;
+}
+

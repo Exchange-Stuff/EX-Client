@@ -459,7 +459,6 @@ export const HomePage = () => {
       </div> */}
 
 			<Footer />
-			<ToastContainer />
 		</div>
 	);
 };

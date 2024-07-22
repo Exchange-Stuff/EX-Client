@@ -26,12 +26,19 @@ instance.interceptors.request.use(
 
 		if (!token) {
 			try {
+				const refreshToken = getRefreshToken();
+				if (!refreshToken) {
+					if (navigateCallback) {
+						navigateCallback('/login');
+					}
+					window.location.href = 'http://localhost:3000/login';
+				}
 				token = await refreshAccessToken();
 				if (!token) {
 					if (navigateCallback) {
 						navigateCallback('/login');
 					}
-					throw new Error('No refresh token available');
+					throw new Error('No access token available');
 				}
 			} catch (error) {
 				if (navigateCallback) {
@@ -59,22 +66,27 @@ instance.interceptors.response.use(
 	},
 	async (error) => {
 		const originalRequest = error.config;
-		console.log(
-			'error.response.headers',
-			JSON.stringify(error.response.headers.get('is-exchangestuff-token-expired'))
-		);
 
+		// Check if error.response and error.response.headers exist
 		if (
-			error.response.status === 401 &&
-			error.response.headers.get('is-exchangestuff-token-expired') === 'true'
+			error.response &&
+			error.response.headers &&
+			error.response.headers['is-exchangestuff-token-expired'] === 'true'
 		) {
 			originalRequest._retry = true;
 			const oldAccessToken = getAccessToken();
 			try {
+				const refreshToken = getRefreshToken();
+				if (!refreshToken) {
+					if (navigateCallback) {
+						navigateCallback('/login');
+					}
+					throw new Error('No refresh token available');
+				}
 				const res = await axios.post(
 					'https://alpaca-blessed-endlessly.ngrok-free.app/api/Auth/renew',
 					{
-						refreshToken: getRefreshToken(),
+						refreshToken,
 					},
 					{
 						headers: {
@@ -100,7 +112,7 @@ instance.interceptors.response.use(
 				if (navigateCallback) {
 					navigateCallback('/login');
 				}
-				throw new Error('No refresh token available');
+				window.location.href = 'http://localhost:3000/login';
 			}
 		}
 

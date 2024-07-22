@@ -5,10 +5,12 @@ import axios from '../../utils/axios.js';
 import { jwtDecode } from 'jwt-decode';
 import { toast, ToastContainer } from 'react-toastify';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Table, Select, Pagination } from 'antd';
-import './OrderPage.css';
+import { Table, Select, Pagination, Rate } from 'antd';
+import './OrderPage.css'; // Đảm bảo rằng file CSS này được nhập khẩu
+import Modal from 'react-modal';
 
 const { Option } = Select;
+Modal.setAppElement('#root');
 
 export const OrderPage = () => {
   const { id } = useParams();
@@ -18,6 +20,10 @@ export const OrderPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [status, setStatus] = useState(0);
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [content, setContent] = useState('');
+  const [selectedPurchaseTicketId, setSelectedPurchaseTicketId] = useState(null);
 
   useEffect(() => {
     const checkUserScreenAccess = async () => {
@@ -39,11 +45,11 @@ export const OrderPage = () => {
     checkUserScreenAccess();
   }, []);
 
-	useEffect(() => {
-		if (isAuthorized === false) {
-			navigate('/homepage');
-		}
-	}, [isAuthorized, navigate]);
+  useEffect(() => {
+    if (isAuthorized === false) {
+      navigate('/homepage');
+    }
+  }, [isAuthorized, navigate]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -63,13 +69,16 @@ export const OrderPage = () => {
         );
         const purchaseTicket = response.data.value.listItem;
         const formattedData = purchaseTicket.map((ticket) => {
-          const date = new Date(ticket.createdOn);
+          const createDate = new Date(ticket.createdOn);
+          const updateDate = new Date(ticket.modifiedOn);
           return {
             key: ticket.id,
             productName: ticket.product.name,
             amount: ticket.amount,
-            date: date.toLocaleDateString(),
-            time: date.toLocaleTimeString(),
+            dateCreate: createDate.toLocaleDateString(),
+            timeCreate: createDate.toLocaleTimeString(),
+            dateUpdate: updateDate.toLocaleDateString(),
+            timeUpdate: updateDate.toLocaleTimeString(),
             status: ticket.status,
           };
         });
@@ -92,58 +101,102 @@ export const OrderPage = () => {
 
   const handleStatusProductChange = async (id, value) => {
     try {
-      console.log("Product ID" + value);
-      await axios.put(`PurchaseTicket/UpdatePurchaseTicket`, { id: id, status: value,});
+      await axios.put(`PurchaseTicket/UpdatePurchaseTicket`, { id: id, status: value });
       fetchData(currentPage, status);
-      toast.success('Status updated successfully');
+      toast.success('Cập nhật trạng thái thành công', { autoClose: 1500 });
+      setSelectedPurchaseTicketId(id);
+      setIsModalOpen(true);
     } catch (error) {
       console.error('Error updating status:', error);
-      console.log(error);
-      toast.error('Failed to update status');
+      toast.error('Cập nhật trạng thái thất bại', { autoClose: 1500 });
+    }
+  };
+
+  const closeModal = () => setIsModalOpen(false);
+
+  const handleRatingChange = (value) => {
+    setRating(value);
+    console.log(`Rating: ${value}`);
+  };
+
+  const submitRating = async () => {
+    if (!selectedPurchaseTicketId || rating === 0 || content.trim() === '') {
+      toast.error('Vui lòng nhập đầy đủ thông tin đánh giá', { autoClose: 1500 });
+      return;
+    }
+
+    try {
+      await axios.post('/Rating/create-rating', {
+        purchaseTicketId: selectedPurchaseTicketId,
+        content: content,
+        evaluateType: rating,
+      });
+      toast.success('Đánh giá thành công', { autoClose: 1500 });
+      closeModal();
+    } catch (error) {
+      console.error('Error submitting rating:', error);
+      toast.error('Đánh giá thất bại', { autoClose: 1500 });
     }
   };
 
   const columns = [
     {
-      title: 'Product Name',
+      title: 'Tên sản phẩm',
       dataIndex: 'productName',
       key: 'productName',
-      width: 150,
+      width: 300,
+      fontSize: 30,
+      fontWeight: 'bold',
     },
     {
-      title: 'Amount',
+      title: 'Tổng tiền',
       dataIndex: 'amount',
       key: 'amount',
       width: 150,
     },
     {
-      title: 'Date',
-      dataIndex: 'date',
-      key: 'date',
+      title: 'Ngày đặt hàng',
+      dataIndex: 'dateCreate',
+      key: 'dateCreate',
       width: 150,
     },
     {
-      title: 'Time',
-      dataIndex: 'time',
-      key: 'time',
+      title: 'Thời gian đặt hàng',
+      dataIndex: 'timeCreate',
+      key: 'timeCreate',
       width: 150,
     },
     {
-      title: 'Action',
+      title: 'Ngày xác nhận',
+      dataIndex: 'dateUpdate',
+      key: 'dateUpdate',
+      width: 150,
+    },
+    {
+      title: 'Thời gian xác nhận',
+      dataIndex: 'timeUpdate',
+      key: 'timeUpdate',
+      width: 150,
+    },
+    {
+      title: 'Trạng thái',
       key: 'operation',
       fixed: 'right',
       width: 200,
-      render: (text, record) => (
-        <Select
-          defaultValue="0"
-          onChange={(value) => handleStatusProductChange(record.key, value)}
-          style={{ width: 120, marginLeft: 10 }}
-        >
-          <Option value="0">Pending</Option>
-          <Option value="1">Cancelled</Option>
-          <Option value="2">Confirmed</Option>
-        </Select>
-      ),
+      render: (text, record) =>
+        record.status === 0 ? (
+          <Select
+            defaultValue={record.status.toString()}
+            onChange={(value) => handleStatusProductChange(record.key, value)}
+            style={{ width: 120, marginLeft: 10 }}
+          >
+            <Option value="0">Pending</Option>
+            <Option value="1">Cancelled</Option>
+            <Option value="2">Confirmed</Option>
+          </Select>
+        ) : (
+          <span>{record.status === 1 ? 'Cancelled' : 'Confirmed'}</span>
+        ),
     },
   ];
 
@@ -155,44 +208,67 @@ export const OrderPage = () => {
         </div>
       </div>
     );
-  } else {
-    return (
-      <div className="orderpage">
-        <Header />
-        <div className="orderpage-content">
-          <h2 style={{ color: '#ff8c00', fontSize: '30px', marginTop: '0px' }}>Lịch sử mua hàng</h2>
-          <div className="status-filter">
-            <span>Status</span>
-            <Select
-              defaultValue="0"
-              onChange={handleStatusChange}
-              style={{ width: 120, marginLeft: 10 }}
-            >
-              <Option value="0">Pending</Option>
-              <Option value="1">Cancelled</Option>
-              <Option value="2">Confirmed</Option>
-            </Select>
-          </div>
-          <div className="orderpage-form">
-            <Table
-              columns={columns}
-              dataSource={data}
-              scroll={{ x: 1000, y: 300 }}
-              className="order-table"
-              pagination={false}
-            />
-            <Pagination
-              current={currentPage}
-              total={totalPages * 10}
-              onChange={handlePageChange}
-              style={{ marginTop: 20, textAlign: 'center' }}
-            />
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
   }
+
+  return (
+    <div className="orderpage">
+      <Header />
+      <h2 style={{ color: '#ff8c00', fontSize: '30px', margin: '110px auto 20px auto' }}>
+        Lịch sử mua hàng
+      </h2>
+      <div className="status-filter">
+        <span>Status</span>
+        <Select
+          defaultValue="0"
+          onChange={handleStatusChange}
+          style={{ width: 120, marginLeft: 10 }}
+        >
+          <Option value="0">Pending</Option>
+          <Option value="1">Cancelled</Option>
+          <Option value="2">Confirmed</Option>
+        </Select>
+      </div>
+      <div className="orderpage-form">
+        <Table
+          columns={columns}
+          dataSource={data}
+          className="order-table"
+          pagination={false}
+        />
+        <Pagination
+          current={currentPage}
+          total={totalPages * 10}
+          onChange={handlePageChange}
+          style={{ marginTop: 20, textAlign: 'right', marginRight: '50px' }}
+        />
+      </div>
+      <Footer />
+
+      {/* Popup đánh giá sao */}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Rate Product"
+        className="modal-orderpage"
+        overlayClassName="overlay"
+      >
+        <h2>Đánh giá sản phẩm</h2>
+        <Rate onChange={handleRatingChange} value={rating} />
+        <input
+          type="text"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Nhập nội dung đánh giá"
+          style={{ margin: '10px 0', width: '100%' }}
+        />
+        <div>
+          <button className='sent-rating-order' onClick={submitRating}>Gửi đánh giá</button>
+          <button className='sent-rating-order' onClick={closeModal}>Đóng</button>
+        </div>
+      </Modal>
+
+    </div>
+  );
 };
 
 export default OrderPage;
