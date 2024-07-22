@@ -97,7 +97,7 @@ export const FinancialList = () => {
 				<Table.Column
 					align="center"
 					title="QR Code"
-					dataIndex="thumbnail"
+					dataIndex="imageQRCode"
 					key="imageQRCode"
 					render={(imageQRCode) => {
 						if (imageQRCode) {

@@ -125,11 +125,11 @@ export const ProductList = () => {
 				<Table.Column title="Số lượng" dataIndex="quantity" key="quantity" />
 				<Table.Column
 					title="Hình ảnh"
-					dataIndex="images"
-					key="images"
-					render={(item) => {
-						if (item.length > 0) {
-							return <img src={item[0].url} alt="product" style={{width: '50px'}} />;
+					dataIndex="thumbnail"
+					key="thumbnail"
+					render={(thumbnail) => {
+						if (thumbnail) {
+							return <img src={thumbnail} alt="product" style={{width: '50px'}} />;
 						} else {
 							return <p style={{color: 'red'}}>Chưa có hình ảnh</p>;
 						}
