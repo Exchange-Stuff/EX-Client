@@ -1,22 +1,126 @@
 .transactionHistorypage {
-    display: flex;
-    flex-direction: column;
-    background-color: #f5f5fa;
-  }
-  
-  .transactionHistorypage-content {
-    width: 80%;
-    margin: 87px auto 20px auto;
-    background-color: #ffffff;
-    border-radius: 10px; /* Bo tròn góc */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-  }
-  
-  .transactionHistorypage-form {
-    border-radius: 10px; /* Bo tròn góc */
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #e8e8e8;
-  }
-  
+  display: flex;
+  flex-direction: column;
+}
+
+.transactionHistorypage-content {
+  width: 80%;
+  margin: 87px auto 20px auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.status-filter {
+  display: flex;
+  align-items: center;
+  margin-left: 40px;
+  margin-bottom: 20px;
+}
+
+.status-filter span {
+  font-weight: bold;
+}
+
+.transactionHistorypage-form {
+  max-height: 415px;
+  min-height: 415px;
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #ff8c00;
+  margin: 0px 20px 20px 20px;
+}
+
+.transactionHistorypage-table .ant-table table{
+  border: none !important;
+}
+
+.transactionHistorypage-table .ant-table-container table > thead > tr > th,
+.transactionHistorypage-table .ant-table-container table > tbody > tr > td {
+  border: none !important;
+}
+
+.transactionHistorypage-table .ant-table-thead > tr > th {
+  background-color: #f0f0f0;
+  color: #000;
+  font-weight: bold;
+  padding: 8px;
+  text-align: left;
+}
+
+.transactionHistorypage-table .ant-table-tbody > tr > td {
+  background-color: #ffffff;
+  color: #000;
+  padding: 8px;
+  border-bottom: 1px solid #e8e8e8;
+  text-align: left;
+}
+
+.transactionHistorypage-table .ant-table-tbody > tr:hover > td {
+  background-color: #f5f5f5;
+}
+
+/* .ant-btn {
+  background-color: #e0e0e0 !important;
+  color: #000 !important;
+  border: 1px solid #d0d0d0 !important;
+  padding: 4px 12px;
+  border-radius: 4px;
+  text-align: center;
+} */
+
+.ant-select-selector {
+  background-color: #ff8c00 !important; 
+  font-weight: bold;
+  color: #fff !important; 
+  border: none !important;
+}
+
+.ant-select-dropdown {
+  background-color: #fffaf0 !important; 
+}
+
+.ant-select-item {
+  color: #000000 !important; 
+}
+
+/* .ant-btn {
+  background-color: #ff8c00 !important; 
+  color: #fff !important; 
+  border: none !important;
+} */
+
+.transactionHistorypage-content h2 {
+  text-align: center;
+  color: #ff8c00; 
+}
+
+/* styles.css hoặc file CSS tương ứng */
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5); /* Màu đen với độ trong suốt 50% */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000; /* Đảm bảo lớp phủ nằm trên các phần tử khác */
+}
+
+.modal-orderpage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px; /* Bạn có thể điều chỉnh kích thước tùy ý */
+  z-index: 1001; /* Đảm bảo modal nằm trên lớp phủ */
+}
+
+.sent-rating-order:hover{
+  background-color: #ecae63;
+}
+
+

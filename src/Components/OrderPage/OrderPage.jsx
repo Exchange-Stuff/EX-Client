@@ -6,7 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import { toast, ToastContainer } from 'react-toastify';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Table, Select, Pagination, Rate } from 'antd';
-import './OrderPage.css'; // Đảm bảo rằng file CSS này được nhập khẩu
+import './OrderPage.css';
 import Modal from 'react-modal';
 
 const { Option } = Select;
@@ -234,6 +234,13 @@ export const OrderPage = () => {
           dataSource={data}
           className="order-table"
           pagination={false}
+          onRow={(record) => {
+            return {
+              onDoubleClick: () => {
+                navigate(`/orderDetail/${record.key}`);
+              },
+            };
+          }}
         />
         <Pagination
           current={currentPage}
@@ -261,11 +268,14 @@ export const OrderPage = () => {
           style={{ margin: '10px 0', width: '100%' }}
         />
         <div>
-          <button className='sent-rating-order' onClick={submitRating}>Gửi đánh giá</button>
-          <button className='sent-rating-order' onClick={closeModal}>Đóng</button>
+          <button className="sent-rating-order" onClick={submitRating}>
+            Gửi đánh giá
+          </button>
+          <button className="sent-rating-order" onClick={closeModal}>
+            Đóng
+          </button>
         </div>
       </Modal>
-
     </div>
   );
 };
